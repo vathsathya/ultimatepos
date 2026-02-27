@@ -1,0 +1,107 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ultimate_pos_app:latest
+    container_name: ultimate_pos_app
+    user: ${USER_ID}:${GROUP_ID}
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www:delegated,Z # Faster I/O for PHP
+    networks:
+      - ultimate_pos_network
+    environment:
+      - COMPOSER_HOME=/var/www/.composer
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  web:
+    image: nginx:alpine
+    container_name: ultimate_pos_web
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www:ro # Nginx only needs read access
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - ultimate_pos_network
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: ultimate_pos_db
+    restart: unless-stopped
+    command:
+      - --innodb-buffer-pool-size=256M # Reduces RAM usage (adjust based on total VPS RAM)
+      - --innodb-log-buffer-size=16M
+      - --max-connections=50
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-homestead}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_USER: ${DB_USERNAME:-homestead}
+    ports:
+      - "3306:3306" # Maps Host 3306 to Container 3306
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - ultimate_pos_network
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    container_name: ultimate_pos_redis
+    restart: unless-stopped
+    command: [ "redis-server", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru" ]
+    volumes:
+      - redis_data:/data
+    networks:
+      - ultimate_pos_network
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 3s
+
+  # Queue Worker (Crucial for Telegram/WhatsApp alerts)
+  worker:
+    build: .
+    container_name: ultimate_pos_worker
+    command: php artisan queue:work
+    volumes:
+      - .:/var/www
+    networks:
+      - ultimate_pos_network
+    depends_on:
+      - app
+      - redis
+  # tunnel:
+  #   image: cloudflare/cloudflared:latest
+  #   container_name: cloudflare_tunnel
+  #   restart: unless-stopped
+  #   command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+  #   environment:
+  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+  #   networks:
+  #     - ultimate_pos_network
+  #   depends_on:
+  #     web:
+  #       condition: service_healthy # Tunnel won't start until site is reachable
+
+networks:
+  ultimate_pos_network:
+    driver: bridge
+
+volumes:
+  db_data:
+  redis_data:
