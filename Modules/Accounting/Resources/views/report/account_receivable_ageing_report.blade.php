@@ -13,7 +13,7 @@
             <div class="form-group">
                 {!! Form::label('location_id',  __('purchase.business_location') . ':') !!}
                 {!! Form::select('location_id', $business_locations, request()->input('location_id'), 
-                    ['class' => 'form-control select2', 'style' => 'width:100%']); !!}
+                    ['class' => 'form-control select2', 'style' => 'width:100%']) !!}
             </div>
         </div>
     </div>

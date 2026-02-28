@@ -129,6 +129,9 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     Route::resource('brands', BrandController::class);
 
+    Route::post('/bakong/generate-qr', [\App\Http\Controllers\BakongController::class, 'generateQr'])->name('bakong.pos.generate-qr');
+    Route::post('/bakong/check-payment', [\App\Http\Controllers\BakongController::class, 'checkPayment'])->name('bakong.pos.check-payment');
+
     Route::resource('payment-account', 'PaymentAccountController');
 
     Route::resource('tax-rates', TaxRateController::class);
@@ -474,7 +477,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::resource('warranties', WarrantyController::class);
 
     Route::resource('dashboard-configurator', DashboardConfiguratorController::class)
-    ->only(['edit', 'update']);
+        ->only(['edit', 'update']);
 
     Route::get('view-media/{model_id}', [SellController::class, 'viewMedia']);
 

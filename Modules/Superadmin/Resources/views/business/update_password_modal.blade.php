@@ -13,14 +13,14 @@
 				<div class="col-md-6">
 					<div class="form-group">
 					    {!! Form::label('password', __( 'business.password' ) . ':') !!}
-					    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => __( 'business.password' ), 'required' ]); !!}
-					    {!! Form::hidden('user_id', null, ['id' => 'user_id' ]); !!}
+					    {!! Form::password('password', ['class' => 'form-control', 'placeholder' => __( 'business.password' ), 'required' ]) !!}
+					    {!! Form::hidden('user_id', null, ['id' => 'user_id' ]) !!}
 					</div>
 				</div>
 				<div class="col-md-6">
 				    <div class="form-group">
 					    {!! Form::label('confirm_password', __( 'business.confirm_password' ) . ':') !!}
-					    {!! Form::password('confirm_password', ['class' => 'form-control', 'placeholder' => __( 'business.confirm_password' ), 'required', 'data-rule-equalTo' => '#password' ]); !!}
+					    {!! Form::password('confirm_password', ['class' => 'form-control', 'placeholder' => __( 'business.confirm_password' ), 'required', 'data-rule-equalTo' => '#password' ]) !!}
 					      
 					</div>
 				</div>

@@ -50,11 +50,11 @@
                 </div>
                 <div class="form-group">
                     {!! Form::label('name', __( 'user.name' ) . ':*') !!}
-                    {!! Form::text('name', $account->name, ['class' => 'form-control', 'required', 'placeholder' => __( 'user.name' ) ]); !!}
+                    {!! Form::text('name', $account->name, ['class' => 'form-control', 'required', 'placeholder' => __( 'user.name' ) ]) !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('gl_code', __( 'accounting::lang.gl_code' ) . ':') !!}
-                    {!! Form::text('gl_code', $account->gl_code, ['class' => 'form-control', 'placeholder' => __( 'accounting::lang.gl_code' ) ]); !!}
+                    {!! Form::text('gl_code', $account->gl_code, ['class' => 'form-control', 'placeholder' => __( 'accounting::lang.gl_code' ) ]) !!}
                     <p class="help-block">@lang( 'accounting::lang.gl_code_help' )</p>
                 </div>
                 <div class="form-group">
@@ -75,7 +75,7 @@
                 <div class="form-group">
                     {!! Form::label('description', __( 'lang_v1.description' ) . ':') !!}
                     {!! Form::textarea('description', $account->description, ['class' => 'form-control', 
-                        'placeholder' => __( 'lang_v1.description' ) ]); !!}
+                        'placeholder' => __( 'lang_v1.description' ) ]) !!}
                 </div>
             </div>
         </div> 

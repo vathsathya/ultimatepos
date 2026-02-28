@@ -18,7 +18,7 @@
             {!! Form::label('date_range_filter', __('report.date_range') . ':') !!}
             {!! Form::text('date_range_filter', null, 
                 ['placeholder' => __('lang_v1.select_a_date_range'), 
-                'class' => 'form-control', 'readonly', 'id' => 'date_range_filter']); !!}
+                'class' => 'form-control', 'readonly', 'id' => 'date_range_filter']) !!}
         </div>
     </div>
 

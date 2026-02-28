@@ -25,7 +25,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('campaign_type', __('crm::lang.campaign_type') .':*') !!}
-                            {!! Form::select('campaign_type', ['sms' => __('crm::lang.sms'), 'email' => __('business.email')], 'email', ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('campaign_type', ['sms' => __('crm::lang.sms'), 'email' => __('business.email')], 'email', ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('to', __('crm::lang.to').':*') !!}
-                            {!! Form::select('to', ['customer' => __('lang_v1.customers'), 'lead' => __('crm::lang.leads'), 'transaction_activity' => __('crm::lang.transaction_activity'), 'contact' => __('contact.contact')], $to, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('to', ['customer' => __('lang_v1.customers'), 'lead' => __('crm::lang.leads'), 'transaction_activity' => __('crm::lang.transaction_activity'), 'contact' => __('contact.contact')], $to, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                     <div class="col-md-8 customer_div" style="display: none;">
@@ -56,7 +56,7 @@
                             <button type="button" class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline  tw-dw-btn-primary deselect-all">
                                 @lang('lang_v1.deselect_all')
                             </button>
-                            {!! Form::select('contact_id[]', $customers, null, ['class' => 'form-control select2', 'multiple', 'id' => 'contact_id', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('contact_id[]', $customers, null, ['class' => 'form-control select2', 'multiple', 'id' => 'contact_id', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                     <div class="col-md-8 lead_div" style="display: none;">
@@ -68,7 +68,7 @@
                             <button type="button" class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline  tw-dw-btn-primary deselect-all">
                                 @lang('lang_v1.deselect_all')
                             </button>
-                            {!! Form::select('lead_id[]', $leads, null, ['class' => 'form-control select2', 'multiple', 'id' => 'lead_id', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('lead_id[]', $leads, null, ['class' => 'form-control select2', 'multiple', 'id' => 'lead_id', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                     <div class="col-md-8 contact_div" style="display: none;">
@@ -80,13 +80,13 @@
                             <button type="button" class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline  tw-dw-btn-primary deselect-all">
                                 @lang('lang_v1.deselect_all')
                             </button>
-                            {!! Form::select('contact[]', $contacts, $default_value, ['class' => 'form-control select2', 'multiple', 'id' => 'contact', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('contact[]', $contacts, $default_value, ['class' => 'form-control select2', 'multiple', 'id' => 'contact', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                     <div class="col-md-4 transaction_activity_div" style="display: none;">
                         <div class="form-group">
                             {!! Form::label('trans_activity', __('crm::lang.transaction_activity').':*') !!}
-                            {!! Form::select('trans_activity', ['has_transactions' => __('crm::lang.has_transactions'), 'has_no_transactions' => __('crm::lang.has_no_transactions')], null, ['class' => 'form-control select2', 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('trans_activity', ['has_transactions' => __('crm::lang.has_transactions'), 'has_no_transactions' => __('crm::lang.has_no_transactions')], null, ['class' => 'form-control select2', 'required', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                     <div class="col-md-4 transaction_activity_div" style="display: none;">
@@ -111,7 +111,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('email_body', __('crm::lang.email_body') . ':*') !!}
-                            {!! Form::textarea('email_body', null, ['class' => 'form-control ', 'id' => 'email_body', 'required']); !!}
+                            {!! Form::textarea('email_body', null, ['class' => 'form-control ', 'id' => 'email_body', 'required']) !!}
                         </div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('sms_body', __('crm::lang.sms_body') . ':') !!}
-                            {!! Form::textarea('sms_body', null, ['class' => 'form-control ', 'id' => 'sms_body', 'rows' => '6', 'required']); !!}
+                            {!! Form::textarea('sms_body', null, ['class' => 'form-control ', 'id' => 'sms_body', 'rows' => '6', 'required']) !!}
                         </div>
                     </div>
                 </div>

@@ -9,7 +9,7 @@
                     <br>
                       <label>
                         {!! Form::checkbox('enabled_modules[]', $k,  in_array($k, $enabled_modules) , 
-                        ['class' => 'input-icheck']); !!} {{$v['name']}}
+                        ['class' => 'input-icheck']) !!} {{$v['name']}}
                       </label>
                       @if(!empty($v['tooltip'])) @show_tooltip($v['tooltip']) @endif
                     </div>

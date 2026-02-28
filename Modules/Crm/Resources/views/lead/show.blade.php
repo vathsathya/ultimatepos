@@ -10,7 +10,7 @@
             <h3>@lang('crm::lang.view_lead')</h3>
         </div>
         <div class="col-md-4 col-xs-12 mt-15 pull-right">
-            {!! Form::select('lead_id', $leads, $contact->id , ['class' => 'form-control select2', 'style' => 'width:100%',  'id' => 'lead_id']); !!}
+            {!! Form::select('lead_id', $leads, $contact->id , ['class' => 'form-control select2', 'style' => 'width:100%',  'id' => 'lead_id']) !!}
         </div>
     </div><br>
     <div class="row">

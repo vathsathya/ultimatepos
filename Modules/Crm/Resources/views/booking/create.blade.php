@@ -4,8 +4,8 @@
 		<div class="modal-content">
 
 		{!! Form::open(['url' => action([\Modules\Crm\Http\Controllers\ContactBookingController::class, 'store']), 'method' => 'post', 'id' => 'add_booking_form' ]) !!}
-			{!! Form::hidden('contact_id', auth()->user()->crm_contact_id); !!}
-			{!! Form::hidden('booking_status', 'waiting'); !!}
+			{!! Form::hidden('contact_id', auth()->user()->crm_contact_id) !!}
+			{!! Form::hidden('booking_status', 'waiting') !!}
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 				<h4 class="modal-title">@lang( 'restaurant.add_booking' )</h4>
@@ -26,7 +26,7 @@
 								<span class="input-group-addon">
 									<i class="fa fa-map-marker"></i>
 								</span>
-								{!! Form::select('location_id', $business_locations, $default_location, ['class' => 'form-control', 'placeholder' => __('purchase.business_location'), 'required', 'id' => 'booking_location_id']); !!}
+								{!! Form::select('location_id', $business_locations, $default_location, ['class' => 'form-control', 'placeholder' => __('purchase.business_location'), 'required', 'id' => 'booking_location_id']) !!}
 							</div>
 						</div>
 					</div>
@@ -38,7 +38,7 @@
 	            			<span class="input-group-addon">
 	                    		<span class="glyphicon glyphicon-calendar"></span>
 	                		</span>
-							{!! Form::text('booking_start', null, ['class' => 'form-control','placeholder' => __( 'restaurant.start_time' ), 'required', 'id' => 'start_time', 'readonly']); !!}
+							{!! Form::text('booking_start', null, ['class' => 'form-control','placeholder' => __( 'restaurant.start_time' ), 'required', 'id' => 'start_time', 'readonly']) !!}
 							</div>
 						</div>
 					</div>
@@ -49,14 +49,14 @@
 	            			<span class="input-group-addon">
 	                    		<span class="glyphicon glyphicon-calendar"></span>
 	                		</span>
-							{!! Form::text('booking_end', null, ['class' => 'form-control','placeholder' => __( 'restaurant.end_time' ), 'required', 'id' => 'end_time', 'readonly']); !!}
+							{!! Form::text('booking_end', null, ['class' => 'form-control','placeholder' => __( 'restaurant.end_time' ), 'required', 'id' => 'end_time', 'readonly']) !!}
 							</div>
 						</div>
 					</div>
 					<div class="col-sm-12">
 						<div class="form-group">
 						{!! Form::label('booking_note', __( 'restaurant.customer_note' ) . ':') !!}
-						{!! Form::textarea('booking_note', null, ['class' => 'form-control','placeholder' => __( 'restaurant.customer_note' ), 'rows' => 3 ]); !!}
+						{!! Form::textarea('booking_note', null, ['class' => 'form-control','placeholder' => __( 'restaurant.customer_note' ), 'rows' => 3 ]) !!}
 						</div>
 					</div>
 				</div>

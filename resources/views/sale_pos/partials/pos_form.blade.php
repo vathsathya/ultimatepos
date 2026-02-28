@@ -18,7 +18,7 @@
 				value="{{ $walk_in_customer['selling_price_group_id'] ?? ''}}" >
 				@endif
 				{!! Form::select('contact_id', 
-					[], null, ['class' => 'form-control mousetrap !tw-border-l-0 tw-h-[46px] tw-text-base', 'id' => 'customer_id', 'placeholder' => 'Enter Customer name / phone', 'required']); !!}
+					[], null, ['class' => 'form-control mousetrap !tw-border-l-0 tw-h-[46px] tw-text-base', 'id' => 'customer_id', 'placeholder' => 'Enter Customer name / phone', 'required']) !!}
 				<span class="input-group-btn">
 					<button type="button" class="btn btn-default tw-h-[46px] tw-bg-gray-50 hover:tw-bg-gray-100 btn-flat add_new_customer tw-rounded-r-lg tw-border-l-0" data-name=""  @if(!auth()->user()->can('customer.create')) disabled @endif><i class="fa fa-plus-circle text-primary fa-lg"></i></button>
 				</span>
@@ -36,7 +36,7 @@
 				{!! Form::text('search_product', null, ['class' => 'form-control tw-h-[50px] tw-text-xl tw-font-medium tw-border-none focus:tw-ring-0', 'id' => 'search_product', 'placeholder' => __('lang_v1.search_product_placeholder'),
 				'disabled' => is_null($default_location)? true : false,
 				'autofocus' => is_null($default_location)? false : true,
-				]); !!}
+				]) !!}
 				<span class="input-group-btn">
 
 					<!-- Show button for weighing scale modal -->
@@ -57,7 +57,7 @@
 	<div class="col-md-4">
 		<div class="form-group">
 		{!! Form::select('invoice_layout_id', 
-					$invoice_layouts, $default_location->invoice_layout_id, ['class' => 'form-control select2', 'placeholder' => __('lang_v1.select_invoice_layout'), 'id' => 'invoice_layout_id']); !!}
+					$invoice_layouts, $default_location->invoice_layout_id, ['class' => 'form-control select2', 'placeholder' => __('lang_v1.select_invoice_layout'), 'id' => 'invoice_layout_id']) !!}
 		</div>
 	</div>
 	@endif
@@ -71,7 +71,7 @@
 		<div class="col-md-4">
 			<div class="form-group">
 			{!! Form::select('commission_agent', 
-						$commission_agent, null, ['class' => 'form-control select2', 'placeholder' => __('lang_v1.commission_agent'), 'id' => 'commission_agent', 'required' => $is_commission_agent_required]); !!}
+						$commission_agent, null, ['class' => 'form-control select2', 'placeholder' => __('lang_v1.commission_agent'), 'id' => 'commission_agent', 'required' => $is_commission_agent_required]) !!}
 			</div>
 		</div>
 	@endif
@@ -82,7 +82,7 @@
 					<span class="input-group-addon">
 						<i class="fa fa-calendar"></i>
 					</span>
-					{!! Form::text('transaction_date', $default_datetime, ['class' => 'form-control', 'readonly', 'required', 'id' => 'transaction_date']); !!}
+					{!! Form::text('transaction_date', $default_datetime, ['class' => 'form-control', 'readonly', 'required', 'id' => 'transaction_date']) !!}
 				</div>
 			</div>
 		</div>
@@ -94,7 +94,7 @@
 					<span class="input-group-addon">
 						<i class="fas fa-exchange-alt"></i>
 					</span>
-					{!! Form::text('exchange_rate', config('constants.currency_exchange_rate'), ['class' => 'form-control input-sm input_number', 'placeholder' => __('lang_v1.currency_exchange_rate'), 'id' => 'exchange_rate']); !!}
+					{!! Form::text('exchange_rate', config('constants.currency_exchange_rate'), ['class' => 'form-control input-sm input_number', 'placeholder' => __('lang_v1.currency_exchange_rate'), 'id' => 'exchange_rate']) !!}
 				</div>
 			</div>
 		</div>
@@ -111,7 +111,7 @@
 						$selected_price_group = !empty($default_price_group_id) && array_key_exists($default_price_group_id, $price_groups) ? $default_price_group_id : null;
 					@endphp
 					{!! Form::hidden('hidden_price_group', key($price_groups), ['id' => 'hidden_price_group']) !!}
-					{!! Form::select('price_group', $price_groups, $selected_price_group, ['class' => 'form-control select2', 'id' => 'price_group']); !!}
+					{!! Form::select('price_group', $price_groups, $selected_price_group, ['class' => 'form-control select2', 'id' => 'price_group']) !!}
 					<span class="input-group-addon">
 						@show_tooltip(__('lang_v1.price_group_help_text'))
 					</span> 
@@ -135,7 +135,7 @@
 					<span class="input-group-addon">
 						<i class="fa fa-external-link-square-alt text-primary service_modal_btn"></i>
 					</span>
-					{!! Form::select('types_of_service_id', $types_of_service, null, ['class' => 'form-control', 'id' => 'types_of_service_id', 'style' => 'width: 100%;', 'placeholder' => __('lang_v1.select_types_of_service')]); !!}
+					{!! Form::select('types_of_service_id', $types_of_service, null, ['class' => 'form-control', 'id' => 'types_of_service_id', 'style' => 'width: 100%;', 'placeholder' => __('lang_v1.select_types_of_service')]) !!}
 
 					{!! Form::hidden('types_of_service_price_group', null, ['id' => 'types_of_service_price_group']) !!}
 
@@ -160,14 +160,14 @@
 			<div class="form-group">
 				{!! Form::select('invoice_scheme_id', $invoice_schemes, $invoice_scheme_id, 
 					['class' => 'form-control', 'placeholder' => __('lang_v1.select_invoice_scheme'), 
-					'id' => 'invoice_scheme_id']); !!}
+					'id' => 'invoice_scheme_id']) !!}
 			</div>
 		</div>
 	@endif
 	@if(in_array('subscription', $enabled_modules))
 		<div class="col-md-4 col-sm-6">
 			<label>
-              {!! Form::checkbox('is_recurring', 1, false, ['class' => 'input-icheck', 'id' => 'is_recurring']); !!} @lang('lang_v1.subscribe')?
+              {!! Form::checkbox('is_recurring', 1, false, ['class' => 'input-icheck', 'id' => 'is_recurring']) !!} @lang('lang_v1.subscribe')?
             </label><button type="button" data-toggle="modal" data-target="#recurringInvoiceModal" class="btn btn-link"><i class="fa fa-external-link-square-alt"></i></button>@show_tooltip(__('lang_v1.recurring_invoice_help'))
 		</div>
 	@endif
@@ -185,7 +185,7 @@
 			<div class="form-group">
 				<div class="checkbox">
 				<label>
-						{!! Form::checkbox('is_kitchen_order', 1, false, ['class' => 'input-icheck status', 'id' => 'is_kitchen_order']); !!} {{ __('lang_v1.kitchen_order') }}
+						{!! Form::checkbox('is_kitchen_order', 1, false, ['class' => 'input-icheck status', 'id' => 'is_kitchen_order']) !!} {{ __('lang_v1.kitchen_order') }}
 				</label>
 				@show_tooltip(__('lang_v1.kitchen_order_tooltip'))
 				</div>

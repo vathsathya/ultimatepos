@@ -13,31 +13,31 @@
         <div class="form-group">
             {!! Form::label('ref_no', __('purchase.ref_no').':') !!}
             @show_tooltip(__('lang_v1.leave_empty_to_autogenerate'))
-            {!! Form::text('ref_no', $mapping_transaction->ref_no, ['class' => 'form-control']); !!}
+            {!! Form::text('ref_no', $mapping_transaction->ref_no, ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('from_account', __( 'lang_v1.transfer_from' ) .":*") !!}
             {!! Form::select('from_account', [], $debit_tansaction->accounting_account_id, ['class' => 'form-control', 'required', 
-                'placeholder' => __('messages.please_select') ]); !!}
+                'placeholder' => __('messages.please_select') ]) !!}
         </div>
 
         <div class="form-group">
             {!! Form::label('to_account', __( 'account.transfer_to' ) .":*") !!}
             {!! Form::select('to_account', [], $credit_tansaction->accounting_account_id, ['class' => 'form-control', 'required', 
-                'placeholder' => __('messages.please_select') ]); !!}
+                'placeholder' => __('messages.please_select') ]) !!}
         </div>
 
         <div class="form-group">
             {!! Form::label('amount', __( 'sale.amount' ) .":*") !!}
             {!! Form::text('amount', @num_format($debit_tansaction->amount), ['class' => 'form-control input_number', 
-                'required','placeholder' => __( 'sale.amount' ) ]); !!}
+                'required','placeholder' => __( 'sale.amount' ) ]) !!}
         </div>
 
         <div class="form-group">
             {!! Form::label('operation_date', __( 'messages.date' ) .":*") !!}
             <div class="input-group">
                 {!! Form::text('operation_date', @format_datetime($mapping_transaction->operation_date), ['class' => 'form-control', 
-                    'required','placeholder' => __( 'messages.date' ), 'id' => 'operation_date' ]); !!}
+                    'required','placeholder' => __( 'messages.date' ), 'id' => 'operation_date' ]) !!}
                 <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -47,7 +47,7 @@
         <div class="form-group">
             {!! Form::label('note', __( 'brand.note' )) !!}
             {!! Form::textarea('note', $mapping_transaction->note, ['class' => 'form-control', 
-                'placeholder' => __( 'brand.note' ), 'rows' => 4]); !!}
+                'placeholder' => __( 'brand.note' ), 'rows' => 4]) !!}
         </div>
     </div>
 

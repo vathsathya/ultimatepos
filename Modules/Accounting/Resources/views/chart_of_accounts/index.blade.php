@@ -58,7 +58,7 @@
                                         {!! Form::label('account_type_filter', __( 'accounting::lang.account_type' ) . ':') !!}
                                         {!! Form::select('account_type_filter', $account_types, null,
                                             ['class' => 'form-control select2', 'style' => 'width:100%', 
-                                            'id' => 'account_type_filter', 'placeholder' => __('lang_v1.all')]); !!}
+                                            'id' => 'account_type_filter', 'placeholder' => __('lang_v1.all')]) !!}
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -67,7 +67,7 @@
                                         {!! Form::select('status_filter', ['active' => __( 'accounting::lang.active' ),
                                             'inactive' => __('lang_v1.inactive')], null,
                                             ['class' => 'form-control select2', 'style' => 'width:100%', 
-                                            'id' => 'status_filter', 'placeholder' => __('lang_v1.all')]); !!}
+                                            'id' => 'status_filter', 'placeholder' => __('lang_v1.all')]) !!}
                                     </div>
                                 </div>
                             @endcomponent

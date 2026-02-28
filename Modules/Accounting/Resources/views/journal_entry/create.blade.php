@@ -22,7 +22,7 @@
                 <div class="form-group">
                     {!! Form::label('ref_no', __('purchase.ref_no').':') !!}
                     @show_tooltip(__('lang_v1.leave_empty_to_autogenerate'))
-                    {!! Form::text('ref_no', null, ['class' => 'form-control']); !!}
+                    {!! Form::text('ref_no', null, ['class' => 'form-control']) !!}
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
 						<span class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</span>
-						{!! Form::text('journal_date', @format_datetime('now'), ['class' => 'form-control datetimepicker', 'readonly', 'required']); !!}
+						{!! Form::text('journal_date', @format_datetime('now'), ['class' => 'form-control datetimepicker', 'readonly', 'required']) !!}
 					</div>
 				</div>
 			</div>
@@ -44,7 +44,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     {!! Form::label('note', __('lang_v1.additional_notes')) !!}
-                    {!! Form::textarea('note', null, ['class' => 'form-control', 'rows' => 3]); !!}
+                    {!! Form::textarea('note', null, ['class' => 'form-control', 'rows' => 3]) !!}
                 </div>
             </div>
         </div>
@@ -68,15 +68,15 @@
                             <td>
                                 {!! Form::select('account_id[' . $i . ']', [], null, 
                                             ['class' => 'form-control accounts-dropdown account_id', 
-                                            'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']); !!}
+                                            'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']) !!}
                             </td>
 
                             <td>
-                                {!! Form::text('debit[' . $i . ']', null, ['class' => 'form-control input_number debit']); !!}
+                                {!! Form::text('debit[' . $i . ']', null, ['class' => 'form-control input_number debit']) !!}
                             </td>
 
                             <td>
-                                {!! Form::text('credit[' . $i . ']', null, ['class' => 'form-control input_number credit']); !!}
+                                {!! Form::text('credit[' . $i . ']', null, ['class' => 'form-control input_number credit']) !!}
                             </td>
                         </tr>
                     @endfor
@@ -174,13 +174,13 @@
                     <td>
                         {!! Form::select('account_id[${rowCount}]', [], null, 
                             ['class' => 'form-control accounts-dropdown account_id', 
-                            'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']); !!}
+                            'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']) !!}
                     </td>
                     <td>
-                        {!! Form::text('debit[${rowCount}]', null, ['class' => 'form-control input_number debit']); !!}
+                        {!! Form::text('debit[${rowCount}]', null, ['class' => 'form-control input_number debit']) !!}
                     </td>
                     <td>
-                        {!! Form::text('credit[${rowCount}]', null, ['class' => 'form-control input_number credit']); !!}
+                        {!! Form::text('credit[${rowCount}]', null, ['class' => 'form-control input_number credit']) !!}
                     </td>
                 </tr>
             `;

@@ -82,7 +82,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 {!! Form::label('feature_image', $feature_image_label . ':') !!}
-                                {!! Form::file('feature_image', ['id' => 'feature_image', 'accept' => 'image/*']); !!}
+                                {!! Form::file('feature_image', ['id' => 'feature_image', 'accept' => 'image/*']) !!}
                                 <small><p class="help-block">@lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)])</p>
                                     <p class="help-block">@lang('lang_v1.previous_image_will_be_replaced')</p>
                                 </small>
@@ -113,7 +113,7 @@
                             <div class="form-group">
                                 <br>
                                 <label>
-                                  {!! Form::checkbox('is_enabled', 1, $page->is_enabled, ['class' => 'input-icheck']); !!} <strong>@lang('cms::lang.is_enabled')</strong>
+                                  {!! Form::checkbox('is_enabled', 1, $page->is_enabled, ['class' => 'input-icheck']) !!} <strong>@lang('cms::lang.is_enabled')</strong>
                                 </label> 
                             </div>
                         </div>

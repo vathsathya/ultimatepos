@@ -13,19 +13,19 @@
         <div class="col-md-3">
             <div class="form-group">
                 {!! Form::label('status_filter',  __('purchase.purchase_status') . ':') !!}
-                {!! Form::select('status_filter', $orderStatuses, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]); !!}
+                {!! Form::select('status_filter', $orderStatuses, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]) !!}
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 {!! Form::label('payment_status_filter',  __('purchase.payment_status') . ':') !!}
-                {!! Form::select('payment_status_filter', ['paid' => __('lang_v1.paid'), 'due' => __('lang_v1.due'), 'partial' => __('lang_v1.partial'), 'overdue' => __('lang_v1.overdue')], null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]); !!}
+                {!! Form::select('payment_status_filter', ['paid' => __('lang_v1.paid'), 'due' => __('lang_v1.due'), 'partial' => __('lang_v1.partial'), 'overdue' => __('lang_v1.overdue')], null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]) !!}
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 {!! Form::label('date_range_filter', __('report.date_range') . ':') !!}
-                {!! Form::text('date_range_filter', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']); !!}
+                {!! Form::text('date_range_filter', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']) !!}
             </div>
         </div>
     @endcomponent

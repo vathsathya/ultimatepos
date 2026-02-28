@@ -12,7 +12,7 @@
         <div class="col-md-6">
            <div class="form-group">
                 {!! Form::label('contact_us_no', __('cms::lang.contact_no') . ':*' )!!}
-                {!! Form::text('contact_us[0][num]', !empty($details['contact_us'][0]['num']) ? $details['contact_us'][0]['num'] : null, ['class' => 'form-control input_number', 'id' => 'contact_us_no']); !!}
+                {!! Form::text('contact_us[0][num]', !empty($details['contact_us'][0]['num']) ? $details['contact_us'][0]['num'] : null, ['class' => 'form-control input_number', 'id' => 'contact_us_no']) !!}
                 <p>
                 	<small>
 		                @lang('cms::lang.contact_no_help_text')
@@ -31,7 +31,7 @@
         <div class="col-md-6">
            <div class="form-group">
                 {!! Form::label('contact_us_no1', __('cms::lang.contact_no') . ':' )!!}
-                {!! Form::text('contact_us[1][num]', !empty($details['contact_us'][1]['num']) ? $details['contact_us'][1]['num'] : '', ['class' => 'form-control input_number', 'id' => 'contact_us_no1']); !!}
+                {!! Form::text('contact_us[1][num]', !empty($details['contact_us'][1]['num']) ? $details['contact_us'][1]['num'] : '', ['class' => 'form-control input_number', 'id' => 'contact_us_no1']) !!}
                 <small>
 	                @lang('cms::lang.contact_no_help_text')
 	            </small>
@@ -48,7 +48,7 @@
         <div class="col-md-6">
            <div class="form-group">
                 {!! Form::label('contact_us_no2', __('cms::lang.contact_no') . ':' )!!}
-                {!! Form::text('contact_us[2][num]', !empty($details['contact_us'][2]['num']) ? $details['contact_us'][2]['num'] : '', ['class' => 'form-control input_number', 'id' => 'contact_us_no2']); !!}
+                {!! Form::text('contact_us[2][num]', !empty($details['contact_us'][2]['num']) ? $details['contact_us'][2]['num'] : '', ['class' => 'form-control input_number', 'id' => 'contact_us_no2']) !!}
                 <small>
 		            @lang('cms::lang.contact_no_help_text')
 		        </small>
@@ -68,7 +68,7 @@
         <div class="col-md-6">
            <div class="form-group">
                 {!! Form::label('mail_us_email', __('business.email') . ':*' )!!}
-                {!! Form::email('mail_us[0][email]', !empty($details['mail_us'][0]['label']) ? $details['mail_us'][0]['email'] : '', ['class' => 'form-control', 'id' => 'mail_us_email']); !!}
+                {!! Form::email('mail_us[0][email]', !empty($details['mail_us'][0]['label']) ? $details['mail_us'][0]['email'] : '', ['class' => 'form-control', 'id' => 'mail_us_email']) !!}
            </div>
         </div>
     </div>
@@ -82,7 +82,7 @@
         <div class="col-md-6">
            <div class="form-group">
                 {!! Form::label('mail_us_email1', __('business.email') . ':' )!!}
-                {!! Form::email('mail_us[1][email]', !empty($details['mail_us'][1]['email']) ? $details['mail_us'][1]['email'] : '', ['class' => 'form-control', 'id' => 'mail_us_email1']); !!}
+                {!! Form::email('mail_us[1][email]', !empty($details['mail_us'][1]['email']) ? $details['mail_us'][1]['email'] : '', ['class' => 'form-control', 'id' => 'mail_us_email1']) !!}
            </div>
         </div>
     </div>

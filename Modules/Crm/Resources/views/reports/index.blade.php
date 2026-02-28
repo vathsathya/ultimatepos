@@ -17,7 +17,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('follow_up_user_date_range', __('report.date_range') . ':') !!}
-                            {!! Form::text('follow_up_user_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']); !!}
+                            {!! Form::text('follow_up_user_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']) !!}
                         </div>
                     </div>
                 </div>

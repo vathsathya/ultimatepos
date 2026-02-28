@@ -10,9 +10,9 @@
 
     <div class="modal-body">
         <div class="form-group">
-            {!! Form::hidden('transaction_payment_id', $payment->id); !!}
+            {!! Form::hidden('transaction_payment_id', $payment->id) !!}
             {!! Form::label('account_id', __( 'account.account' ) .":") !!}
-            {!! Form::select('account_id', $accounts, $payment->account_id, ['class' => 'form-control', 'required']); !!}
+            {!! Form::select('account_id', $accounts, $payment->account_id, ['class' => 'form-control', 'required']) !!}
         </div>
     </div>
 

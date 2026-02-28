@@ -14,25 +14,25 @@
         	<div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('contact_id_filter', __('contact.contact') . ':') !!}
-                    {!! Form::select('contact_id_filter', $contacts, null, ['class' => 'form-control select2', 'style' => 'width:100%',  'id' => 'contact_id_filter', 'placeholder' => __('messages.all')]); !!}
+                    {!! Form::select('contact_id_filter', $contacts, null, ['class' => 'form-control select2', 'style' => 'width:100%',  'id' => 'contact_id_filter', 'placeholder' => __('messages.all')]) !!}
                 </div>    
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('crm_contact_id', __('crm::lang.contact_person') . ':') !!}
-                    {!! Form::select('crm_contact_id', $crm_contact_persons, null, ['class' => 'form-control select2', 'style' => 'width:100%',  'id' => 'crm_contact_id', 'placeholder' => __('messages.all')]); !!}
+                    {!! Form::select('crm_contact_id', $crm_contact_persons, null, ['class' => 'form-control select2', 'style' => 'width:100%',  'id' => 'crm_contact_id', 'placeholder' => __('messages.all')]) !!}
                 </div>    
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('location_id', __('sale.location') . ':') !!}
-                    {!! Form::select('location_id', $business_locations, null, ['class' => 'form-control select2', 'style' => 'width:100%',  'id' => 'location_id', 'placeholder' => __('messages.all')]); !!}
+                    {!! Form::select('location_id', $business_locations, null, ['class' => 'form-control select2', 'style' => 'width:100%',  'id' => 'location_id', 'placeholder' => __('messages.all')]) !!}
                 </div>    
             </div>
             <div class="col-md-4">
             	<div class="form-group">
             		{!! Form::label('commission_date_range', __('report.date_range') . ':') !!}
-            		{!! Form::text('commission_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']); !!}
+            		{!! Form::text('commission_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']) !!}
             	</div>
             </div>
         </div>

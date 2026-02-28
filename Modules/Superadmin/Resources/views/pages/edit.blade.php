@@ -20,25 +20,25 @@
 				<div class="col-sm-3">
 					<div class="form-group">
 						{!! Form::label('title', __('superadmin::lang.page_title').':') !!}
-						{!! Form::text('title', $page->title, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.page_title')]); !!}
+						{!! Form::text('title', $page->title, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.page_title')]) !!}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
 						{!! Form::label('slug', __('superadmin::lang.slug').':') !!}
-						{!! Form::text('slug', $page->slug, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.slug'), 'required']); !!}
+						{!! Form::text('slug', $page->slug, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.slug'), 'required']) !!}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
 						{!! Form::label('menu_order', __('superadmin::lang.menu_order').':') !!} @show_tooltip(__('superadmin::lang.menu_order_tooltip'))
-						{!! Form::number('menu_order', $page->menu_order, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.menu_order')]); !!}
+						{!! Form::number('menu_order', $page->menu_order, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.menu_order')]) !!}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="checkbox">
 					<label>
-						{!! Form::checkbox('is_shown', 1, !empty($page->is_shown), ['class' => 'input-icheck']); !!}
+						{!! Form::checkbox('is_shown', 1, !empty($page->is_shown), ['class' => 'input-icheck']) !!}
                         {{__('superadmin::lang.is_visible')}}
 					</label>
 					</div>
@@ -53,7 +53,7 @@
 				<div class="col-sm-12">
 					<div class="form-group">
 						{!! Form::label('content', __('superadmin::lang.page_content').':') !!}
-						{!! Form::textarea('content', $page->content, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.page_content')]); !!}
+						{!! Form::textarea('content', $page->content, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.page_content')]) !!}
 					</div>
 				</div>
 			</div>

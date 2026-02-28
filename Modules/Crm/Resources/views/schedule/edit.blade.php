@@ -29,7 +29,7 @@
                     <div class="col-md-4">
                        <div class="form-group">
                             {!! Form::label('contact_id', $label .':*') !!}
-                            {!! Form::select('contact_id', $customers, $schedule->contact_id, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('contact_id', $customers, $schedule->contact_id, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']) !!}
                        </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <div class="col-md-4">
                        <div class="form-group">
                             {!! Form::label('status', __('sale.status') .':') !!}
-                            {!! Form::select('status', $statuses, $schedule->status, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;', 'id' => 'follow_up_edit_status']); !!}
+                            {!! Form::select('status', $statuses, $schedule->status, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;', 'id' => 'follow_up_edit_status']) !!}
                        </div>
                     </div>
                     <div class="col-md-4">
@@ -57,7 +57,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('description', __('lang_v1.description') . ':') !!}
-                            {!! Form::textarea('description', $schedule->description, ['class' => 'form-control ', 'id' => 'schedule_description']); !!}
+                            {!! Form::textarea('description', $schedule->description, ['class' => 'form-control ', 'id' => 'schedule_description']) !!}
                         </div>
                     </div>
                 </div>
@@ -65,19 +65,19 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('schedule_type', __('crm::lang.schedule_type') .':*') !!}
-                            {!! Form::select('schedule_type', $follow_up_types, $schedule->schedule_type, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('schedule_type', $follow_up_types, $schedule->schedule_type, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('followup_category_id', __('crm::lang.followup_category') .':*') !!}
-                            {!! Form::select('followup_category_id', $followup_category, $schedule->followup_category_id, ['class' => 'form-control select2', 'required', 'style' => 'width: 100%;', 'placeholder' => __('messages.please_select')]); !!}
+                            {!! Form::select('followup_category_id', $followup_category, $schedule->followup_category_id, ['class' => 'form-control select2', 'required', 'style' => 'width: 100%;', 'placeholder' => __('messages.please_select')]) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('user_id', __('crm::lang.assgined') .':*') !!}
-                            {!! Form::select('user_id[]', $users, $schedule->users->pluck('id'), ['class' => 'form-control select2', 'multiple', 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('user_id[]', $users, $schedule->users->pluck('id'), ['class' => 'form-control select2', 'multiple', 'required', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>
-                                {!! Form::checkbox('allow_notification', 1, $schedule->allow_notification, ['class' => 'input-icheck', 'id' => 'allow_notification']); !!}
+                                {!! Form::checkbox('allow_notification', 1, $schedule->allow_notification, ['class' => 'input-icheck', 'id' => 'allow_notification']) !!}
                                 @lang('crm::lang.send_notification')
                             </label>
                             @show_tooltip(__('crm::lang.send_schedule_notificatoion'))
@@ -97,13 +97,13 @@
                             {!! Form::label('notify_via', __('crm::lang.notify_via') .':*') !!} 
                             <div class="form-group checkbox-inline">
                                 <label>
-                                    {!! Form::checkbox('notify_via[sms]', 1, $schedule->notify_via['sms'], ['class' => 'input-icheck']); !!}
+                                    {!! Form::checkbox('notify_via[sms]', 1, $schedule->notify_via['sms'], ['class' => 'input-icheck']) !!}
                                     @lang('crm::lang.sms')
                                 </label>
                             </div>
                             <div class="form-group checkbox-inline">
                                 <label>
-                                    {!! Form::checkbox('notify_via[mail]', 1, $schedule->notify_via['mail'], ['class' => 'input-icheck']); !!}
+                                    {!! Form::checkbox('notify_via[mail]', 1, $schedule->notify_via['mail'], ['class' => 'input-icheck']) !!}
                                     @lang('business.email')
                                 </label>
                             </div>
@@ -113,9 +113,9 @@
                                 <div class="multi-input">
                                     {!! Form::label('notify_before', __('crm::lang.notify_before') . ':*') !!}
                                     <br/>
-                                    {!! Form::number('notify_before', $schedule->notify_before, ['class' => 'form-control width-40 pull-left', 'placeholder' => __('crm::lang.notify_before'), 'required']); !!}
+                                    {!! Form::number('notify_before', $schedule->notify_before, ['class' => 'form-control width-40 pull-left', 'placeholder' => __('crm::lang.notify_before'), 'required']) !!}
 
-                                    {!! Form::select('notify_type', $notify_type, $schedule->notify_type, ['class' => 'form-control width-60 pull-left']); !!}
+                                    {!! Form::select('notify_type', $notify_type, $schedule->notify_type, ['class' => 'form-control width-60 pull-left']) !!}
                                 </div>
                             </div>
                         </div>

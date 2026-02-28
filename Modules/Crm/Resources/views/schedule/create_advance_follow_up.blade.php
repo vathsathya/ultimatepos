@@ -15,7 +15,7 @@
         			<div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('followup_category_id', __('crm::lang.followup_category') .':*') !!}
-                            {!! Form::select('followup_category_id', $followup_category, null, ['class' => 'form-control select2', 'required', 'style' => 'width: 100%;', 'placeholder' => __('messages.please_select')]); !!}
+                            {!! Form::select('followup_category_id', $followup_category, null, ['class' => 'form-control select2', 'required', 'style' => 'width: 100%;', 'placeholder' => __('messages.please_select')]) !!}
                         </div>
                     </div>
                     
@@ -75,7 +75,7 @@
 		                    <button type="button" class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline  tw-dw-btn-primary deselect-all">
 		                        @lang('lang_v1.deselect_all')
 		                    </button>
-		                    {!! Form::select('invoices', [], null, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'id' => 'invoices', 'multiple']); !!}
+		                    {!! Form::select('invoices', [], null, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'id' => 'invoices', 'multiple']) !!}
 		               </div>
 		            </div>
 		            <div class="col-md-2 hide follow_up_by_payment_field" >
@@ -93,7 +93,7 @@
 		                    <button type="button" class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline  tw-dw-btn-primary deselect-all">
 		                        @lang('lang_v1.deselect_all')
 		                    </button>
-		                    {!! Form::select('contact_ids', $customers, null, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'id' => 'contact_ids', 'multiple']); !!}
+		                    {!! Form::select('contact_ids', $customers, null, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'id' => 'contact_ids', 'multiple']) !!}
 		               </div>
 		            </div>
 		            <div class="col-md-2 hide follow_up_by_contact_name" >
@@ -142,7 +142,7 @@
 		            <div class="col-md-4">
 		               <div class="form-group">
 		                    {!! Form::label('status', __('sale.status') .':') !!}
-		                    {!! Form::select('status', $statuses, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;', 'id' => 'follow_up_create_status']); !!}
+		                    {!! Form::select('status', $statuses, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;', 'id' => 'follow_up_create_status']) !!}
 		               </div>
 		            </div>
 		            <div class="col-md-4">
@@ -162,7 +162,7 @@
 		            <div class="col-md-12">
 		                <div class="form-group">
 		                    {!! Form::label('description', __('crm::lang.description') . ':') !!}
-		                    {!! Form::textarea('description', null, ['class' => 'form-control ', 'id' => 'description']); !!}
+		                    {!! Form::textarea('description', null, ['class' => 'form-control ', 'id' => 'description']) !!}
 		                    <p>
 								<strong>
 									{{$followup_tags['help_text']}}:
@@ -184,14 +184,14 @@
 		            <div class="col-md-6">
 		                <div class="form-group">
 		                    {!! Form::label('schedule_type', __('crm::lang.schedule_type') .':*') !!}
-		                    {!! Form::select('schedule_type', $follow_up_types, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+		                    {!! Form::select('schedule_type', $follow_up_types, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']) !!}
 		                </div>
 		            </div>
 		            <div class="col-md-6">
 		                <div class="form-group">
 		                	<br>
 		                    <label>
-		                        {!! Form::checkbox('allow_notification', 1, false, ['class' => 'input-icheck', 'id' => 'allow_notification']); !!}
+		                        {!! Form::checkbox('allow_notification', 1, false, ['class' => 'input-icheck', 'id' => 'allow_notification']) !!}
 		                        @lang('crm::lang.send_notification')
 		                    </label>
 		                    @show_tooltip(__('crm::lang.send_schedule_notificatoion'))
@@ -204,13 +204,13 @@
 		                    {!! Form::label('notify_via', __('crm::lang.notify_via') .':*') !!} 
 		                    <div class="form-group checkbox-inline">
 		                        <label>
-		                            {!! Form::checkbox('notify_via[sms]', 1, false, ['class' => 'input-icheck']); !!}
+		                            {!! Form::checkbox('notify_via[sms]', 1, false, ['class' => 'input-icheck']) !!}
 		                            @lang('crm::lang.sms')
 		                        </label>
 		                    </div>
 		                    <div class="form-group checkbox-inline">
 		                        <label>
-		                            {!! Form::checkbox('notify_via[mail]', 1, true, ['class' => 'input-icheck']); !!}
+		                            {!! Form::checkbox('notify_via[mail]', 1, true, ['class' => 'input-icheck']) !!}
 		                            @lang('business.email')
 		                        </label>
 		                    </div>
@@ -220,9 +220,9 @@
 		                        <div class="multi-input">
 		                            {!! Form::label('notify_before', __('crm::lang.notify_before') . ':*') !!}
 		                            <br/>
-		                            {!! Form::number('notify_before', 1, ['class' => 'form-control width-40 pull-left', 'placeholder' => __('crm::lang.notify_before'), 'required']); !!}
+		                            {!! Form::number('notify_before', 1, ['class' => 'form-control width-40 pull-left', 'placeholder' => __('crm::lang.notify_before'), 'required']) !!}
 
-		                            {!! Form::select('notify_type', $notify_type, 'hour', ['class' => 'form-control width-60 pull-left']); !!}
+		                            {!! Form::select('notify_type', $notify_type, 'hour', ['class' => 'form-control width-60 pull-left']) !!}
 		                        </div>
 		                    </div>
 		                </div>

@@ -26,7 +26,7 @@
 						<span class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</span>
-						{!! Form::text('journal_date', @format_datetime($journal->operation_date), ['class' => 'form-control datetimepicker', 'readonly', 'required']); !!}
+						{!! Form::text('journal_date', @format_datetime($journal->operation_date), ['class' => 'form-control datetimepicker', 'readonly', 'required']) !!}
 					</div>
 				</div>
 			</div>
@@ -37,7 +37,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     {!! Form::label('note', __('lang_v1.additional_notes')) !!}
-                    {!! Form::textarea('note', $journal->note, ['class' => 'form-control', 'rows' => 3]); !!}
+                    {!! Form::textarea('note', $journal->note, ['class' => 'form-control', 'rows' => 3]) !!}
                 </div>
             </div>
         </div>
@@ -80,22 +80,22 @@
 
                                 @endphp
 
-                                {!! Form::hidden('accounts_transactions_id[' . $i . ']', $accounts_transactions[$i-1]['id']); !!}
+                                {!! Form::hidden('accounts_transactions_id[' . $i . ']', $accounts_transactions[$i-1]['id']) !!}
                             @endif
                         
                             <td>{{$i}}</td>
                             <td>
                                 {!! Form::select('account_id[' . $i . ']', $default_array, $account_id, 
                                             ['class' => 'form-control accounts-dropdown account_id', 
-                                            'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']); !!}
+                                            'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']) !!}
                             </td>
 
                             <td>
-                                {!! Form::text('debit[' . $i . ']', $debit, ['class' => 'form-control input_number debit']); !!}
+                                {!! Form::text('debit[' . $i . ']', $debit, ['class' => 'form-control input_number debit']) !!}
                             </td>
 
                             <td>
-                                {!! Form::text('credit[' . $i . ']', $credit, ['class' => 'form-control input_number credit']); !!}
+                                {!! Form::text('credit[' . $i . ']', $credit, ['class' => 'form-control input_number credit']) !!}
                             </td>
                         </tr>
                     @endfor
@@ -195,13 +195,13 @@
                     <td>
                         {!! Form::select('account_id[${rowCount}]', [], null, 
                             ['class' => 'form-control accounts-dropdown account_id', 
-                            'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']); !!}
+                            'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']) !!}
                     </td>
                     <td>
-                        {!! Form::text('debit[${rowCount}]', null, ['class' => 'form-control input_number debit']); !!}
+                        {!! Form::text('debit[${rowCount}]', null, ['class' => 'form-control input_number debit']) !!}
                     </td>
                     <td>
-                        {!! Form::text('credit[${rowCount}]', null, ['class' => 'form-control input_number credit']); !!}
+                        {!! Form::text('credit[${rowCount}]', null, ['class' => 'form-control input_number credit']) !!}
                     </td>
                 </tr>
             `;

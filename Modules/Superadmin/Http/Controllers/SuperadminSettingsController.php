@@ -210,6 +210,9 @@ class SuperadminSettingsController extends Controller
                 'DO_NOT_ALLOW_DISPOSABLE_EMAIL',
                 'TELEGRAM_BOT_TOKEN',
                 'TELEGRAM_BOT_USERNAME',
+                'BAKONG_APP_ID',
+                'BAKONG_TOKEN',
+                'BAKONG_ACCOUNT_ID',
             ]);
 
             $env_settings['ALLOW_REGISTRATION'] = !empty($request->input('ALLOW_REGISTRATION')) ? 'true' : 'false';

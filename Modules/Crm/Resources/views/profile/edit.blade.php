@@ -27,7 +27,7 @@
 		                            <span class="input-group-addon">
 		                                <i class="fa fa-lock"></i>
 		                            </span>
-		                            {!! Form::password('current_password', ['class' => 'form-control','placeholder' => __('user.current_password'), 'required']); !!}
+		                            {!! Form::password('current_password', ['class' => 'form-control','placeholder' => __('user.current_password'), 'required']) !!}
 		                        </div>
 		                    </div>
 		                </div>
@@ -38,7 +38,7 @@
 		                            <span class="input-group-addon">
 		                                <i class="fa fa-lock"></i>
 		                            </span>
-		                            {!! Form::password('new_password', ['class' => 'form-control','placeholder' => __('user.new_password'), 'required']); !!}
+		                            {!! Form::password('new_password', ['class' => 'form-control','placeholder' => __('user.new_password'), 'required']) !!}
 		                        </div>
 		                    </div>
 		                </div>
@@ -49,7 +49,7 @@
 		                            <span class="input-group-addon">
 		                                <i class="fa fa-lock"></i>
 		                            </span>
-		                            {!! Form::password('confirm_password', ['class' => 'form-control','placeholder' =>  __('user.confirm_new_password'), 'required']); !!}
+		                            {!! Form::password('confirm_password', ['class' => 'form-control','placeholder' =>  __('user.confirm_new_password'), 'required']) !!}
 		                        </div>
 		                    </div>
 		                </div>
@@ -77,7 +77,7 @@
 		                        <span class="input-group-addon">
 		                            <i class="fa fa-info"></i>
 		                        </span>
-		                        {!! Form::text('surname', $user->surname, ['class' => 'form-control','placeholder' => __('business.prefix_placeholder')]); !!}
+		                        {!! Form::text('surname', $user->surname, ['class' => 'form-control','placeholder' => __('business.prefix_placeholder')]) !!}
 		                    </div>
 		                </div>
 		                <div class="form-group col-md-5">
@@ -86,7 +86,7 @@
 		                        <span class="input-group-addon">
 		                            <i class="fa fa-info"></i>
 		                        </span>
-		                        {!! Form::text('first_name', $user->first_name, ['class' => 'form-control','placeholder' => __('business.first_name'), 'required']); !!}
+		                        {!! Form::text('first_name', $user->first_name, ['class' => 'form-control','placeholder' => __('business.first_name'), 'required']) !!}
 		                    </div>
 		                </div>
 		                <div class="form-group col-md-5">
@@ -95,7 +95,7 @@
 		                        <span class="input-group-addon">
 		                            <i class="fa fa-info"></i>
 		                        </span>
-		                        {!! Form::text('last_name', $user->last_name, ['class' => 'form-control','placeholder' => __('business.last_name')]); !!}
+		                        {!! Form::text('last_name', $user->last_name, ['class' => 'form-control','placeholder' => __('business.last_name')]) !!}
 		                    </div>
 		                </div>
 		                <div class="form-group col-md-6">
@@ -104,7 +104,7 @@
 		                        <span class="input-group-addon">
 		                            <i class="fa fa-info"></i>
 		                        </span>
-		                        {!! Form::email('email',  $user->email, ['class' => 'form-control','placeholder' => __('business.email'), 'required']); !!}
+		                        {!! Form::email('email',  $user->email, ['class' => 'form-control','placeholder' => __('business.email'), 'required']) !!}
 		                    </div>
 		                </div>
 		                <div class="form-group col-md-6">
@@ -113,7 +113,7 @@
 		                        <span class="input-group-addon">
 		                            <i class="fa fa-info"></i>
 		                        </span>
-		                        {!! Form::select('language',$languages, $user->language, ['class' => 'form-control select2']); !!}
+		                        {!! Form::select('language',$languages, $user->language, ['class' => 'form-control select2']) !!}
 		                    </div>
 		                </div>
 		            </div>
@@ -129,7 +129,7 @@
 		            <div class="col-md-12">
 		                <div class="form-group">
 		                    {!! Form::label('profile_photo', __('lang_v1.upload_image') . ':') !!}
-		                    {!! Form::file('profile_photo', ['id' => 'profile_photo', 'accept' => 'image/*']); !!}
+		                    {!! Form::file('profile_photo', ['id' => 'profile_photo', 'accept' => 'image/*']) !!}
 		                    <small><p class="help-block">@lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)])</p></small>
 		                </div>
 		            </div>

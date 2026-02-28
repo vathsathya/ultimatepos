@@ -16,7 +16,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('subject', __('crm::lang.subject') . ':*') !!}
-                            {!! Form::text('subject', $schedule_log->subject, ['class' => 'form-control', 'required']); !!}
+                            {!! Form::text('subject', $schedule_log->subject, ['class' => 'form-control', 'required']) !!}
                         </div>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('log_type', __('crm::lang.log_type') .':*') !!}
-                            {!! Form::select('log_type', ['call' => __('crm::lang.call'), 'sms' => __('crm::lang.sms'), 'meeting' => __('crm::lang.meeting'), 'email' => __('business.email')], $schedule_log->log_type, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('log_type', ['call' => __('crm::lang.call'), 'sms' => __('crm::lang.sms'), 'meeting' => __('crm::lang.meeting'), 'email' => __('business.email')], $schedule_log->log_type, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -44,7 +44,7 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('description', __('lang_v1.description') . ':') !!}
-                            {!! Form::textarea('description', $schedule_log->description, ['class' => 'form-control ', 'id' => 'description']); !!}
+                            {!! Form::textarea('description', $schedule_log->description, ['class' => 'form-control ', 'id' => 'description']) !!}
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                     <div class="col-md-4">
                        <div class="form-group">
                             {!! Form::label('status', __('crm::lang.schedule_status') .':') !!}
-                            {!! Form::select('status', $statuses, $schedule->status, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('status', $statuses, $schedule->status, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']) !!}
                        </div>
                     </div>
                 </div>

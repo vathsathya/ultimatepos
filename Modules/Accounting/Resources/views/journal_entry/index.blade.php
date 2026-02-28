@@ -19,7 +19,7 @@
                         {!! Form::label('journal_entry_date_range_filter', __('report.date_range') . ':') !!}
                         {!! Form::text('journal_entry_date_range_filter', null, 
                             ['placeholder' => __('lang_v1.select_a_date_range'), 
-                            'class' => 'form-control', 'readonly']); !!}
+                            'class' => 'form-control', 'readonly']) !!}
                     </div>
                 </div>
             @endcomponent

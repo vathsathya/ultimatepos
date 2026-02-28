@@ -3,7 +3,7 @@
         <div class="col-xs-12">
             <div class="form-group">
                 {!! Form::label('chat_widget_option', __('cms::lang.choose_chat_widget') . ':') !!}
-                {!! Form::select('chat[enable]', ['in_app_chat' => __('cms::lang.in_app_chat'), 'other' => __('cms::lang.other_chat')], $details['chat']['enable'] ?? 'in_app', ['class' => 'form-control', 'id' => 'chat_widget_option']); !!}
+                {!! Form::select('chat[enable]', ['in_app_chat' => __('cms::lang.in_app_chat'), 'other' => __('cms::lang.other_chat')], $details['chat']['enable'] ?? 'in_app', ['class' => 'form-control', 'id' => 'chat_widget_option']) !!}
             </div>
         </div>
         <div class="col-xs-12 in_app_chat_div">
@@ -66,7 +66,7 @@
         <div class="col-xs-12 third_party_chat_div mb-5">
             <div class="form-group mb-0">
                 {!! Form::label('chat_widget', __('cms::lang.chat_widget') . ':') !!}
-                {!! Form::textarea('chat_widget', !empty($details['chat_widget']) ? $details['chat_widget'] : '', ['class' => 'form-control','placeholder' => __('cms::lang.chat_widget')]); !!}
+                {!! Form::textarea('chat_widget', !empty($details['chat_widget']) ? $details['chat_widget'] : '', ['class' => 'form-control','placeholder' => __('cms::lang.chat_widget')]) !!}
             </div>
             <small class="help-text">
                 @lang('cms::lang.chat_widget_instructions')

@@ -43,6 +43,9 @@
                             class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.pusher_settings')</a>
                         <a href="#"
                             class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.telegram_bot_settings')</a>
+
+                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">Bakong /
+                            KHQR</a>
                         <a href="#"
                             class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.additional_js_css')</a>
                     </div>
@@ -56,6 +59,7 @@
                     @include('superadmin::superadmin_settings.partials.cron')
                     @include('superadmin::superadmin_settings.partials.pusher_setting')
                     @include('superadmin::superadmin_settings.partials.telegram_bot')
+                    @include('superadmin::superadmin_settings.partials.bakong_payment')
                     @include('superadmin::superadmin_settings.partials.additional_js_css')
                 </div>
                 @endcomponent

@@ -3541,3 +3541,73 @@ function saveFormDataToLocalStorage() {
 
     // console.log("Form data successfully saved to LocalStorage.");
 }
+
+$(document).on('click', '.generate_bakong_qr_btn', function (e) {
+    e.preventDefault();
+    var row_index = $(this).data('row');
+    if (row_index === undefined || row_index === '') row_index = 0;
+    var amount_el = $('#amount_' + row_index);
+    if (!amount_el.length) {
+        toastr.error('Amount field not found for row ' + row_index);
+        return;
+    }
+    var amount = __read_number(amount_el);
+    var btn = $(this);
+
+    if (amount <= 0) {
+        toastr.error('Please enter a valid amount');
+        return;
+    }
+
+    btn.text('Generating...').attr('disabled', true);
+
+    $.ajax({
+        url: '/bakong/generate-qr',
+        type: 'POST',
+        data: { amount: amount },
+        success: function (res) {
+            btn.text('Generate KHQR').attr('disabled', false);
+            if (res.success) {
+                var container = $('#bakong_qr_section_' + row_index).find('.bakong_qr_container');
+                container.find('.bakong_qr_img').attr('src', res.qr_url);
+                container.find('.check_bakong_btn').attr('data-md5', res.md5);
+                btn.hide();
+                container.show();
+            } else {
+                toastr.error(res.msg);
+            }
+        },
+        error: function () {
+            btn.text('Generate KHQR').attr('disabled', false);
+            toastr.error('Error generating QR!');
+        }
+    });
+});
+
+$(document).on('click', '.check_bakong_btn', function () {
+    var row_index = $(this).data('row');
+    var md5 = $(this).attr('data-md5');
+    var btn = $(this);
+
+    btn.text('Checking...').attr('disabled', true);
+
+    $.ajax({
+        url: '/bakong/check-payment',
+        type: 'POST',
+        data: { md5: md5 },
+        success: function (res) {
+            btn.text('Check Payment Status').attr('disabled', false);
+            if (res.success) {
+                toastr.success(res.msg);
+                $('#bakong_qr_section_' + row_index).find('.bakong_transaction_id').val(res.transaction_id);
+                // Option: trigger save or form submission visually marking it as paid
+            } else {
+                toastr.error(res.msg);
+            }
+        },
+        error: function () {
+            btn.text('Check Payment Status').attr('disabled', false);
+            toastr.error('Error verifying payment!');
+        }
+    });
+});

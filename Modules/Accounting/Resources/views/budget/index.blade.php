@@ -82,7 +82,7 @@
                         <div class="form-group">
                             {!! Form::number('financial_year', null, ['class' => 'form-control', 
                                 'required', 'placeholder' => 
-                                __( 'accounting::lang.financial_year_for_the_budget' ), 'id' => 'financial_year' ]); !!}
+                                __( 'accounting::lang.financial_year_for_the_budget' ), 'id' => 'financial_year' ]) !!}
                         </div>
                     </div>
                 </div>

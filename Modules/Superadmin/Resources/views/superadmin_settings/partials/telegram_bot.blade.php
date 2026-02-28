@@ -21,7 +21,7 @@
                     'class'       => 'form-control',
                     'placeholder' => '123456789:AAbbCCddEEff...',
                     'id'          => 'TELEGRAM_BOT_TOKEN',
-                ]); !!}
+                ]) !!}
             </div>
         </div>
         <div class="col-xs-12 col-md-6">
@@ -34,7 +34,7 @@
                         'class'       => 'form-control',
                         'placeholder' => 'your_bot_name_bot',
                         'id'          => 'TELEGRAM_BOT_USERNAME',
-                    ]); !!}
+                    ]) !!}
                 </div>
                 <p class="help-block" style="margin-top:.4rem;">@lang('superadmin::lang.telegram_bot_username_note')</p>
             </div>

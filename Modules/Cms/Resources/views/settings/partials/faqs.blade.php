@@ -13,7 +13,7 @@
 			</div>
 			<div class="col-md-6">
 				{!! Form::label('answer_'.$i, __('cms::lang.answer') . ':' )!!}
-				{!! Form::textarea('faqs['.$i.'][answer]', !empty($details['faqs'][$i]['answer']) ? $details['faqs'][$i]['answer'] : null, ['class' => 'form-control ', 'rows' => 2 ,'id' => 'answer_'.$i]); !!}
+				{!! Form::textarea('faqs['.$i.'][answer]', !empty($details['faqs'][$i]['answer']) ? $details['faqs'][$i]['answer'] : null, ['class' => 'form-control ', 'rows' => 2 ,'id' => 'answer_'.$i]) !!}
 			</div>
 		</div>
 		<br/>

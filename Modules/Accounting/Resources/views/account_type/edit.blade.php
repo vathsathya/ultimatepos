@@ -15,7 +15,7 @@
                 <div class="form-group">
                     {!! Form::label('edit_name', __( 'user.name' ) . ':*') !!}
                     {!! Form::text('name', $account_type->name, ['class' => 'form-control', 
-                        'required', 'placeholder' => __( 'user.name' ), 'id' => 'edit_name' ]); !!}
+                        'required', 'placeholder' => __( 'user.name' ), 'id' => 'edit_name' ]) !!}
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                 <div class="form-group">
                     {!! Form::label('edit_description', __( 'lang_v1.description' ) . ':') !!}
                     {!! Form::textarea('description', $account_type->description, ['class' => 'form-control', 
-                        'placeholder' => __( 'lang_v1.description' ), 'rows' => 3, 'id' => 'edit_description' ]); !!}
+                        'placeholder' => __( 'lang_v1.description' ), 'rows' => 3, 'id' => 'edit_description' ]) !!}
                 </div>
             </div>
         </div> 

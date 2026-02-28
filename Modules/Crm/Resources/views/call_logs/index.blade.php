@@ -3,39 +3,39 @@
 @section('title', __('crm::lang.call_log'))
 
 @section('content')
-@include('crm::layouts.nav')
-<!-- Content Header (Page header) -->
-<section class="content-header no-print">
-   <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">@lang('crm::lang.call_log')</h1>
-</section>
+    @include('crm::layouts.nav')
+    <!-- Content Header (Page header) -->
+    <section class="content-header no-print">
+        <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">@lang('crm::lang.call_log')</h1>
+    </section>
 
-<section class="content no-print">
-    @component('components.filters', ['title' => __('report.filters')])
+    <section class="content no-print">
+        @component('components.filters', ['title' => __('report.filters')])
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('contact_id', __('contact.contact') . ':') !!}
-                    {!! Form::select('contact_id', $contacts, null, ['class' => 'form-control select2', 'style' => 'width:100%' 'id' => 'contact_id', 'placeholder' => __('messages.all')]); !!}
-                </div>    
+                    {!! Form::select('contact_id', $contacts, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'id' => 'contact_id', 'placeholder' => __('messages.all')]) !!}
+                </div>
             </div>
             @can('crm.view_all_call_log')
                 <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('user_id', __('crm::lang.call_log_created_by') . ':') !!}
-                        {!! Form::select('user_id', $users, null, ['class' => 'form-control select2', 'style' => 'width:100%' 'id' => 'user_id', 'placeholder' => __('messages.all')]); !!}
-                    </div>    
+                        {!! Form::select('user_id', $users, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'id' => 'user_id', 'placeholder' => __('messages.all')]) !!}
+                    </div>
                 </div>
             @endcan
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('call_log_date_range', __('report.date_range') . ':') !!}
-                    {!! Form::text('call_log_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']); !!}
+                    {!! Form::text('call_log_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']) !!}
                 </div>
             </div>
         </div>
-    @endcomponent
+        @endcomponent
 
-	@component('components.widget', ['class' => 'box-solid'])
+        @component('components.widget', ['class' => 'box-solid'])
         <table class="table table-bordered table-striped" id="call_logs_table" style="width: 100%;">
             <thead>
                 <tr>
@@ -53,26 +53,26 @@
                 </tr>
             </thead>
             @if($is_admin)
-            <tfoot>
-                <tr>
-                    <td colspan="9">
-                    <div style="display: flex; width: 100%;">
-                        {!! Form::open(['url' => action([\Modules\Crm\Http\Controllers\CallLogController::class, 'massDestroy']), 'method' => 'post', 'id' => 'mass_delete_form' ]) !!}
-                        {!! Form::hidden('selected_rows', null, ['id' => 'selected_rows']); !!}
-                        {!! Form::submit(__('lang_v1.delete_selected'), array('class' => 'tw-dw-btn tw-dw-btn-outline tw-dw-btn-xs tw-dw-btn-error', 'id' => 'delete-selected')) !!}
-                        {!! Form::close() !!}
-                    </div>
-                    </td>
-                </tr>
-            </tfoot>
+                <tfoot>
+                    <tr>
+                        <td colspan="9">
+                            <div style="display: flex; width: 100%;">
+                                {!! Form::open(['url' => action([\Modules\Crm\Http\Controllers\CallLogController::class, 'massDestroy']), 'method' => 'post', 'id' => 'mass_delete_form']) !!}
+                                {!! Form::hidden('selected_rows', null, ['id' => 'selected_rows']) !!}
+                                {!! Form::submit(__('lang_v1.delete_selected'), array('class' => 'tw-dw-btn tw-dw-btn-outline tw-dw-btn-xs tw-dw-btn-error', 'id' => 'delete-selected')) !!}
+                                {!! Form::close() !!}
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
             @endif
         </table>
-    @endcomponent
-</section>
+        @endcomponent
+    </section>
 @endsection
 @section('javascript')
     <script type="text/javascript">
-        $(document).ready(function(){
+        $(document).ready(function () {
 
             $('#call_log_date_range').daterangepicker(
                 dateRangeSettings,
@@ -81,25 +81,25 @@
                     call_logs_table.ajax.reload();
                 }
             );
-            $('#call_log_date_range').on('cancel.daterangepicker', function(ev, picker) {
+            $('#call_log_date_range').on('cancel.daterangepicker', function (ev, picker) {
                 $('#call_log_date_range').val('');
                 call_logs_table.ajax.reload();
             });
 
-            call_logs_table = 
-            $("#call_logs_table").DataTable({
-                @if($is_admin)
-                    aaSorting: [[1, 'desc']],
-                @endif
-                processing: true,
-                serverSide: true,
-                scrollY: "75vh",
-                scrollX: true,
-                scrollCollapse: true,
-                fixedHeader: false,
-                'ajax': {
+            call_logs_table =
+                $("#call_logs_table").DataTable({
+                    @if($is_admin)
+                        aaSorting: [[1, 'desc']],
+                    @endif
+                    processing: true,
+                    serverSide: true,
+                    scrollY: "75vh",
+                    scrollX: true,
+                    scrollCollapse: true,
+                    fixedHeader: false,
+                    'ajax': {
                     url: "{{action([\Modules\Crm\Http\Controllers\CallLogController::class, 'index'])}}",
-                    data: function(d){
+                    data: function (d) {
                         d.contact_id = $('#contact_id').val();
                         d.user_id = $('#user_id').val();
 
@@ -109,9 +109,9 @@
                         }
                     }
                 },
-                columns: [
+                    columns: [
                     @if($is_admin)
-                        { data: 'mass_delete',searchable: false, orderable: false  },
+                        { data: 'mass_delete', searchable: false, orderable: false },
                     @endif
                     { data: 'start_time', name: 'start_time' },
                     { data: 'end_time', name: 'end_time' },
@@ -120,23 +120,23 @@
                     { data: 'contact_number', name: 'contact_number' },
                     { data: 'contact_name', name: 'contact_name' },
                     { data: 'user_full_name', name: 'user_full_name' },
-                    { data: 'created_user_name', name: 'created_user_name'}
+                    { data: 'created_user_name', name: 'created_user_name' }
                 ],
-                createdRow: function( row, data, dataIndex ) {
-                    $( row ).find('td:eq(0)').attr('class', 'selectable_td');
-                }
+                    createdRow: function (row, data, dataIndex) {
+                        $(row).find('td:eq(0)').attr('class', 'selectable_td');
+                    }
+                });
+
+        $(document).on('change', '#contact_id, #user_id', function (e) {
+            call_logs_table.ajax.reload();
+        })
             });
 
-            $(document).on('change', '#contact_id, #user_id', function(e){
-                call_logs_table.ajax.reload();
-            })
-        });
-
-        $(document).on('click', '#delete-selected', function(e){
+        $(document).on('click', '#delete-selected', function (e) {
             e.preventDefault();
             var selected_rows = getSelectedRows();
-            
-            if(selected_rows.length > 0){
+
+            if (selected_rows.length > 0) {
                 $('input#selected_rows').val(selected_rows);
                 swal({
                     title: LANG.sure,
@@ -148,10 +148,10 @@
                         $('form#mass_delete_form').submit();
                     }
                 });
-            } else{
+            } else {
                 $('input#selected_rows').val('');
                 swal('@lang("lang_v1.no_row_selected")');
-            }    
+            }
         });
     </script>
 @endsection

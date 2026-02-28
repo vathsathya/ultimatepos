@@ -4,7 +4,7 @@
 
     {!! Form::open(['url' => action([\Modules\Accounting\Http\Controllers\AccountTypeController::class, 'store']), 
         'method' => 'post', 'id' => 'create_account_type_form' ]) !!}
-    {!! Form::hidden('account_type', null, ['id' => 'account_type']); !!}
+    {!! Form::hidden('account_type', null, ['id' => 'account_type']) !!}
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <h4 class="modal-title" id="account_type_title"></h4>
@@ -15,7 +15,7 @@
             <div class="col-md-12">
                 <div class="form-group">
                     {!! Form::label('name', __( 'user.name' ) . ':*') !!}
-                    {!! Form::text('name', null, ['class' => 'form-control', 'required', 'placeholder' => __( 'user.name' ) ]); !!}
+                    {!! Form::text('name', null, ['class' => 'form-control', 'required', 'placeholder' => __( 'user.name' ) ]) !!}
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     {!! Form::label('description', __( 'lang_v1.description' ) . ':') !!}
                     {!! Form::textarea('description', null, ['class' => 'form-control', 
-                        'placeholder' => __( 'lang_v1.description' ), 'rows' => 3 ]); !!}
+                        'placeholder' => __( 'lang_v1.description' ), 'rows' => 3 ]) !!}
                 </div>
             </div>
         </div> 

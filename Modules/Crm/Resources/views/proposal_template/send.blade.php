@@ -17,7 +17,7 @@
 					<div class="col-md-12">
                         <div class="form-group">
                             {!! Form::label('contact_id', __('crm::lang.send_to') .':*') !!}
-                            {!! Form::select('contact_id', $contacts, null, ['class' => 'form-control select2', 'id' => 'proposal_contact', 'style' => 'width: 100%;', 'required', 'placeholder' => __('messages.please_select')]); !!}
+                            {!! Form::select('contact_id', $contacts, null, ['class' => 'form-control select2', 'id' => 'proposal_contact', 'style' => 'width: 100%;', 'required', 'placeholder' => __('messages.please_select')]) !!}
                         </div>
                     </div>
 				</div>

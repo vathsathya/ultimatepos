@@ -52,7 +52,7 @@
 									{!! Form::label('journal_entry_prefix', __('accounting::lang.journal_entry_prefix') . ':') !!}
 									{!! Form::text('journal_entry_prefix',!empty($accounting_settings['journal_entry_prefix'])?
 									$accounting_settings['journal_entry_prefix'] : '',
-									['class' => 'form-control ', 'id' => 'journal_entry_prefix']); !!}
+									['class' => 'form-control ', 'id' => 'journal_entry_prefix']) !!}
 								</div>
 							</div>
 							<div class="col-md-3">
@@ -60,7 +60,7 @@
 									{!! Form::label('transfer_prefix', __('accounting::lang.transfer_prefix') . ':') !!}
 									{!! Form::text('transfer_prefix',!empty($accounting_settings['transfer_prefix'])?
 									$accounting_settings['transfer_prefix'] : '',
-									['class' => 'form-control ', 'id' => 'transfer_prefix']); !!}
+									['class' => 'form-control ', 'id' => 'transfer_prefix']) !!}
 								</div>
 							</div>
 						</div>
@@ -106,7 +106,7 @@
 								<div class="form-group">
 									{!! Form::label('payment_account', __('accounting::lang.payment_account') . ':' ) !!}
 									{!! Form::select('payment_account', !is_null($sale_payment_account) ? [$sale_payment_account->id => $sale_payment_account->name] : [], $sale_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.payment_account'), 'name' => "accounting_default_map[$business_location->id][sale][payment_account]",
-									'id' => $business_location->id . 'sale_payment_account']); !!}
+									'id' => $business_location->id . 'sale_payment_account']) !!}
 								</div>
 							</div>
 
@@ -115,7 +115,7 @@
 									{!! Form::label('deposit_to', __('accounting::lang.deposit_to') . ':' ) !!}
 									{!! Form::select('deposit_to', !is_null($sale_deposit_to) ?
 									[$sale_deposit_to->id => $sale_deposit_to->name] : [], $sale_deposit_to->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.deposit_to'), 'name' => "accounting_default_map[$business_location->id][sale][deposit_to]",
-									'id' => $business_location->id . '_sale_deposit_to']); !!}
+									'id' => $business_location->id . '_sale_deposit_to']) !!}
 								</div>
 							</div>
 						</div>
@@ -128,7 +128,7 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									{!! Form::label('payment_account', __('accounting::lang.payment_account') . ':' ) !!}
-									{!! Form::select('payment_account', !is_null($sales_payments_payment_account) ? [$sales_payments_payment_account->id => $sales_payments_payment_account->name] : [], $sales_payments_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.payment_account'), 'name' => "accounting_default_map[$business_location->id][sell_payment][payment_account]", 'id' => $business_location->id . 'sales_payments_payment_account']); !!}
+									{!! Form::select('payment_account', !is_null($sales_payments_payment_account) ? [$sales_payments_payment_account->id => $sales_payments_payment_account->name] : [], $sales_payments_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.payment_account'), 'name' => "accounting_default_map[$business_location->id][sell_payment][payment_account]", 'id' => $business_location->id . 'sales_payments_payment_account']) !!}
 								</div>
 							</div>
 
@@ -138,7 +138,7 @@
 									{!! Form::select('deposit_to', !is_null($sales_payments_deposit_to) ?
 									[$sales_payments_deposit_to->id => $sales_payments_deposit_to->name] : [], $sales_payments_deposit_to->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.deposit_to'), 'name' => "accounting_default_map[$business_location->id][sell_payment][deposit_to]",
 									'id' => $business_location->id . 'sales_payments_deposit_to'
-									]); !!}
+									]) !!}
 								</div>
 							</div>
 						</div>
@@ -151,7 +151,7 @@
 								<div class="form-group">
 									{!! Form::label('payment_account', __('accounting::lang.payment_account') . ':' ) !!}
 									{!! Form::select('payment_account', !is_null($purchases_payment_account) ? [$purchases_payment_account->id => $purchases_payment_account->name] : [], $purchases_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.payment_account'), 'name' => "accounting_default_map[$business_location->id][purchases][payment_account]",
-									'id' => $business_location->id . 'purchases_payment_account']); !!}
+									'id' => $business_location->id . 'purchases_payment_account']) !!}
 								</div>
 							</div>
 
@@ -160,7 +160,7 @@
 									{!! Form::label('deposit_to', __('accounting::lang.deposit_to') . ':' ) !!}
 									{!! Form::select('deposit_to', !is_null($purchases_deposit_to) ?
 									[$purchases_deposit_to->id => $purchases_deposit_to->name] : [], $purchases_deposit_to->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.deposit_to'), 'name' => "accounting_default_map[$business_location->id][purchases][deposit_to]",
-									'id' => $business_location->id . '_purchases_deposit_to']); !!}
+									'id' => $business_location->id . '_purchases_deposit_to']) !!}
 								</div>
 							</div>
 						</div>
@@ -172,7 +172,7 @@
 								<div class="form-group">
 									{!! Form::label('payment_account', __('accounting::lang.payment_account') . ':' ) !!}
 									{!! Form::select('payment_account', !is_null($purchase_payments_payment_account) ? [$purchase_payments_payment_account->id => $purchase_payments_payment_account->name] : [], $purchase_payments_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.payment_account'), 'name' => "accounting_default_map[$business_location->id][purchase_payment][payment_account]",
-									'id' => $business_location->id . 'purchase_payments_payment_account']); !!}
+									'id' => $business_location->id . 'purchase_payments_payment_account']) !!}
 								</div>
 							</div>
 
@@ -181,7 +181,7 @@
 									{!! Form::label('deposit_to', __('accounting::lang.deposit_to') . ':' ) !!}
 									{!! Form::select('deposit_to', !is_null($purchase_payments_deposit_to) ?
 									[$purchase_payments_deposit_to->id => $purchase_payments_deposit_to->name] : [], $purchase_payments_deposit_to->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.deposit_to'), 'name' => "accounting_default_map[$business_location->id][purchase_payment][deposit_to]",
-									'id' => $business_location->id . '_purchase_payments_deposit_to']); !!}
+									'id' => $business_location->id . '_purchase_payments_deposit_to']) !!}
 								</div>
 							</div>
 						</div>
@@ -193,7 +193,7 @@
 									<div class="form-group">
 										{!! Form::label('payment_account', __('accounting::lang.payment_account') . ':' ) !!}
 										{!! Form::select('payment_account', !is_null($expense_payment_account) ? [$expense_payment_account->id => $expense_payment_account->name] : [], $expense_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.payment_account'), 'name' => "accounting_default_map[$business_location->id][expense][payment_account]",
-										'id' => $business_location->id . 'expense_payment_account']); !!}
+										'id' => $business_location->id . 'expense_payment_account']) !!}
 									</div>
 								</div>
 								<div class="col-md-6">
@@ -201,7 +201,7 @@
 										{!! Form::label('deposit_to', __('accounting::lang.deposit_to') . ':' ) !!}
 										{!! Form::select('deposit_to', !is_null($expense_deposit_to) ?
 										[$expense_deposit_to->id => $expense_deposit_to->name] : [], $expense_deposit_to->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.deposit_to'), 'name' => "accounting_default_map[$business_location->id][expense][deposit_to]",
-										'id' => $business_location->id . '_expense_deposit_to']); !!}
+										'id' => $business_location->id . '_expense_deposit_to']) !!}
 									</div>
 								</div>
 							</div>
@@ -215,7 +215,7 @@
 								<div class="col-md-6"> 
 									<div class="form-group">
 										{!! Form::label('payment_account', __('accounting::lang.payment_account') . ':' ) !!}
-										{!! Form::select('payment_account', !is_null($dynamic_variable_payment_account) ? [$dynamic_variable_payment_account->id => $dynamic_variable_payment_account->name] : [], $dynamic_variable_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.payment_account'), 'name' => "accounting_default_map[$business_location->id][expense_$expence_category->id][payment_account]", 'id' => $business_location->id . 'expense_'.$expence_category->id .'_payment_account']); !!}
+										{!! Form::select('payment_account', !is_null($dynamic_variable_payment_account) ? [$dynamic_variable_payment_account->id => $dynamic_variable_payment_account->name] : [], $dynamic_variable_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.payment_account'), 'name' => "accounting_default_map[$business_location->id][expense_$expence_category->id][payment_account]", 'id' => $business_location->id . 'expense_'.$expence_category->id .'_payment_account']) !!}
 									</div>
 								</div>
 								@php	
@@ -226,7 +226,7 @@
 										{!! Form::label('deposit_to', __('accounting::lang.deposit_to') . ':' ) !!}
 										{!! Form::select('deposit_to', !is_null($dynamic_variable_deposit_to) ?
 										[$dynamic_variable_deposit_to->id => $dynamic_variable_deposit_to->name] : [], $dynamic_variable_deposit_to->id ?? null, ['class' => 'form-control accounts-dropdown width-100','placeholder' => __('accounting::lang.deposit_to'), 'name' => "accounting_default_map[$business_location->id][expense_$expence_category->id][deposit_to]",
-										'id' => $business_location->id . '_expense_deposit_to']); !!}
+										'id' => $business_location->id . '_expense_deposit_to']) !!}
 									</div>
 								</div>
 							</div>

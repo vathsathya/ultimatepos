@@ -58,6 +58,7 @@ Route::middleware('web', 'SetSessionData', 'auth', 'language', 'timezone', 'Admi
     Route::get('/subscription/post-payment-pay-stack-callback', [Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'postPaymentPaystackCallback']);
 
     //Routes related to pesapal checkout
+    Route::post('/subscription/bakong-check', [\Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'bakongCheck'])->name('bakong.check');
     Route::get('/subscription/{package_id}/pesapal-callback', [Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'pesapalCallback'])->name('pesapalCallback');
 
     Route::get('/subscription/{package_id}/pay', [Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'pay']);

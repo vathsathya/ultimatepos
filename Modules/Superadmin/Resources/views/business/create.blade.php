@@ -19,19 +19,19 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('package_id', __( 'superadmin::lang.subscription_packages' ) . ':') !!}
-                            {!! Form::select('package_id', $packages, null, ['class' => 'form-control', 'placeholder' => __( 'messages.please_select' ) ]); !!}
+                            {!! Form::select('package_id', $packages, null, ['class' => 'form-control', 'placeholder' => __( 'messages.please_select' ) ]) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('paid_via', __( 'superadmin::lang.paid_via' ) . ':') !!}
-                            {!! Form::select('paid_via', $gateways, null, ['class' => 'form-control', 'placeholder' => __( 'messages.please_select' ) ]); !!}
+                            {!! Form::select('paid_via', $gateways, null, ['class' => 'form-control', 'placeholder' => __( 'messages.please_select' ) ]) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('payment_transaction_id', __( 'superadmin::lang.payment_transaction_id' ) . ':') !!}
-                            {!! Form::text('payment_transaction_id', null, ['class' => 'form-control', 'placeholder' => __( 'superadmin::lang.payment_transaction_id' ) ]); !!}
+                            {!! Form::text('payment_transaction_id', null, ['class' => 'form-control', 'placeholder' => __( 'superadmin::lang.payment_transaction_id' ) ]) !!}
                          </div>
                     </div>
 
@@ -59,19 +59,19 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('package_id', __( 'superadmin::lang.subscription_packages' ) . ':') !!}
-                            {!! Form::select('package_id', $packages, null, ['class' => 'form-control', 'placeholder' => __( 'messages.please_select' ) ]); !!}
+                            {!! Form::select('package_id', $packages, null, ['class' => 'form-control', 'placeholder' => __( 'messages.please_select' ) ]) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('paid_via', __( 'superadmin::lang.paid_via' ) . ':') !!}
-                            {!! Form::select('paid_via', $gateways, null, ['class' => 'form-control', 'placeholder' => __( 'messages.please_select' ) ]); !!}
+                            {!! Form::select('paid_via', $gateways, null, ['class' => 'form-control', 'placeholder' => __( 'messages.please_select' ) ]) !!}
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('payment_transaction_id', __( 'superadmin::lang.payment_transaction_id' ) . ':') !!}
-                            {!! Form::text('payment_transaction_id', null, ['class' => 'form-control', 'placeholder' => __( 'superadmin::lang.payment_transaction_id' ) ]); !!}
+                            {!! Form::text('payment_transaction_id', null, ['class' => 'form-control', 'placeholder' => __( 'superadmin::lang.payment_transaction_id' ) ]) !!}
                          </div>
                     </div>
 

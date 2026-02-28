@@ -12,24 +12,24 @@
     	@component('components.widget', ['class' => 'box-solid'])
             <div class="form-group">
                 {!! Form::label('location_id', __('purchase.business_location').':') !!}
-                {!! Form::select('location_id', $business_locations, null, ['class' => 'form-control', 'placeholder' => __('messages.please_select')]); !!}
+                {!! Form::select('location_id', $business_locations, null, ['class' => 'form-control', 'placeholder' => __('messages.please_select')]) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('color', __('productcatalogue::lang.qr_code_color').':') !!}
-                {!! Form::text('color', '#000000', ['class' => 'form-control']); !!}
+                {!! Form::text('color', '#000000', ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('title', __('productcatalogue::lang.title').':') !!}
-                {!! Form::text('title', $business->name, ['class' => 'form-control']); !!}
+                {!! Form::text('title', $business->name, ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 {!! Form::label('subtitle', __('productcatalogue::lang.subtitle').':') !!}
-                {!! Form::text('subtitle', __('productcatalogue::lang.product_catalogue'), ['class' => 'form-control']); !!}
+                {!! Form::text('subtitle', __('productcatalogue::lang.product_catalogue'), ['class' => 'form-control']) !!}
             </div>
             <div class="form-group">
                 <div class="checkbox">
                     <label>
-                        {!! Form::checkbox('add_logo', 1, true, ['id' => 'show_logo', 'class' => 'input-icheck']); !!} @lang('productcatalogue::lang.show_business_logo_on_qrcode')
+                        {!! Form::checkbox('add_logo', 1, true, ['id' => 'show_logo', 'class' => 'input-icheck']) !!} @lang('productcatalogue::lang.show_business_logo_on_qrcode')
                     </label>
                 </div>
             </div>

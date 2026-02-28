@@ -19,7 +19,7 @@
                         {!! Form::label('transfer_from_filter', __( 'lang_v1.transfer_from' ) . ':') !!}
                         {!! Form::select('transfer_from_filter', [], null,
                             ['class' => 'form-control accounts-dropdown', 'style' => 'width:100%', 
-                            'id' => 'transfer_from_filter', 'placeholder' => __('lang_v1.all')]); !!}
+                            'id' => 'transfer_from_filter', 'placeholder' => __('lang_v1.all')]) !!}
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -27,7 +27,7 @@
                         {!! Form::label('transfer_to_filter', __( 'account.transfer_to' ) . ':') !!}
                         {!! Form::select('transfer_to_filter', [], null,
                             ['class' => 'form-control accounts-dropdown', 'style' => 'width:100%', 
-                            'id' => 'transfer_to_filter', 'placeholder' => __('lang_v1.all')]); !!}
+                            'id' => 'transfer_to_filter', 'placeholder' => __('lang_v1.all')]) !!}
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -35,7 +35,7 @@
                         {!! Form::label('transfer_date_range_filter', __('report.date_range') . ':') !!}
                         {!! Form::text('transfer_date_range_filter', null, 
                             ['placeholder' => __('lang_v1.select_a_date_range'), 
-                            'class' => 'form-control', 'readonly']); !!}
+                            'class' => 'form-control', 'readonly']) !!}
                     </div>
                 </div>
             @endcomponent

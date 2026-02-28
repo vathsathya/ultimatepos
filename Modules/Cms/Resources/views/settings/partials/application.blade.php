@@ -4,7 +4,7 @@
             <div class="form-group">
                 {!! Form::label('logo', __('cms::lang.logo') . ':' )!!}
                 <div class="input-group">
-                    {!! Form::file('logo', ['id' => 'logo', 'accept' => 'image/*']); !!}
+                    {!! Form::file('logo', ['id' => 'logo', 'accept' => 'image/*']) !!}
                 </div>
                 <p class="help-block text-muted">
                     @lang('cms::lang.previously_uploaded_will_be_removed')

@@ -24,7 +24,7 @@
 				</span>
 			{!! Form::select('select_location_id', $business_locations, $default_location->id ?? null, ['class' => 'form-control input-sm',
 			'id' => 'select_location_id', 
-			'required', 'autofocus'], $bl_attributes); !!}
+			'required', 'autofocus'], $bl_attributes) !!}
 			<span class="input-group-addon">
 					@show_tooltip(__('tooltip.sale_location'))
 				</span> 
@@ -44,7 +44,7 @@
 	 <input type="hidden" id="sale_type" name="type" value="crm_order_request">
 	<div class="row">
 		<div class="col-md-12 col-sm-12">
-			{!! Form::hidden('location_id', !empty($default_location) ? $default_location->id : null , ['id' => 'location_id', 'data-receipt_printer_type' => !empty($default_location->receipt_printer_type) ? $default_location->receipt_printer_type : 'browser', 'data-default_payment_accounts' => !empty($default_location) ? $default_location->default_payment_accounts : '']); !!}
+			{!! Form::hidden('location_id', !empty($default_location) ? $default_location->id : null , ['id' => 'location_id', 'data-receipt_printer_type' => !empty($default_location->receipt_printer_type) ? $default_location->receipt_printer_type : 'browser', 'data-default_payment_accounts' => !empty($default_location) ? $default_location->default_payment_accounts : '']) !!}
 
 			@component('components.widget', ['class' => 'box-solid'])
 				<div class="col-sm-10 col-sm-offset-1">
@@ -56,7 +56,7 @@
 							{!! Form::text('or_search_product', null, ['class' => 'form-control mousetrap', 'id' => 'or_search_product', 'placeholder' => __('lang_v1.search_product_placeholder'),
 							'disabled' => is_null($default_location)? true : false,
 							'autofocus' => is_null($default_location)? false : true,
-							]); !!}
+							]) !!}
 						</div>
 					</div>
 				</div>
@@ -111,13 +111,13 @@
 			    <div class="col-md-6">
 			    	<div class="form-group">
 						{!! Form::label('sell_note',__('purchase.additional_notes')) !!}
-						{!! Form::textarea('sale_note', null, ['class' => 'form-control', 'rows' => 3]); !!}
+						{!! Form::textarea('sale_note', null, ['class' => 'form-control', 'rows' => 3]) !!}
 					</div>
 			    </div>
 			    <div class="col-md-6">
 					<div class="form-group">
 			            {!! Form::label('shipping_address', __('lang_v1.shipping_address')) !!}
-			            {!! Form::textarea('shipping_address',null, ['class' => 'form-control','placeholder' => __('lang_v1.shipping_address') ,'rows' => '3', 'cols'=>'30']); !!}
+			            {!! Form::textarea('shipping_address',null, ['class' => 'form-control','placeholder' => __('lang_v1.shipping_address') ,'rows' => '3', 'cols'=>'30']) !!}
 			        </div>
 				</div>
 				<div class="col-md-4 col-md-offset-8">

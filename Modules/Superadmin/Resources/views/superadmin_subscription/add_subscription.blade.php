@@ -3,7 +3,7 @@
 
     {!! Form::open(['url' => action([\Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController::class, 'store']), 'method' => 'post', 'id' => 'superadmin_add_subscription' ]) !!}
 
-    {!! Form::hidden('business_id', $business_id); !!}
+    {!! Form::hidden('business_id', $business_id) !!}
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <h4 class="modal-title">@lang( 'superadmin::lang.add_subscription' )</h4>
@@ -12,15 +12,15 @@
     <div class="modal-body">
       <div class="form-group">
         {!! Form::label('package_id', __( 'superadmin::lang.subscription_packages' ) . ':*') !!}
-          {!! Form::select('package_id', $packages, null, ['class' => 'form-control', 'required', 'placeholder' => __( 'messages.please_select' ) ]); !!}
+          {!! Form::select('package_id', $packages, null, ['class' => 'form-control', 'required', 'placeholder' => __( 'messages.please_select' ) ]) !!}
       </div>
       <div class="form-group">
         {!! Form::label('paid_via', __( 'superadmin::lang.paid_via' ) . ':*') !!}
-          {!! Form::select('paid_via', $gateways, null, ['class' => 'form-control', 'required', 'placeholder' => __( 'messages.please_select' ) ]); !!}
+          {!! Form::select('paid_via', $gateways, null, ['class' => 'form-control', 'required', 'placeholder' => __( 'messages.please_select' ) ]) !!}
       </div>
       <div class="form-group">
         {!! Form::label('payment_transaction_id', __( 'superadmin::lang.payment_transaction_id' ) . ':') !!}
-          {!! Form::text('payment_transaction_id', null, ['class' => 'form-control', 'placeholder' => __( 'superadmin::lang.payment_transaction_id' ) ]); !!}
+          {!! Form::text('payment_transaction_id', null, ['class' => 'form-control', 'placeholder' => __( 'superadmin::lang.payment_transaction_id' ) ]) !!}
       </div>
     </div>
 

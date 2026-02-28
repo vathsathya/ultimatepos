@@ -85,7 +85,7 @@
                             {!! Form::label('all_accounts', __( 'accounting::lang.account' ) . ':') !!}
                             {!! Form::select('account_filter', [$account->id => $account->name], $account->id,
                                 ['class' => 'form-control accounts-dropdown', 'style' => 'width:100%', 
-                                'id' => 'account_filter', 'data-default' => $account->id]); !!}
+                                'id' => 'account_filter', 'data-default' => $account->id]) !!}
                         </div>
                     </div>
                     

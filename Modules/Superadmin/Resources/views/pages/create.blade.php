@@ -20,25 +20,25 @@
 				<div class="col-sm-3">
 					<div class="form-group">
 						{!! Form::label('title', __('superadmin::lang.page_title').':') !!}
-						{!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.page_title')]); !!}
+						{!! Form::text('title', null, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.page_title')]) !!}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
 						{!! Form::label('slug', __('superadmin::lang.slug').':') !!}
-						{!! Form::text('slug', null, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.slug'), 'required']); !!}
+						{!! Form::text('slug', null, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.slug'), 'required']) !!}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="form-group">
 						{!! Form::label('menu_order', __('superadmin::lang.menu_order').':') !!} @show_tooltip(__('superadmin::lang.menu_order_tooltip'))
-						{!! Form::number('menu_order', 0, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.menu_order')]); !!}
+						{!! Form::number('menu_order', 0, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.menu_order')]) !!}
 					</div>
 				</div>
 				<div class="col-sm-3">
 					<div class="checkbox">
 					<label>
-						{!! Form::checkbox('is_shown', 1, true, ['class' => 'input-icheck']); !!}
+						{!! Form::checkbox('is_shown', 1, true, ['class' => 'input-icheck']) !!}
                         {{__('superadmin::lang.is_visible')}}
 					</label>
 					</div>
@@ -53,7 +53,7 @@
 				<div class="col-sm-12">
 					<div class="form-group">
 						{!! Form::label('content', __('superadmin::lang.page_content').':') !!}
-						{!! Form::textarea('content', null, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.page_content')]); !!}
+						{!! Form::textarea('content', null, ['class' => 'form-control', 'placeholder' => __('superadmin::lang.page_content')]) !!}
 					</div>
 				</div>
 			</div>

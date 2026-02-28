@@ -26,7 +26,7 @@
         <div class="col-md-6">
             <div class="form-group">
                 {!! Form::label('payment_account', __('accounting::lang.payment_account') . ':*' ) !!}
-                {!! Form::select('payment_account', !is_null($default_payment_account) ? [$default_payment_account->id => $default_payment_account->name] : [], $default_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown','placeholder' => __('accounting::lang.payment_account'), 'required' => 'required']); !!}
+                {!! Form::select('payment_account', !is_null($default_payment_account) ? [$default_payment_account->id => $default_payment_account->name] : [], $default_payment_account->id ?? null, ['class' => 'form-control accounts-dropdown','placeholder' => __('accounting::lang.payment_account'), 'required' => 'required']) !!}
             </div>
         </div>
 
@@ -34,14 +34,14 @@
             <div class="form-group">
                 {!! Form::label('deposit_to', __('accounting::lang.deposit_to') . ':*' ) !!}
                 {!! Form::select('deposit_to', !is_null($default_deposit_to) ? 
-                    [$default_deposit_to->id => $default_deposit_to->name] : [], $default_deposit_to->id ?? null, ['class' => 'form-control accounts-dropdown','placeholder' => __('accounting::lang.deposit_to'), 'required' => 'required']); !!}
+                    [$default_deposit_to->id => $default_deposit_to->name] : [], $default_deposit_to->id ?? null, ['class' => 'form-control accounts-dropdown','placeholder' => __('accounting::lang.deposit_to'), 'required' => 'required']) !!}
             </div>
         </div>
         <div class="col-md-12">
                 <div class="form-group">
                     {!! Form::label('description', __( 'lang_v1.description' ) . ':') !!}
                     {!! Form::textarea('description', $note, ['class' => 'form-control', 
-                        'placeholder' => __( 'lang_v1.description' ), 'rows' => 3 ]); !!}
+                        'placeholder' => __( 'lang_v1.description' ), 'rows' => 3 ]) !!}
                 </div>
             </div>
     </div>

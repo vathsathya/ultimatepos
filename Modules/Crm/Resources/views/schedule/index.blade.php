@@ -12,21 +12,21 @@
 	            <div class="col-md-4">
 	                <div class="form-group">
 	                    {!! Form::label('contact_id_filter', __('contact.contact') . ':') !!}
-	                    {!! Form::select('contact_id_filter', $contacts, null, ['class' => 'form-control select2', 'form-control select2', 'style' => 'width: 100%;', 'id' => 'contact_id_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('contact_id_filter', $contacts, null, ['class' => 'form-control select2', 'form-control select2', 'style' => 'width: 100%;', 'id' => 'contact_id_filter', 'placeholder' => __('messages.all')]) !!}
 	                </div>    
 	            </div>
 	            @if(auth()->user()->can('crm.access_all_schedule'))
 		            <div class="col-md-4">
 		                <div class="form-group">
 		                    {!! Form::label('assgined_to_filter', __('crm::lang.assgined') . ':') !!}
-		                    {!! Form::select('assgined_to_filter', $assigned_to, $default_user, ['class' => 'form-control select2', 'form-control select2', 'style' => 'width: 100%;', 'id' => 'assgined_to_filter', 'placeholder' => __('messages.all')]); !!}
+		                    {!! Form::select('assgined_to_filter', $assigned_to, $default_user, ['class' => 'form-control select2', 'form-control select2', 'style' => 'width: 100%;', 'id' => 'assgined_to_filter', 'placeholder' => __('messages.all')]) !!}
 		                </div>    
 		            </div>
 		        @endif
 	            <div class="col-md-4">
 	                <div class="form-group">
 	                    {!! Form::label('status_filter', __('sale.status') . ':') !!}
-	                    {!! Form::select('status_filter', $statuses, $default_status, ['class' => 'form-control select2', 'form-control select2', 'style' => 'width: 100%;', 'id' => 'status_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('status_filter', $statuses, $default_status, ['class' => 'form-control select2', 'form-control select2', 'style' => 'width: 100%;', 'id' => 'status_filter', 'placeholder' => __('messages.all')]) !!}
 	                </div>    
 	            </div>
 	            <div class="clearfix">
@@ -34,25 +34,25 @@
 	            <div class="col-md-3">
 	                <div class="form-group">
 	                    {!! Form::label('schedule_type_filter', __('crm::lang.schedule_type') . ':') !!}
-	                    {!! Form::select('schedule_type_filter', $follow_up_types, null, ['class' => 'form-control select2', 'form-control select2','style' => 'width: 100%;', 'id' => 'schedule_type_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('schedule_type_filter', $follow_up_types, null, ['class' => 'form-control select2', 'form-control select2','style' => 'width: 100%;', 'id' => 'schedule_type_filter', 'placeholder' => __('messages.all')]) !!}
 	                </div>    
 	            </div>
 	            <div class="col-md-3">
 	            	<div class="form-group">
 	            		{!! Form::label('follow_up_date_range', __('report.date_range') . ':') !!}
-	            		{!! Form::text('follow_up_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']); !!}
+	            		{!! Form::text('follow_up_date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'readonly']) !!}
 	            	</div>
 	            </div>
 	            <div class="col-md-3">
 	                <div class="form-group">
 	                    {!! Form::label('follow_up_by_filter', __('crm::lang.follow_up_by') . ':') !!}
-	                    {!! Form::select('follow_up_by_filter', ['payment_status' => __('sale.payment_status'), 'orders' => __('restaurant.orders')], null, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'id' => 'follow_up_by_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('follow_up_by_filter', ['payment_status' => __('sale.payment_status'), 'orders' => __('restaurant.orders')], null, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'id' => 'follow_up_by_filter', 'placeholder' => __('messages.all')]) !!}
 	                </div>    
 	            </div>
 	            <div class="col-md-3">
 	                <div class="form-group">
 	                    {!! Form::label('followup_category_id_filter', __('crm::lang.followup_category') . ':') !!}
-	                    {!! Form::select('followup_category_id_filter', $followup_category, $default_followup_category_id, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'form-control select2', 'id' => 'followup_category_id_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('followup_category_id_filter', $followup_category, $default_followup_category_id, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'form-control select2', 'id' => 'followup_category_id_filter', 'placeholder' => __('messages.all')]) !!}
 	                </div>    
 	            </div>
 	        </div>

@@ -18,14 +18,14 @@
                 <div class="col-md-4">
                     <div class="checkbox">
                         <label>
-                        {!! Form::checkbox('enable_order_request', 1, !empty($crm_settings['enable_order_request']), ['class' => 'input-icheck']); !!} @lang('crm::lang.enable_order_request')
+                        {!! Form::checkbox('enable_order_request', 1, !empty($crm_settings['enable_order_request']), ['class' => 'input-icheck']) !!} @lang('crm::lang.enable_order_request')
                         </label> @show_tooltip(__('crm::lang.enable_order_request_help'))
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('order_request_prefix', __('crm::lang.order_request_prefix') . ':') !!}
-                        {!! Form::text('order_request_prefix', $crm_settings['order_request_prefix'] ?? null, ['class' => 'form-control','placeholder' => __( 'crm::lang.order_request_prefix' )]); !!}
+                        {!! Form::text('order_request_prefix', $crm_settings['order_request_prefix'] ?? null, ['class' => 'form-control','placeholder' => __( 'crm::lang.order_request_prefix' )]) !!}
                     </div>
                 </div>
                 <div class="col-md-12">

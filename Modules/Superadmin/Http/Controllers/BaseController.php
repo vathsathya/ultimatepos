@@ -51,7 +51,7 @@ class BaseController extends Controller
             $gateways['flutterwave'] = 'Flutterwave';
         }
 
-         //check if MY FATOORAH is configured or not
+        //check if MY FATOORAH is configured or not
         if (env('MY_FATOORAH_API_KEY') && env('MY_FATOORAH_COUNTRY_ISO')) {
             $gateways['myfatoorah'] = 'My Fatoorah';
         }
@@ -60,6 +60,10 @@ class BaseController extends Controller
 
         if ($is_offline_payment_enabled) {
             $gateways['offline'] = 'Offline';
+        }
+
+        if (env('BAKONG_ACCOUNT_ID')) {
+            $gateways['bakong'] = 'Bakong KHQR';
         }
 
         return $gateways;
@@ -72,17 +76,18 @@ class BaseController extends Controller
      */
     public function _add_subscription($code, $price, $business_id, $package, $gateway, $payment_transaction_id, $user_id, $is_superadmin = false)
     {
-        if (! is_object($package)) {
+        if (!is_object($package)) {
             $package = Package::active()->find($package);
         }
 
-        $subscription = ['business_id' => $business_id,
+        $subscription = [
+            'business_id' => $business_id,
             'package_id' => $package->id,
             'paid_via' => $gateway,
             'payment_transaction_id' => $payment_transaction_id,
         ];
 
-        if ($package->price != 0 && (in_array($gateway, ['offline', 'pesapal']) && ! $is_superadmin)) {
+        if ($package->price != 0 && (in_array($gateway, ['offline', 'pesapal']) && !$is_superadmin)) {
             //If offline then dates will be decided when approved by superadmin
             $subscription['start_date'] = null;
             $subscription['end_date'] = null;
@@ -108,7 +113,7 @@ class BaseController extends Controller
             'name' => $package->name,
         ];
         //Custom permissions.
-        if (! empty($package->custom_permissions)) {
+        if (!empty($package->custom_permissions)) {
             foreach ($package->custom_permissions as $name => $value) {
                 $subscription['package_details'][$name] = $value;
             }
@@ -117,13 +122,13 @@ class BaseController extends Controller
         $subscription['created_id'] = $user_id;
         $subscription = Subscription::create($subscription);
 
-        if (! $is_superadmin) {
+        if (!$is_superadmin) {
             $email = System::getProperty('email');
             $is_notif_enabled = System::getProperty('enable_new_subscription_notification');
 
-            if (! empty($email) && $is_notif_enabled == 1) {
+            if (!empty($email) && $is_notif_enabled == 1) {
                 Notification::route('mail', $email)
-                ->notify(new NewSubscriptionNotification($subscription));
+                    ->notify(new NewSubscriptionNotification($subscription));
             }
         }
 

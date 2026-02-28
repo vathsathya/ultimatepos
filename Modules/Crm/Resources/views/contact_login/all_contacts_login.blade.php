@@ -15,7 +15,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('contact_id', __('contact.contact') . ':') !!}
-                    {!! Form::select('contact_id', $contacts, null, ['class' => 'form-control select2', 'form-control select2', 'style' => 'width: 100%;', 'id' => 'contact_id', 'placeholder' => __('messages.all')]); !!}
+                    {!! Form::select('contact_id', $contacts, null, ['class' => 'form-control select2', 'form-control select2', 'style' => 'width: 100%;', 'id' => 'contact_id', 'placeholder' => __('messages.all')]) !!}
                 </div>    
             </div>
         </div>

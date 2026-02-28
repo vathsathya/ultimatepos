@@ -13,7 +13,7 @@
         {!! Form::label('name',__('lang_v1.variation_name') . ':*', ['class' => 'col-sm-3 control-label']) !!}
 
         <div class="col-sm-9">
-          {!! Form::text('name', $variation->name, ['class' => 'form-control', 'required', 'placeholder' => __('lang_v1.variation_name')]); !!}
+          {!! Form::text('name', $variation->name, ['class' => 'form-control', 'required', 'placeholder' => __('lang_v1.variation_name')]) !!}
         </div>
       </div>
       <div class="form-group">
@@ -21,7 +21,7 @@
         @foreach( $variation->values as $attr)
           @if( $loop->first )
             <div class="col-sm-7">
-              {!! Form::text('edit_variation_values[' . $attr->id . ']', $attr->name, ['class' => 'form-control', 'required']); !!}
+              {!! Form::text('edit_variation_values[' . $attr->id . ']', $attr->name, ['class' => 'form-control', 'required']) !!}
             </div>
           @endif
         @endforeach
@@ -34,7 +34,7 @@
           @if( !$loop->first )
             <div class="form-group">
               <div class="col-sm-7 col-sm-offset-3">
-                {!! Form::text('edit_variation_values[' . $attr->id . ']', $attr->name, ['class' => 'form-control', 'required']); !!}
+                {!! Form::text('edit_variation_values[' . $attr->id . ']', $attr->name, ['class' => 'form-control', 'required']) !!}
               </div>
             </div>
           @endif
