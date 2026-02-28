@@ -3,9 +3,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
     image: ultimate_pos_app:latest
     container_name: ultimate_pos_app
-    user: ${USER_ID}:${GROUP_ID}
+    user: ${USER_ID:-1000}:${GROUP_ID:-1000}
     restart: unless-stopped
     working_dir: /var/www
     volumes:
@@ -53,8 +56,8 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
       MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
       MYSQL_USER: ${DB_USERNAME:-homestead}
-    ports:
-      - "3306:3306" # Maps Host 3306 to Container 3306
+    # ports:
+    #   - "3306:3306" # Maps Host 3306 to Container 3306
     volumes:
       - db_data:/var/lib/mysql
     networks:
@@ -81,7 +84,11 @@ services:
 
   # Queue Worker (Crucial for Telegram/WhatsApp alerts)
   worker:
-    build: .
+    build:
+      context: .
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
     container_name: ultimate_pos_worker
     restart: unless-stopped
     command: php artisan queue:work --sleep=3 --tries=3 --timeout=60 --max-jobs=500
@@ -92,18 +99,23 @@ services:
     depends_on:
       - app
       - redis
-  # tunnel:
-  #   image: cloudflare/cloudflared:latest
-  #   container_name: cloudflare_tunnel
-  #   restart: unless-stopped
-  #   command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-  #   environment:
-  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-  #   networks:
-  #     - ultimate_pos_network
-  #   depends_on:
-  #     web:
-  #       condition: service_healthy # Tunnel won't start until site is reachable
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflare_tunnel
+    restart: unless-stopped
+    command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+    environment:
+      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+    networks:
+      - ultimate_pos_network
+    depends_on:
+      web:
+        condition: service_healthy # Tunnel won't start until site is reachable
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/login" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
 networks:
   ultimate_pos_network:

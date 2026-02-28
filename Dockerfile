@@ -51,8 +51,8 @@ COPY docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Add shadow to modify the www-data UID/GID to match the host user, enabling seamless volume writes
 RUN apk add --no-cache shadow \
-    && usermod -u ${USER_ID} www-data \
-    && groupmod -g ${GROUP_ID} www-data
+    && usermod -o -u ${USER_ID:-1000} www-data \
+    && groupmod -o -g ${GROUP_ID:-1000} www-data
 
 # Copy existing application directory contents
 COPY . /var/www
