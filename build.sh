@@ -2,7 +2,11 @@
 set -e
 
 
-#1 Remove vendor folder & storage cache
+# 1 Initialize Git Submodules
+echo "📦 Initializing submodules..."
+git submodule update --init --recursive
+
+# 2 Remove vendor folder & storage cache
 echo "🧹 Removing vendor folder & storage cache..."
 rm -f bootstrap/cache/config.php 
 rm -f bootstrap/cache/packages.php
@@ -13,7 +17,7 @@ rm -rf storage/framework/testing/*
 rm -rf storage/framework/views/*
 rm -rf vendor
 
-# 2. Flush Redis (The Engine)
+# 3. Flush Redis (The Engine)
 # This ensures that queues and sessions stored in Redis are reset
 if docker compose ps | grep -q "pos_redis"; then
     echo "⚡ Flushing Redis cache..."
@@ -23,19 +27,19 @@ else
 fi
 
 
-# 3. Stop containers
+# 4. Stop containers
 docker compose stop
 docker compose down --volumes
 
 
-# 4. Starting UltimatePOS
+# 5. Starting UltimatePOS
 echo "🚀 Clean up and start building containers..."
 export USER_ID=$(id -u)
 export GROUP_ID=$(id -g)
 docker compose build --build-arg USER_ID=${USER_ID} --build-arg GROUP_ID=${GROUP_ID}
 USER_ID=${USER_ID} GROUP_ID=${GROUP_ID} docker compose up -d
 
-# 5. Running database migrations and seeding...
+# 6. Running database migrations and seeding...
 echo "⏳ Waiting for MySQL to be ready..."
 
 # Retry loop: Try to run a simple 'select 1' via artisan
@@ -56,12 +60,12 @@ done
 
 echo "✅ MySQL is ready!"
 
-# 6. Discover packages and Clear Laravel Caches (requires Redis alive)
+# 7. Discover packages and Clear Laravel Caches (requires Redis alive)
 echo "🧹 Discovering packages and clearing caches..."
 docker compose exec app php artisan package:discover --ansi
 docker compose exec app php artisan optimize:clear
 
-# 7. Migration and Seed data
+# 8. Migration and Seed data
 echo "🌱 Running database migrations and seeding..."
 docker compose exec app php artisan migrate:fresh --seed --force
 
