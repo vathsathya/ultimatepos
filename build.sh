@@ -35,12 +35,7 @@ export GROUP_ID=$(id -g)
 docker compose build --build-arg USER_ID=${USER_ID} --build-arg GROUP_ID=${GROUP_ID}
 USER_ID=${USER_ID} GROUP_ID=${GROUP_ID} docker compose up -d
 
-# 5. Install composer dependencies (Do this before artisan commands)
-echo "🌱 Installing composer dependencies..."
-docker compose exec app composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-dev
-
-
-# 6. Running database migrations and seeding...
+# 5. Running database migrations and seeding...
 echo "⏳ Waiting for MySQL to be ready..."
 
 # Retry loop: Try to run a simple 'select 1' via artisan
@@ -61,20 +56,11 @@ done
 
 echo "✅ MySQL is ready!"
 
-# 7. Link storage
-echo "🔗 Linking storage..."
-docker compose exec app php artisan storage:link
-
-
-# 8. Clear Laravel Application Cache
-echo "🧹 Clearing Laravel components..."
-docker compose exec app php artisan view:clear
-docker compose exec app php artisan route:clear
-docker compose exec app php artisan config:clear
-docker compose exec app php artisan cache:clear
+# 6. Clear Laravel Caches (requires Redis alive)
+echo "🧹 Clearing Laravel caches..."
 docker compose exec app php artisan optimize:clear
 
-# 9. Migration and Seed data
+# 7. Migration and Seed data
 echo "🌱 Running database migrations and seeding..."
 docker compose exec app php artisan migrate:fresh --seed --force
 

@@ -63,6 +63,11 @@ RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
     && chmod -R 775 /var/www/storage \
     && chmod -R 775 /var/www/bootstrap/cache
 
+USER www-data
+
+RUN composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-dev \
+    && php artisan storage:link
+
 EXPOSE 9000
 
 CMD ["php-fpm"]
