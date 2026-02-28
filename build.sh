@@ -11,7 +11,7 @@ rm -rf storage/framework/sessions/*
 rm -rf storage/framework/views/*
 rm -rf storage/framework/testing/*
 rm -rf storage/framework/views/*
-rm -rf vendor   
+rm -rf vendor
 
 # 2. Flush Redis (The Engine)
 # This ensures that queues and sessions stored in Redis are reset
