@@ -65,8 +65,9 @@ RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
 
 USER www-data
 
-RUN composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-dev \
-    && php artisan storage:link
+RUN composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-dev --no-scripts \
+    && rm -rf public/storage \
+    && ln -s /var/www/storage/app/public /var/www/public/storage
 
 EXPOSE 9000
 

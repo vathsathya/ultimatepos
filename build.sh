@@ -56,8 +56,9 @@ done
 
 echo "✅ MySQL is ready!"
 
-# 6. Clear Laravel Caches (requires Redis alive)
-echo "🧹 Clearing Laravel caches..."
+# 6. Discover packages and Clear Laravel Caches (requires Redis alive)
+echo "🧹 Discovering packages and clearing caches..."
+docker compose exec app php artisan package:discover --ansi
 docker compose exec app php artisan optimize:clear
 
 # 7. Migration and Seed data
