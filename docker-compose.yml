@@ -37,6 +37,11 @@ services:
       - ultimate_pos_network
     depends_on:
       - app
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/login" ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   db:
     image: mysql:8.0
@@ -111,11 +116,6 @@ services:
     depends_on:
       web:
         condition: service_healthy # Tunnel won't start until site is reachable
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost/login" ]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 networks:
   ultimate_pos_network:
