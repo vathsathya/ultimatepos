@@ -59,7 +59,7 @@ class SettingsController extends Controller
     {
         //check if app is in demo & disable action
         $notAllowedInDemo = $this->commonUtil->notAllowedInDemo();
-        if (! empty($notAllowedInDemo)) {
+        if (!empty($notAllowedInDemo)) {
             return $notAllowedInDemo;
         }
 
@@ -68,9 +68,22 @@ class SettingsController extends Controller
         try {
             DB::beginTransaction();
 
-            $site_details = $request->only(['faqs', 'statistics', 'google_analytics', 'fb_pixel',
-                'custom_js', 'custom_css', 'meta_tags', 'chat_widget', 'contact_us', 'mail_us',
-                'follow_us', 'notifiable_email', 'btns', 'chat', ]);
+            $site_details = $request->only([
+                'faqs',
+                'statistics',
+                'google_analytics',
+                'fb_pixel',
+                'custom_js',
+                'custom_css',
+                'meta_tags',
+                'chat_widget',
+                'contact_us',
+                'mail_us',
+                'follow_us',
+                'notifiable_email',
+                'btns',
+                'chat',
+            ]);
 
             $logo = CmsSiteDetail::getValue('logo', false);
             $site_details['logo'] = $this->__uploadFile($request, $logo);
@@ -86,9 +99,9 @@ class SettingsController extends Controller
             return redirect()
                 ->action([\Modules\Cms\Http\Controllers\SettingsController::class, 'index'])
                 ->with('status', $output);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File: ' . $e->getFile() . ' Line: ' . $e->getLine() . ' Message: ' . $e->getMessage());
             $output = [
                 'success' => false,
                 'msg' => __('messages.something_went_wrong'),
@@ -103,21 +116,21 @@ class SettingsController extends Controller
         $file = $request->file('logo');
         $file_name = null;
 
-        if (! empty($file) && ! empty($logo->logo_path)) {
+        if (!empty($file) && !empty($logo->logo_path)) {
             $this->__removeFile($logo->logo_path);
         }
 
-        if (! empty($logo) && ! empty($logo->site_value)) {
+        if (!empty($logo) && !empty($logo->site_value)) {
             $file_name = json_decode($logo->site_value, true);
         }
 
         if (
-            ! empty($file) &&
+            !empty($file) &&
             (
                 $file->getSize() <= config('constants.document_size_limit')
             )
         ) {
-            $new_file_name = 'logo.'.$file->getClientOriginalExtension();
+            $new_file_name = 'logo.' . $file->getClientOriginalExtension();
             if ($file->storeAs('/cms', $new_file_name)) {
                 $file_name = $new_file_name;
             }
@@ -128,7 +141,7 @@ class SettingsController extends Controller
 
     private function __removeFile($img_path)
     {
-        if (! empty($img_path) && file_exists($img_path)) {
+        if (!empty($img_path) && file_exists($img_path)) {
             unlink($img_path);
         }
     }

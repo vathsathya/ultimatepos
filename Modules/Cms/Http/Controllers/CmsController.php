@@ -114,9 +114,10 @@ class CmsController extends Controller
     public function getBlogList()
     {
         $blogs = CmsPage::where('type', 'blog')
-                    ->orderBy('priority', 'asc')
-                    ->where('is_enabled', 1)
-                    ->get();
+            ->orderBy('priority', 'asc')
+            ->where('is_enabled', 1)
+            ->select(['id', 'title', 'content', 'feature_image', 'priority', 'created_at'])
+            ->get();
 
         return view('cms::frontend.blogs.index')
             ->with(compact('blogs'));
@@ -127,8 +128,8 @@ class CmsController extends Controller
         $id = $this->cmsUtil->findIdFromGivenUrl($request->url());
 
         $blog = CmsPage::where('type', 'blog')
-                    ->where('is_enabled', 1)
-                    ->findOrFail($id);
+            ->where('is_enabled', 1)
+            ->findOrFail($id);
 
         return view('cms::frontend.blogs.show')
             ->with(compact('blog'));
@@ -146,7 +147,7 @@ class CmsController extends Controller
     {
         //check if app is in demo & disable action
         $notAllowedInDemo = $this->cmsUtil->notAllowedInDemo();
-        if (! empty($notAllowedInDemo)) {
+        if (!empty($notAllowedInDemo)) {
             return $notAllowedInDemo;
         }
 
@@ -156,7 +157,7 @@ class CmsController extends Controller
 
                 $recipient = CmsSiteDetail::getValue('notifiable_email');
 
-                if (! empty($recipient) && ! empty($lead_details['message'])) {
+                if (!empty($recipient) && !empty($lead_details['message'])) {
                     Notification::route('mail', $recipient)
                         ->notify(new NewLeadGeneratedNotification($lead_details));
                 }
@@ -165,8 +166,8 @@ class CmsController extends Controller
                     'success' => true,
                     'msg' => __('cms::lang.we_will_contact_soon'),
                 ];
-            } catch (Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            } catch (\Exception $e) {
+                \Log::emergency('File: ' . $e->getFile() . ' Line: ' . $e->getLine() . ' Message: ' . $e->getMessage());
                 $output = [
                     'success' => false,
                     'msg' => __('messages.something_went_wrong'),

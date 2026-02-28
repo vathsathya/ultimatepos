@@ -1,11 +1,408 @@
 @extends('layouts.app')
 @section('title', 'Telegram Notifications')
 
+@section('css')
+    <style>
+        /* ── Telegram theme colours ─────────────────────────────── */
+        :root {
+            --tg-blue: #2AABEE;
+            --tg-blue-dk: #1d93d2;
+            --tg-blue-lt: #e8f6fd;
+        }
+
+        /* ── Card shell ─────────────────────────────────────────── */
+        .tg-card {
+            background: #fff;
+            border-radius: 1rem;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, .07);
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .tg-card-head {
+            padding: .85rem 1.25rem;
+            border-bottom: 1px solid #f3f4f6;
+            background: #f9fafb;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .tg-card-head h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .tg-card-body {
+            padding: 1.5rem;
+        }
+
+        .tg-card-body-lg {
+            padding: 2rem;
+        }
+
+        /* ── Primary CTA button ─────────────────────────────────── */
+        .btn-telegram {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: var(--tg-blue);
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 1rem;
+            padding: .75rem 2rem;
+            border-radius: .75rem;
+            border: none;
+            box-shadow: 0 4px 14px rgba(42, 171, 238, .35);
+            cursor: pointer;
+            transition: background .2s, transform .15s, box-shadow .2s;
+            text-decoration: none;
+        }
+
+        .btn-telegram:hover,
+        .btn-telegram:focus {
+            background: var(--tg-blue-dk);
+            color: #fff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(42, 171, 238, .45);
+            text-decoration: none;
+        }
+
+        .btn-telegram:active {
+            transform: translateY(0);
+        }
+
+        .btn-telegram:disabled,
+        .btn-telegram[disabled] {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ── Secondary nav button ───────────────────────────────── */
+        .btn-outline-nav {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: #fff;
+            color: #374151;
+            font-weight: 700;
+            font-size: .9rem;
+            padding: .65rem 1.4rem;
+            border-radius: .75rem;
+            border: 1px solid #d1d5db;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-outline-nav:hover {
+            background: #f9fafb;
+        }
+
+        .btn-indigo {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: #4f46e5;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: .9rem;
+            padding: .65rem 1.4rem;
+            border-radius: .6rem;
+            border: none;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-indigo:hover {
+            background: #4338ca;
+        }
+
+        .btn-green {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: #16a34a;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: .9rem;
+            padding: .65rem 1.75rem;
+            border-radius: .75rem;
+            border: none;
+            box-shadow: 0 4px 10px rgba(22, 163, 74, .25);
+            cursor: pointer;
+            transition: background .2s, transform .15s;
+        }
+
+        .btn-green:hover {
+            background: #15803d;
+            transform: translateY(-1px);
+        }
+
+        /* ── Status banner ──────────────────────────────────────── */
+        .tg-status-ok {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: .75rem;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .tg-status-ok h4 {
+            color: #166534;
+            font-weight: 700;
+            margin: 0 0 .25rem;
+        }
+
+        .tg-status-ok p {
+            color: #15803d;
+            font-size: .875rem;
+            margin: 0 0 .2rem;
+        }
+
+        /* ── Toggle pill ────────────────────────────────────────── */
+        .tg-toggle {
+            display: flex;
+            background: #e5e7eb;
+            border-radius: .5rem;
+            padding: .25rem;
+            flex-shrink: 0;
+        }
+
+        .tg-toggle a {
+            padding: .45rem 1rem;
+            font-size: .85rem;
+            font-weight: 700;
+            border-radius: .35rem;
+            text-decoration: none;
+            transition: background .15s, color .15s;
+            color: #6b7280;
+        }
+
+        .tg-toggle a:hover {
+            color: #111827;
+            text-decoration: none;
+        }
+
+        .tg-toggle a.active-on {
+            background: #16a34a;
+            color: #fff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+        }
+
+        .tg-toggle a.active-off {
+            background: #ef4444;
+            color: #fff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+        }
+
+        /* ── Intro icon box ─────────────────────────────────────── */
+        .tg-intro {
+            text-align: center;
+            padding: 2.5rem 1rem;
+        }
+
+        .tg-intro h4 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111827;
+            margin: .5rem 0 .75rem;
+        }
+
+        .tg-intro p {
+            color: #6b7280;
+            max-width: 32rem;
+            margin: 0 auto 2rem;
+            font-size: .95rem;
+        }
+
+        /* ── Step wizard ────────────────────────────────────────── */
+        .tg-step-indicators {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2.5rem;
+            gap: .5rem;
+        }
+
+        .tg-ind {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 6rem;
+        }
+
+        .tg-ind-circle {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #9ca3af;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: background .25s, color .25s;
+        }
+
+        .tg-ind-circle.active {
+            background: var(--tg-blue);
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(42, 171, 238, .4);
+        }
+
+        .tg-ind span {
+            font-size: .72rem;
+            font-weight: 500;
+            margin-top: .35rem;
+            color: #6b7280;
+        }
+
+        .tg-ind-line {
+            height: 3px;
+            width: 4rem;
+            background: #e5e7eb;
+            border-radius: 99px;
+        }
+
+        .tg-step-box {
+            border: 2px solid var(--tg-blue);
+            background: var(--tg-blue-lt);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tg-step-box-gray {
+            border: 2px solid #e5e7eb;
+            background: #f9fafb;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tg-step-box-teal {
+            border: 2px solid #99f6e4;
+            background: #f0fdfa;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .tg-step-box-amber {
+            background: #fffbeb;
+            border: 1px solid #fde68a;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* ── Countdown badge ────────────────────────────────────── */
+        .tg-countdown {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            background: #eff6ff;
+            color: #1d4ed8;
+            padding: .35rem 1rem;
+            border-radius: 99px;
+            font-size: .85rem;
+            font-weight: 500;
+            border: 1px solid #dbeafe;
+            margin-bottom: 1.25rem;
+        }
+
+        .tg-countdown strong {
+            font-family: monospace;
+            font-size: 1rem;
+        }
+
+        /* ── Disconnect btn ─────────────────────────────────────── */
+        .btn-disconnect {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            padding: .5rem 1rem;
+            border: 1px solid #fca5a5;
+            background: #fff;
+            color: #ef4444;
+            border-radius: .5rem;
+            font-weight: 700;
+            font-size: .85rem;
+            cursor: pointer;
+            transition: background .15s;
+        }
+
+        .btn-disconnect:hover {
+            background: #fef2f2;
+        }
+
+        /* ── How it works ───────────────────────────────────────── */
+        .tg-how-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media(min-width:768px) {
+            .tg-how-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .tg-how-item {
+            text-align: center;
+        }
+
+        .tg-how-item .icon {
+            font-size: 2.5rem;
+            margin-bottom: .75rem;
+        }
+
+        .tg-how-item strong {
+            display: block;
+            font-size: 1rem;
+            color: #1f2937;
+            margin-bottom: .35rem;
+        }
+
+        .tg-how-item p {
+            font-size: .875rem;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        /* ── Example snippet ────────────────────────────────────── */
+        .tg-snippet {
+            background: #fff;
+            border-left: 4px solid var(--tg-blue);
+            border-radius: .35rem;
+            padding: 1rem;
+            font-size: .875rem;
+            color: #374151;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .07);
+            line-height: 1.75;
+        }
+    </style>
+@endsection
+
 @section('content')
     <section class="content-header">
         <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black tw-flex tw-items-center tw-gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" class="tw-text-[#2AABEE]" style="width: 32px; height: 32px;"
-                viewBox="0 0 24 24" fill="currentColor">
+            <svg xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;color:var(--tg-blue)" viewBox="0 0 24 24"
+                fill="currentColor">
                 <path
                     d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z" />
             </svg>
@@ -16,72 +413,73 @@
     <section class="content">
         @include('layouts.partials.error')
 
-        <div class="tw-max-w-4xl tw-mx-auto tw-mt-4">
+        <div style="max-width:880px;margin:1.5rem auto;">
 
             {{-- ========== CONNECTED STATE ========== --}}
             @if(!empty($settings) && !empty($settings->telegram_chat_id))
 
-                <div class="tw-bg-white tw-rounded-2xl tw-shadow-sm tw-border tw-border-gray-200 tw-overflow-hidden tw-mb-6">
-                    <div class="tw-p-4 tw-border-b tw-border-gray-100 tw-bg-gray-50/50">
-                        <h3 class="tw-m-0 tw-text-lg tw-font-semibold tw-text-gray-800 tw-flex tw-items-center tw-gap-2">
-                            <i class="fa fa-check-circle tw-text-green-500"></i>
-                            Connected Status
-                        </h3>
+                <div class="tg-card">
+                    <div class="tg-card-head">
+                        <i class="fa fa-check-circle" style="color:#16a34a;"></i>
+                        <h3>Connected Status</h3>
                     </div>
-                    <div class="tw-p-4">
+                    <div class="tg-card-body">
+
                         {{-- Status banner --}}
-                        <div
-                            class="tw-bg-green-50 tw-border tw-border-green-200 tw-rounded-xl tw-p-5 tw-flex tw-items-center tw-gap-5 tw-mb-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="tw-text-[#2AABEE] tw-flex-shrink-0"
-                                style="width: 56px; height: 56px;" viewBox="0 0 24 24" fill="currentColor">
+                        <div class="tg-status-ok">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                style="width:52px;height:52px;color:var(--tg-blue);flex-shrink:0" viewBox="0 0 24 24"
+                                fill="currentColor">
                                 <path
                                     d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z" />
                             </svg>
                             <div>
-                                <h4 class="tw-text-green-800 tw-font-bold tw-text-lg tw-mb-1">✅ Successfully Connected</h4>
-                                <p class="tw-text-green-700 tw-text-sm tw-mb-1">
-                                    Target Chat ID: <code
-                                        class="tw-bg-white tw-px-2 tw-py-1 tw-rounded-md tw-text-gray-700 tw-font-mono tw-shadow-sm">{{ $settings->telegram_chat_id }}</code>
+                                <h4>✅ Successfully Connected</h4>
+                                <p>Target Chat ID:
+                                    <code
+                                        style="background:#f3f4f6;padding:.15rem .5rem;border-radius:.3rem;font-family:monospace;color:#374151;">
+                                                {{ $settings->telegram_chat_id }}
+                                            </code>
                                 </p>
-                                <p class="tw-text-green-700 tw-text-sm">
-                                    Your business is fully synchronized with Telegram for real-time notifications.
-                                </p>
+                                <p>Your business is fully synchronized with Telegram for real-time notifications.</p>
                             </div>
                         </div>
 
+                        {{-- Notify toggle --}}
                         <div
-                            class="tw-bg-gray-50 tw-border tw-border-gray-200 tw-rounded-xl tw-p-5 tw-flex tw-items-center tw-justify-between tw-mb-6 tw-mt-4">
+                            style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:.75rem;padding:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;">
                             <div>
-                                <strong class="tw-text-gray-800 tw-text-base">🔔 Notify on Close Register</strong>
-                                <p class="tw-text-gray-500 tw-text-sm tw-mt-1">Automatically send a Telegram message containing
-                                    a sales summary when a cash register is closed.</p>
+                                <strong style="color:#1f2937;font-size:.95rem;">🔔 Notify on Close Register</strong>
+                                <p style="color:#6b7280;font-size:.85rem;margin:.25rem 0 0;">
+                                    Automatically send a Telegram message containing a sales summary when a cash register is
+                                    closed.
+                                </p>
                             </div>
-                            <div class="tw-flex tw-bg-gray-200 tw-rounded-lg tw-p-1 tw-shrink-0">
+                            <div class="tg-toggle">
                                 <a href="javascript:void(0)" onclick="submitNotify(1)"
-                                    class="tw-px-4 tw-py-2 tw-text-sm tw-font-bold tw-rounded-md tw-transition-colors {{ !empty($settings->notify_on_close_register) ? 'tw-bg-green-500 tw-text-white tw-shadow-sm' : 'tw-text-gray-600 hover:tw-text-gray-800' }}">
+                                    class="{{ !empty($settings->notify_on_close_register) ? 'active-on' : '' }}">
                                     ON
                                 </a>
                                 <a href="javascript:void(0)" onclick="submitNotify(0)"
-                                    class="tw-px-4 tw-py-2 tw-text-sm tw-font-bold tw-rounded-md tw-transition-colors {{ empty($settings->notify_on_close_register) ? 'tw-bg-red-500 tw-text-white tw-shadow-sm' : 'tw-text-gray-600 hover:tw-text-gray-800' }}">
+                                    class="{{ empty($settings->notify_on_close_register) ? 'active-off' : '' }}">
                                     OFF
                                 </a>
                             </div>
                         </div>
 
-                        {{-- Hidden form for notify toggle submission --}}
-                        <form action="{{ route('telegram-settings.store') }}" method="POST" id="notify_form" class="tw-hidden">
+                        {{-- Hidden form for notify toggle --}}
+                        <form action="{{ route('telegram-settings.store') }}" method="POST" id="notify_form"
+                            style="display:none;">
                             @csrf
                             <input type="hidden" name="notify_on_close_register" id="notify_value"
                                 value="{{ !empty($settings->notify_on_close_register) ? '1' : '0' }}">
                         </form>
 
                         {{-- Disconnect --}}
-                        <div class="tw-text-right tw-mt-4">
-                            <form action="{{ route('telegram-settings.disconnect') }}" method="POST" id="disconnect_form"
-                                class="tw-inline">
+                        <div style="text-align:right;margin-top:1rem;">
+                            <form action="{{ route('telegram-settings.disconnect') }}" method="POST" style="display:inline;">
                                 @csrf
-                                <button type="submit"
-                                    class="tw-inline-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-border tw-border-red-200 tw-bg-white tw-text-red-500 hover:tw-bg-red-50 tw-rounded-lg tw-text-sm tw-font-bold tw-transition-colors">
+                                <button type="submit" class="btn-disconnect">
                                     <i class="fa fa-unlink"></i> Disconnect Telegram
                                 </button>
                             </form>
@@ -92,148 +490,137 @@
 
                 {{-- ========== NOT CONNECTED STATE ========== --}}
             @else
-                <div class="tw-bg-white tw-rounded-2xl tw-shadow-sm tw-border tw-border-gray-200 tw-overflow-hidden tw-mb-6"
-                    id="connect_box">
-                    <div class="tw-p-4 tw-border-b tw-border-gray-100 tw-bg-gray-50/50">
-                        <h3 class="tw-m-0 tw-text-lg tw-font-semibold tw-text-gray-800 tw-flex tw-items-center tw-gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="tw-text-[#2AABEE]" style="width: 20px; height: 20px;"
+                <div class="tg-card" id="connect_box">
+                    <div class="tg-card-head">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="width:20px;height:20px;color:var(--tg-blue)"
+                            viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z" />
+                        </svg>
+                        <h3>Connect to Telegram</h3>
+                    </div>
+                    <div class="tg-card-body-lg">
+
+                        {{-- Intro screen --}}
+                        <div id="step_intro" class="tg-intro">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                style="width:88px;height:88px;color:var(--tg-blue);margin:0 auto 1.25rem;display:block;"
                                 viewBox="0 0 24 24" fill="currentColor">
                                 <path
                                     d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z" />
                             </svg>
-                            Connect to Telegram
-                        </h3>
-                    </div>
-                    <div class="tw-p-8">
+                            <h4>Get Instant Insights on Telegram</h4>
+                            <p>Connect your business to our Telegram bot and receive instant notifications whenever a cash
+                                register is closed. No technical setup required.</p>
 
-                        {{-- Intro --}}
-                        <div id="step_intro" class="tw-text-center tw-py-6">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="tw-mx-auto tw-text-[#2AABEE] tw-mb-6"
-                                style="width: 80px; height: 80px;" viewBox="0 0 24 24" fill="currentColor">
-                                <path
-                                    d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z" />
-                            </svg>
-                            <h4 class="tw-text-2xl tw-font-bold tw-text-gray-900 tw-mb-3">Get Instant Insights on Telegram</h4>
-                            <p class="tw-text-gray-500 tw-max-w-md tw-mx-auto tw-mb-8 tw-text-base">
-                                Connect your business to our Telegram bot and receive instant notifications whenever a cash
-                                register is closed. No technical setup required.
-                            </p>
-                            <button id="start_connect_btn"
-                                class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-[#2AABEE] hover:tw-bg-[#2292cc] tw-text-white tw-font-bold tw-py-3 tw-px-8 tw-rounded-xl tw-shadow-md tw-transition-all hover:tw--translate-y-0.5">
+                            {{-- ★ THE CONNECT BUTTON ─ fully inline-styled so it ALWAYS renders ★ --}}
+                            <button id="start_connect_btn" type="button" class="btn-telegram">
                                 <i class="fa fa-link"></i> Connect to Telegram
                             </button>
                         </div>
 
                         {{-- Step wizard --}}
-                        <div id="step_wizard" class="tw-hidden tw-max-w-2xl tw-mx-auto">
+                        <div id="step_wizard" style="display:none;max-width:640px;margin:0 auto;">
 
                             {{-- Step indicators --}}
-                            <div class="tw-flex tw-items-center tw-justify-center tw-mb-10">
-                                <div id="ind_1" class="tw-flex tw-flex-col tw-items-center tw-w-24">
-                                    <div id="ind_circle_1"
-                                        class="tw-w-10 tw-h-10 tw-rounded-full tw-bg-[#2AABEE] tw-text-white tw-flex tw-items-center tw-justify-center tw-font-bold tw-text-lg tw-shadow-sm tw-transition-colors">
-                                        1</div>
-                                    <span class="tw-text-xs tw-font-semibold tw-mt-2 tw-text-gray-700">Open Bot</span>
+                            <div class="tg-step-indicators">
+                                <div class="tg-ind" id="ind_1">
+                                    <div class="tg-ind-circle active" id="ind_circle_1">1</div>
+                                    <span>Open Bot</span>
                                 </div>
-                                <div class="tw-h-1 tw-w-16 tw-bg-gray-200 tw-mx-2 tw-rounded-full"></div>
-                                <div id="ind_2" class="tw-flex tw-flex-col tw-items-center tw-w-24">
-                                    <div id="ind_circle_2"
-                                        class="tw-w-10 tw-h-10 tw-rounded-full tw-bg-gray-200 tw-text-gray-500 tw-flex tw-items-center tw-justify-center tw-font-bold tw-text-lg tw-transition-colors">
-                                        2</div>
-                                    <span id="ind_label_2" class="tw-text-xs tw-font-medium tw-mt-2 tw-text-gray-500">Click
-                                        START</span>
+                                <div class="tg-ind-line"></div>
+                                <div class="tg-ind" id="ind_2">
+                                    <div class="tg-ind-circle" id="ind_circle_2">2</div>
+                                    <span id="ind_label_2">Click START</span>
                                 </div>
-                                <div class="tw-h-1 tw-w-16 tw-bg-gray-200 tw-mx-2 tw-rounded-full"></div>
-                                <div id="ind_3" class="tw-flex tw-flex-col tw-items-center tw-w-24">
-                                    <div id="ind_circle_3"
-                                        class="tw-w-10 tw-h-10 tw-rounded-full tw-bg-gray-200 tw-text-gray-500 tw-flex tw-items-center tw-justify-center tw-font-bold tw-text-lg tw-transition-colors">
-                                        3</div>
-                                    <span id="ind_label_3"
-                                        class="tw-text-xs tw-font-medium tw-mt-2 tw-text-gray-500">Confirm</span>
+                                <div class="tg-ind-line"></div>
+                                <div class="tg-ind" id="ind_3">
+                                    <div class="tg-ind-circle" id="ind_circle_3">3</div>
+                                    <span id="ind_label_3">Confirm</span>
                                 </div>
                             </div>
 
                             {{-- Step 1 --}}
-                            <div id="step_1" class="tw-text-center">
-                                <div class="tw-border-2 tw-border-[#2AABEE] tw-bg-[#f0f9ff] tw-rounded-2xl tw-p-8 tw-mb-6">
-                                    <p class="tw-font-bold tw-text-gray-800 tw-mb-6 tw-text-lg">👇 Click below to open our bot
-                                        on Telegram</p>
-                                    <a id="open_bot_link" href="#" target="_blank"
-                                        class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-[#2AABEE] hover:tw-bg-[#2292cc] tw-text-white tw-font-bold tw-py-3 tw-px-8 tw-rounded-xl tw-shadow-md tw-transition-all hover:tw--translate-y-0.5 tw-text-lg">
-                                        <svg xmlns="http://www.w3.org/2000/svg" style="width: 24px; height: 24px;"
+                            <div id="step_1" style="text-align:center;">
+                                <div class="tg-step-box">
+                                    <p style="font-weight:700;color:#1f2937;margin-bottom:1.25rem;font-size:1rem;">
+                                        👇 Click below to open our bot on Telegram
+                                    </p>
+                                    <a id="open_bot_link" href="#" target="_blank" class="btn-telegram"
+                                        style="font-size:1.05rem;">
+                                        <svg xmlns="http://www.w3.org/2000/svg" style="width:22px;height:22px;"
                                             viewBox="0 0 24 24" fill="currentColor">
                                             <path
                                                 d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.833.941z" />
                                         </svg>
                                         Open Telegram Bot
                                     </a>
-                                    <p class="tw-mt-4 tw-text-sm tw-text-gray-500">
-                                        Or search <strong id="bot_username_label" class="tw-text-gray-700"></strong> in Telegram
+                                    <p style="margin-top:.85rem;font-size:.85rem;color:#6b7280;">
+                                        Or search <strong id="bot_username_label" style="color:#374151;"></strong> in Telegram
                                     </p>
                                 </div>
-                                <div class="tw-mb-6">
-                                    <span
-                                        class="tw-inline-flex tw-items-center tw-gap-1.5 tw-bg-blue-50 tw-text-blue-700 tw-px-4 tw-py-1.5 tw-rounded-full tw-text-sm tw-font-medium tw-border tw-border-blue-100">
-                                        <i class="fa fa-clock-o"></i> Link expires in <strong id="countdown_timer"
-                                            class="tw-font-mono tw-text-base">10:00</strong>
+                                <div style="margin-bottom:1.25rem;">
+                                    <span class="tg-countdown">
+                                        <i class="fa fa-clock-o"></i> Link expires in
+                                        <strong id="countdown_timer">10:00</strong>
                                     </span>
                                 </div>
-                                <button id="next_to_step2"
-                                    class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-indigo-600 hover:tw-bg-indigo-700 tw-text-white tw-font-bold tw-py-2.5 tw-px-6 tw-rounded-lg tw-shadow-sm tw-transition-colors">
+                                <button id="next_to_step2" type="button" class="btn-indigo">
                                     I've opened Telegram <i class="fa fa-arrow-right"></i>
                                 </button>
                             </div>
 
                             {{-- Step 2 --}}
-                            <div id="step_2" class="tw-hidden tw-text-center">
-                                <div class="tw-border-2 tw-border-gray-200 tw-bg-gray-50 tw-rounded-2xl tw-p-8 tw-mb-6">
-                                    <div class="tw-text-5xl tw-mb-4">👆</div>
-                                    <p class="tw-font-bold tw-text-gray-800 tw-text-xl tw-mb-3">
-                                        In Telegram, click the <span
-                                            class="tw-bg-green-100 tw-text-green-700 tw-px-2 tw-py-1 tw-rounded tw-text-sm">START</span>
+                            <div id="step_2" style="display:none;text-align:center;">
+                                <div class="tg-step-box-gray">
+                                    <div style="font-size:3rem;margin-bottom:1rem;">👆</div>
+                                    <p style="font-weight:700;color:#1f2937;font-size:1.15rem;margin-bottom:.75rem;">
+                                        In Telegram, click the
+                                        <span
+                                            style="background:#dcfce7;color:#166534;padding:.15rem .5rem;border-radius:.25rem;font-size:.9rem;">START</span>
                                         button
                                     </p>
-                                    <p class="tw-text-gray-500 tw-text-base">
+                                    <p style="color:#6b7280;font-size:.95rem;">
                                         The bot will send you a welcome message.<br>
                                         Come back here once you have done that.
                                     </p>
                                 </div>
-                                <div class="tw-flex tw-items-center tw-justify-center tw-gap-4">
-                                    <button id="back_to_step1"
-                                        class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-white tw-border tw-border-gray-300 tw-text-gray-700 hover:tw-bg-gray-50 tw-font-bold tw-py-3 tw-px-6 tw-rounded-xl tw-shadow-sm tw-transition-colors">
+                                <div style="display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;">
+                                    <button id="back_to_step1" type="button" class="btn-outline-nav">
                                         <i class="fa fa-arrow-left"></i> Back
                                     </button>
-                                    <button id="next_to_step3"
-                                        class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-green-500 hover:tw-bg-green-600 tw-text-white tw-font-bold tw-py-3 tw-px-8 tw-rounded-xl tw-shadow-md tw-transition-all hover:tw--translate-y-0.5">
+                                    <button id="next_to_step3" type="button" class="btn-green">
                                         <i class="fa fa-check"></i> I've clicked START
                                     </button>
                                 </div>
                             </div>
 
                             {{-- Step 3 --}}
-                            <div id="step_3" class="tw-hidden tw-text-center">
-                                <div id="verify_pending"
-                                    class="tw-border-2 tw-border-teal-200 tw-bg-teal-50 tw-rounded-2xl tw-p-8 tw-mb-6">
-                                    <div class="tw-text-4xl tw-text-teal-500 tw-mb-4"><i class="fa fa-spinner fa-spin"></i>
+                            <div id="step_3" style="display:none;text-align:center;">
+                                <div id="verify_pending" class="tg-step-box-teal">
+                                    <div style="font-size:2.5rem;color:#0d9488;margin-bottom:1rem;">
+                                        <i class="fa fa-spinner fa-spin"></i>
                                     </div>
-                                    <h4 class="tw-font-bold tw-text-gray-900 tw-text-xl tw-mb-2">Verifying your connection...
+                                    <h4 style="font-weight:700;color:#1f2937;font-size:1.15rem;margin-bottom:.5rem;">
+                                        Verifying your connection...
                                     </h4>
-                                    <p class="tw-text-gray-600 tw-text-base">Checking if Telegram received your START. This
-                                        takes just a moment.</p>
+                                    <p style="color:#374151;">
+                                        Checking if Telegram received your START. This takes just a moment.
+                                    </p>
                                 </div>
-                                <div id="verify_error"
-                                    class="tw-hidden tw-bg-amber-50 tw-border tw-border-amber-200 tw-rounded-2xl tw-p-8 tw-mb-6">
-                                    <div class="tw-text-4xl tw-text-amber-500 tw-mb-4"><i
-                                            class="fa fa-exclamation-triangle"></i></div>
-                                    <p id="verify_error_msg" class="tw-font-bold tw-text-gray-800 tw-text-lg tw-mb-6">Not found
-                                        yet.</p>
-                                    <div class="tw-flex tw-justify-center tw-gap-4">
-                                        <button id="retry_verify_btn"
-                                            class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-indigo-600 hover:tw-bg-indigo-700 tw-text-white tw-font-bold tw-py-2.5 tw-px-6 tw-rounded-lg tw-shadow-sm tw-transition-colors">
+                                <div id="verify_error" class="tg-step-box-amber" style="display:none;">
+                                    <div style="font-size:2.5rem;color:#d97706;margin-bottom:1rem;">
+                                        <i class="fa fa-exclamation-triangle"></i>
+                                    </div>
+                                    <p id="verify_error_msg"
+                                        style="font-weight:700;color:#1f2937;font-size:1.05rem;margin-bottom:1.25rem;">
+                                        Not found yet.
+                                    </p>
+                                    <div style="display:flex;justify-content:center;gap:1rem;flex-wrap:wrap;">
+                                        <button id="retry_verify_btn" type="button" class="btn-indigo">
                                             <i class="fa fa-refresh"></i> Try Again
                                         </button>
-                                        <button id="back_to_step2"
-                                            class="tw-inline-flex tw-items-center tw-gap-2 tw-bg-white tw-border tw-border-gray-300 tw-text-gray-700 hover:tw-bg-gray-50 tw-font-bold tw-py-2.5 tw-px-6 tw-rounded-lg tw-shadow-sm tw-transition-colors">
+                                        <button id="back_to_step2" type="button" class="btn-outline-nav">
                                             <i class="fa fa-arrow-left"></i> Back
                                         </button>
                                     </div>
@@ -246,60 +633,57 @@
             @endif
 
             {{-- Help box --}}
-            <div class="tw-bg-white tw-rounded-2xl tw-shadow-sm tw-border tw-border-gray-200 tw-overflow-hidden tw-mt-4">
-                <div
-                    class="tw-p-4 tw-border-b tw-border-gray-100 tw-bg-gray-50/50 tw-flex tw-items-center tw-justify-between">
-                    <h3 class="tw-m-0 tw-text-lg tw-font-semibold tw-text-gray-800 tw-flex tw-items-center tw-gap-2">
-                        <i class="fa fa-lightbulb-o tw-text-yellow-500"></i> How it Works
-                    </h3>
+            <div class="tg-card">
+                <div class="tg-card-head">
+                    <i class="fa fa-lightbulb-o" style="color:#eab308;"></i>
+                    <h3>How it Works</h3>
                 </div>
-                <div class="tw-p-4">
-                    <div class="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-8 tw-mb-8">
-                        <div class="tw-text-center">
-                            <div class="tw-text-4xl tw-mb-3 tw-text-indigo-500"><i class="fas fa-cash-register"></i></div>
-                            <strong class="tw-block tw-text-gray-800 tw-text-lg tw-mb-2">Register Closed</strong>
-                            <p class="tw-text-gray-500 tw-text-sm">Triggered whenever staff closes a cash register shift.
-                            </p>
+                <div class="tg-card-body">
+                    <div class="tg-how-grid">
+                        <div class="tg-how-item">
+                            <div class="icon" style="color:#6366f1;"><i class="fas fa-cash-register"></i></div>
+                            <strong>Register Closed</strong>
+                            <p>Triggered whenever staff closes a cash register shift.</p>
                         </div>
-                        <div class="tw-text-center">
-                            <div class="tw-text-4xl tw-mb-3 tw-text-yellow-500"><i class="fas fa-bolt"></i></div>
-                            <strong class="tw-block tw-text-gray-800 tw-text-lg tw-mb-2">Instant Delivery</strong>
-                            <p class="tw-text-gray-500 tw-text-sm">The summary report is pushed instantly to your phone.</p>
+                        <div class="tg-how-item">
+                            <div class="icon" style="color:#eab308;"><i class="fas fa-bolt"></i></div>
+                            <strong>Instant Delivery</strong>
+                            <p>The summary report is pushed instantly to your phone.</p>
                         </div>
-                        <div class="tw-text-center">
-                            <div class="tw-text-4xl tw-mb-3 tw-text-green-500"><i class="fas fa-shield-alt"></i></div>
-                            <strong class="tw-block tw-text-gray-800 tw-text-lg tw-mb-2">Per-Business Secure</strong>
-                            <p class="tw-text-gray-500 tw-text-sm">Isolated, secure chat streams per business branch.</p>
+                        <div class="tg-how-item">
+                            <div class="icon" style="color:#16a34a;"><i class="fas fa-shield-alt"></i></div>
+                            <strong>Per-Business Secure</strong>
+                            <p>Isolated, secure chat streams per business branch.</p>
                         </div>
                     </div>
 
-                    <div class="tw-bg-gray-50 tw-rounded-xl tw-p-5 tw-border tw-border-gray-200">
-                        <strong class="tw-text-gray-700 tw-text-sm tw-block tw-mb-3 tw-uppercase tw-tracking-wider">Example
-                            Summary Snippet</strong>
-                        <div
-                            class="tw-bg-white tw-border-l-4 tw-border-[#2AABEE] tw-rounded tw-p-4 tw-font-sans tw-text-sm tw-text-gray-700 tw-shadow-sm tw-leading-relaxed">
-                            🏪 <span class="tw-font-bold tw-text-black">Register Closed</span><br>
-                            📅 Date: <span class="tw-font-bold tw-text-black">30-12-2026 05:00 PM</span><br>
-                            📍 Location: <span class="tw-font-bold tw-text-black">Main Branch</span><br>
-                            👤 Closed By: <span class="tw-font-bold tw-text-black">John Doe</span><br>
-                            <span class="tw-text-gray-400">──────────────</span><br>
-                            <br>
-                            <span class="tw-font-mono">📦 Products Sold:<br>
+                    <div style="background:#f9fafb;border-radius:.75rem;padding:1.25rem;border:1px solid #e5e7eb;">
+                        <strong
+                            style="color:#4b5563;font-size:.8rem;display:block;margin-bottom:.75rem;text-transform:uppercase;letter-spacing:.05em;">
+                            Example Summary Snippet
+                        </strong>
+                        <div class="tg-snippet">
+                            🏪 <strong>Register Closed</strong><br>
+                            📅 Date: <strong>30-12-2026 05:00 PM</strong><br>
+                            📍 Location: <strong>Main Branch</strong><br>
+                            👤 Closed By: <strong>John Doe</strong><br>
+                            <span style="color:#9ca3af;">──────────────</span><br><br>
+                            <span style="font-family:monospace;">📦 Products Sold:<br>
                                 ▪️ cafe (0002)<br>
                                 &nbsp;&nbsp;&nbsp;Qty: 16.00 &nbsp;|&nbsp; $ 40.00<br>
                                 ▪️ cafe late (0003)<br>
                                 &nbsp;&nbsp;&nbsp;Qty: 5.00 &nbsp;&nbsp;|&nbsp; $ 9.40<br>
                                 Total Items: 21.00<br>
                                 Subtotal: $ 49.40<br>
-                                <span class="tw-text-gray-400">──────────────</span></span><br>
-                            <br>
-                            <span class="tw-font-bold tw-text-black">📊 Summary:</span><br>
-                            <span class="tw-font-mono">
-                                Total Sales:&nbsp;&nbsp;&nbsp;<span class="tw-font-bold tw-text-black">$ 49.40</span><br>
-                                Total Refund:&nbsp;&nbsp;<span class="tw-font-bold tw-text-black">$ &nbsp;0.00</span><br>
-                                Total Payment:&nbsp;<span class="tw-font-bold tw-text-black">$ 49.40</span><br>
-                                Credit Sales:&nbsp;&nbsp;<span class="tw-font-bold tw-text-black">$ &nbsp;0.00</span><br>
-                                Total Expense:&nbsp;<span class="tw-font-bold tw-text-black">$ &nbsp;0.00</span>
+                                <span style="color:#9ca3af;">──────────────</span>
+                            </span><br><br>
+                            <strong>📊 Summary:</strong><br>
+                            <span style="font-family:monospace;">
+                                Total Sales:&nbsp;&nbsp;&nbsp;<strong>$ 49.40</strong><br>
+                                Total Refund:&nbsp;&nbsp;<strong>$ &nbsp;0.00</strong><br>
+                                Total Payment:&nbsp;<strong>$ 49.40</strong><br>
+                                Credit Sales:&nbsp;&nbsp;<strong>$ &nbsp;0.00</strong><br>
+                                Total Expense:&nbsp;<strong>$ &nbsp;0.00</strong>
                             </span>
                         </div>
                     </div>
@@ -324,7 +708,8 @@
 
             // ── CONNECT button ────────────────────────────────────────────────
             $('#start_connect_btn').on('click', function () {
-                var $btn = $(this).prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Generating link...');
+                var $btn = $(this).prop('disabled', true)
+                    .html('<i class="fa fa-spinner fa-spin"></i>&nbsp; Generating link...');
 
                 $.ajax({
                     url: GENERATE_URL,
@@ -335,7 +720,7 @@
                     success: function (r) {
                         if (!r.success) {
                             toastr.error(r.msg || 'Failed to generate link.');
-                            $btn.prop('disabled', false).html('<i class="fa fa-link"></i>&nbsp; Connect to Telegram');
+                            $btn.prop('disabled', false).html('<i class="fa fa-link"></i> Connect to Telegram');
                             return;
                         }
                         var deepLink = 'https://t.me/' + r.bot_username + '?start=' + r.token;
@@ -348,7 +733,7 @@
                     },
                     error: function () {
                         toastr.error('Could not reach server.');
-                        $btn.prop('disabled', false).html('<i class="fa fa-link"></i>&nbsp; Connect to Telegram');
+                        $btn.prop('disabled', false).html('<i class="fa fa-link"></i> Connect to Telegram');
                     }
                 });
             });
@@ -375,9 +760,9 @@
                 for (var i = 1; i <= 3; i++) {
                     var $c = $('#ind_circle_' + i);
                     if (i <= n) {
-                        $c.css({ background: '#2AABEE', color: '#fff' });
+                        $c.addClass('active');
                     } else {
-                        $c.css({ background: '#ddd', color: '#999' });
+                        $c.removeClass('active');
                     }
                 }
             }
@@ -437,7 +822,7 @@
 
         });
 
-        // Global helper for the notify toggle (called via onclick - outside ready)
+        // Global helper for notify toggle (called via onclick - outside ready)
         function submitNotify(val) {
             $('#notify_value').val(val);
             $('#notify_form').submit();

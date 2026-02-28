@@ -22,6 +22,21 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js?v=$asset_v"></script>
 <![endif]-->
 
+{{-- CSRF token guaranteed in <head> before vendor.js executes.
+     bootstrap.js inside vendor.js calls document.head.querySelector('meta[name="csrf-token"]').
+     This inline script ensures the token is always present, even on edge-case renders. --}}
+<script>
+    // Polyfill: if the layout's <head> <meta> somehow didn't render, inject it now
+    (function() {
+        if (!document.querySelector('meta[name="csrf-token"]')) {
+            var m = document.createElement('meta');
+            m.name = 'csrf-token';
+            m.content = '{{ csrf_token() }}';
+            document.head.appendChild(m);
+        }
+    })();
+</script>
+
 <script src="{{ asset('js/vendor.js?v=' . $asset_v) }}"></script>
 
 @if (file_exists(public_path('js/lang/' . session()->get('user.language', config('app.locale')) . '.js')))
@@ -57,9 +72,28 @@
     Dropzone.autoDiscover = false;
     moment.tz.setDefault('{{ Session::get('business.time_zone') }}');
     $(document).ready(function() {
+        var csrfToken = $('meta[name="csrf-token"]').attr('content');
+
+        // Set CSRF on all jQuery AJAX requests
         $.ajaxSetup({
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': csrfToken
+            }
+        });
+
+        // Sync axios CSRF token with the page meta tag
+        if (window.axios) {
+            window.axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken;
+        }
+
+        // Handle session expiry (419 = CSRF token mismatch) — reload to get a fresh token
+        $(document).ajaxError(function(event, xhr) {
+            if (xhr.status === 419) {
+                toastr.warning(
+                    'Your session has expired. Refreshing the page...',
+                    '',
+                    { timeOut: 2000, onHidden: function() { location.reload(); } }
+                );
             }
         });
 

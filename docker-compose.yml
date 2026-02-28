@@ -39,9 +39,14 @@ services:
     container_name: ultimate_pos_db
     restart: unless-stopped
     command:
-      - --innodb-buffer-pool-size=256M # Reduces RAM usage (adjust based on total VPS RAM)
+      - --innodb-buffer-pool-size=256M
       - --innodb-log-buffer-size=16M
       - --max-connections=50
+      - --innodb-flush-log-at-trx-commit=2 # Slightly relax durability for speed
+      - --innodb-read-io-threads=4
+      - --innodb-write-io-threads=4
+      - --tmp-table-size=32M
+      - --max-heap-table-size=32M
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-homestead}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
@@ -63,7 +68,7 @@ services:
     image: redis:alpine
     container_name: ultimate_pos_redis
     restart: unless-stopped
-    command: [ "redis-server", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru" ]
+    command: [ "redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru", "--tcp-keepalive", "60", "--hz", "20", "--lazyfree-lazy-eviction", "yes", "--lazyfree-lazy-expire", "yes", "--activerehashing", "yes" ]
     volumes:
       - redis_data:/data
     networks:
@@ -77,7 +82,8 @@ services:
   worker:
     build: .
     container_name: ultimate_pos_worker
-    command: php artisan queue:work
+    restart: unless-stopped
+    command: php artisan queue:work --sleep=3 --tries=3 --timeout=60 --max-jobs=500
     volumes:
       - .:/var/www
     networks:

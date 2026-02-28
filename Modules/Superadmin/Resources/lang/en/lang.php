@@ -214,7 +214,7 @@ return [
     'expiry_date' => 'Expiry date',
     'add_new_coupon' => 'Add new coupon',
     'discount' => 'Discount',
-    'coupon_created_succesfully' => 'Coupon created succesfully', 
+    'coupon_created_succesfully' => 'Coupon created succesfully',
     'coupon_updated_succesfully' => 'Coupon updated succesfully',
     'coupon_deleted_succesfully' => 'Coupon deleted succesfully',
     'edit_coupon' => 'Edit coupon',
@@ -271,5 +271,14 @@ return [
     'google_recaptcha_secret' => 'Google reCAPTCHA Secret Key',
     'google_recaptcha_version_2' => 'Google reCAPTCHA Version 2',
     'do_not_allow_disposable_email' => 'Do not allow disposable email',
+
+    // Telegram Bot
+    'telegram_bot_settings' => 'Telegram Bot',
+    'telegram_bot_token' => 'Bot Token',
+    'telegram_bot_token_help' => 'Obtain from @BotFather on Telegram. Keep this secret!',
+    'telegram_bot_username' => 'Bot Username',
+    'telegram_bot_username_help' => 'The @username of your bot (without the @ symbol)',
+    'telegram_bot_username_note' => 'Enter without the @ symbol, e.g. my_pos_bot',
+    'telegram_test_bot' => 'Test Connection',
 
 ];

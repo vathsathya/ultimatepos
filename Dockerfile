@@ -46,6 +46,9 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy custom OPcache configuration
 COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
+# Copy tuned PHP-FPM pool configuration
+COPY docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
+
 # Add shadow to modify the www-data UID/GID to match the host user, enabling seamless volume writes
 RUN apk add --no-cache shadow \
     && usermod -u ${USER_ID} www-data \

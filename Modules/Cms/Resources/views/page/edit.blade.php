@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('title', __('cms::lang.cms'))
-@section('content')
 @section('css')
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-iconpicker/1.10.0/css/bootstrap-iconpicker.min.css">
 <style type="text/css">
@@ -16,6 +15,8 @@
     }
 </style>
 @endsection
+@section('content')
+
 @include('cms::layouts.nav')
 
 <!-- Content Header (Page header) -->

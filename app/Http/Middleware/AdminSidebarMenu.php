@@ -16,11 +16,21 @@ class AdminSidebarMenu
      * @param  \Closure  $next
      * @return mixed
      */
+    /** Prevents rebuilding the menu more than once per request lifecycle */
+    private static bool $built = false;
+
     public function handle($request, Closure $next)
     {
-        if ($request->ajax()) {
+        // Skip entirely for AJAX, JSON, and API requests — they never render the sidebar
+        if ($request->ajax() || $request->wantsJson() || $request->is('api/*')) {
             return $next($request);
         }
+
+        // Guard against the middleware running twice in the same request (e.g. sub-requests)
+        if (self::$built) {
+            return $next($request);
+        }
+        self::$built = true;
 
         Menu::create('admin-sidebar-menu', function ($menu) {
             $enabled_modules = !empty(session('business.enabled_modules')) ? session('business.enabled_modules') : [];

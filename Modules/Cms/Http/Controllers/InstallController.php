@@ -4,6 +4,7 @@ namespace Modules\Cms\Http\Controllers;
 
 use App\System;
 use Composer\Semver\Comparator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Artisan;
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\DB;
 
 class InstallController extends Controller
 {
+    protected string $module_name;
+    protected string $appVersion;
+    protected string $module_display_name;
+
     public function __construct()
     {
         $this->module_name = 'cms';
@@ -21,7 +26,7 @@ class InstallController extends Controller
     /**
      * Install
      *
-     * @return Response
+     * @return Response|\Illuminate\Contracts\View\View
      */
     public function index()
     {
@@ -102,11 +107,11 @@ class InstallController extends Controller
 
             $output = [
                 'success' => 1,
-                'msg' => 'Cms module installed succesfully',
+                'msg' => 'CMS module installed successfully',
             ];
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
+            \Log::emergency('File: ' . $e->getFile() . ' Line: ' . $e->getLine() . ' Message: ' . $e->getMessage());
 
             $output = [
                 'success' => false,
@@ -122,7 +127,7 @@ class InstallController extends Controller
     /**
      * Uninstall
      *
-     * @return Response
+     * @return Response|RedirectResponse
      */
     public function uninstall()
     {
@@ -150,7 +155,7 @@ class InstallController extends Controller
     /**
      * update module
      *
-     * @return Response
+     * @return Response|RedirectResponse
      */
     public function update()
     {
@@ -169,8 +174,6 @@ class InstallController extends Controller
             $cms_version = System::getProperty($this->module_name . '_version');
 
             if (Comparator::greaterThan($this->appVersion, $cms_version)) {
-                ini_set('max_execution_time', 0);
-                ini_set('memory_limit', '512M');
                 $this->installSettings();
 
                 DB::statement('SET default_storage_engine=INNODB;');
@@ -185,13 +188,20 @@ class InstallController extends Controller
 
             $output = [
                 'success' => 1,
-                'msg' => 'Cms module updated Succesfully to version ' . $this->appVersion . ' !!',
+                'msg' => 'CMS module updated successfully to version ' . $this->appVersion . '.',
             ];
 
             return redirect()->back()->with(['status' => $output]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
-            exit($e->getMessage());
+            \Log::emergency('File: ' . $e->getFile() . ' Line: ' . $e->getLine() . ' Message: ' . $e->getMessage());
+
+            $output = [
+                'success' => false,
+                'msg' => $e->getMessage(),
+            ];
+
+            return redirect()->back()->with(['status' => $output]);
         }
     }
 }

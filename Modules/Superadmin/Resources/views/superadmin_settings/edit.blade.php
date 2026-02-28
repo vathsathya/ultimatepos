@@ -5,7 +5,9 @@
 @include('superadmin::layouts.nav')
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">@lang('superadmin::lang.super_admin_settings')<small>@lang('superadmin::lang.edit_super_admin_settings')</small></h1>
+    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
+        @lang('superadmin::lang.super_admin_settings')<small>@lang('superadmin::lang.edit_super_admin_settings')</small>
+    </h1>
     <!-- <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
         <li class="active">Here</li>
@@ -20,19 +22,29 @@
     <div class="row">
 
         <div class="col-xs-12">
-           <!--  <pos-tab-container> -->
+            <!--  <pos-tab-container> -->
             {{-- <div class="col-xs-12 pos-tab-container"> --}}
                 @component('components.widget', ['class' => 'pos-tab-container'])
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 pos-tab-menu tw-rounded-lg">
                     <div class="list-group">
-                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base active">@lang('superadmin::lang.super_admin_settings')</a>
-                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.application_settings')</a>
-                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.email_smtp_settings')</a>
-                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.payment_gateways')</a>
-                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.backup')</a>
-                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.cron')</a>
-                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.pusher_settings')</a>
-                        <a href="#" class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.additional_js_css')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base active">@lang('superadmin::lang.super_admin_settings')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.application_settings')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.email_smtp_settings')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.payment_gateways')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.backup')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.cron')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.pusher_settings')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.telegram_bot_settings')</a>
+                        <a href="#"
+                            class="list-group-item text-center tw-font-bold tw-text-sm md:tw-text-base">@lang('superadmin::lang.additional_js_css')</a>
                     </div>
                 </div>
                 <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 pos-tab">
@@ -43,18 +55,20 @@
                     @include('superadmin::superadmin_settings.partials.backup')
                     @include('superadmin::superadmin_settings.partials.cron')
                     @include('superadmin::superadmin_settings.partials.pusher_setting')
+                    @include('superadmin::superadmin_settings.partials.telegram_bot')
                     @include('superadmin::superadmin_settings.partials.additional_js_css')
                 </div>
                 @endcomponent
-            {{-- </div> --}}
+                {{--
+            </div> --}}
             <!--  </pos-tab-container> -->
         </div>
-       
+
     </div>
     <div class="row">
         <div class="col-xs-12 text-center">
             <div class="form-group">
-            {{Form::submit(__('messages.update'), ['class'=>"tw-dw-btn tw-dw-btn-error tw-text-white tw-dw-btn-lg"])}}
+                {{Form::submit(__('messages.update'), ['class' => "tw-dw-btn tw-dw-btn-error tw-text-white tw-dw-btn-lg"])}}
             </div>
         </div>
     </div>
@@ -62,27 +76,67 @@
 </section>
 @stop
 @section('javascript')
-<script type="text/javascript">
-    $(document).on('change', '#BACKUP_DISK', function() {
-        if($(this).val() == 'dropbox'){
-            $('div#dropbox_access_token_div').removeClass('hide');
-        } else {
-            $('div#dropbox_access_token_div').addClass('hide');
-        }
-    });
+    <script type="text/javascript">
+        $(document).on('change', '#BACKUP_DISK', function () {
+            if ($(this).val() == 'dropbox') {
+                $('div#dropbox_access_token_div').removeClass('hide');
+            } else {
+                $('div#dropbox_access_token_div').addClass('hide');
+            }
+        });
 
-    $(document).ready( function(){
-        if ($('#welcome_email_body').length) {
-            tinymce.init({
-                selector: 'textarea#welcome_email_body',
-            });
-        }
+        $(document).ready(function () {
+            if ($('#welcome_email_body').length) {
+                tinymce.init({
+                    selector: 'textarea#welcome_email_body',
+                });
+            }
 
-        if ($('#superadmin_register_tc').length) {
-            tinymce.init({
-                selector: 'textarea#superadmin_register_tc'
+            if ($('#superadmin_register_tc').length) {
+                tinymce.init({
+                    selector: 'textarea#superadmin_register_tc'
+                });
+            }
+        });
+
+        // ── Telegram Bot — Test Connection ────────────────────────────────────
+        $(document).on('click', '#test_telegram_bot_btn', function () {
+            var token = $('#TELEGRAM_BOT_TOKEN').val().trim();
+            var $result = $('#test_telegram_result');
+            var $btn = $(this);
+
+            if (!token) {
+                $result.html('<span style="color:#e53e3e;">&#9888; Please enter a Bot Token first.</span>');
+                return;
+            }
+
+            $btn.prop('disabled', true);
+            $result.html('<i class="fa fa-spinner fa-spin"></i> Testing...');
+
+            $.ajax({
+                url: '{{ route("superadmin.telegram.test") }}',
+                method: 'POST',
+                data: { _token: '{{ csrf_token() }}', token: token },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.ok) {
+                        $result.html(
+                            '<span style="color:#16a34a;">&#10003; Connected! Bot: <strong>@' + data.username + '</strong> (' + data.first_name + ')</span>'
+                        );
+                        if (!$('#TELEGRAM_BOT_USERNAME').val()) {
+                            $('#TELEGRAM_BOT_USERNAME').val(data.username);
+                        }
+                    } else {
+                        $result.html('<span style="color:#e53e3e;">&#10007; ' + (data.msg || 'Invalid token.') + '</span>');
+                    }
+                },
+                error: function () {
+                    $result.html('<span style="color:#e53e3e;">&#10007; Server error. Please try again.</span>');
+                },
+                complete: function () {
+                    $btn.prop('disabled', false);
+                }
             });
-        }
-    });
-</script>
+        });
+    </script>
 @endsection

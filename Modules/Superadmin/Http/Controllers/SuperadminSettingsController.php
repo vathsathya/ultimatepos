@@ -42,7 +42,7 @@ class SuperadminSettingsController extends Controller
      */
     public function edit()
     {
-        if (! auth()->user()->can('superadmin')) {
+        if (!auth()->user()->can('superadmin')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -98,6 +98,9 @@ class SuperadminSettingsController extends Controller
             'GOOGLE_RECAPTCHA_SECRET' => $is_demo ? null : env('GOOGLE_RECAPTCHA_SECRET'),
             'DO_NOT_ALLOW_DISPOSABLE_EMAIL' => $is_demo ? null : env('DO_NOT_ALLOW_DISPOSABLE_EMAIL'),
 
+            // Telegram Bot
+            'TELEGRAM_BOT_TOKEN' => $is_demo ? null : env('TELEGRAM_BOT_TOKEN'),
+            'TELEGRAM_BOT_USERNAME' => $is_demo ? null : env('TELEGRAM_BOT_USERNAME'),
         ];
         $mail_drivers = $this->mailDrivers;
 
@@ -131,7 +134,7 @@ class SuperadminSettingsController extends Controller
      */
     public function update(Request $request)
     {
-        if (! auth()->user()->can('superadmin')) {
+        if (!auth()->user()->can('superadmin')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -139,7 +142,8 @@ class SuperadminSettingsController extends Controller
 
             //Disable .ENV settings in demo
             if (config('app.env') == 'demo') {
-                $output = ['success' => 0,
+                $output = [
+                    'success' => 0,
                     'msg' => 'Feature disabled in demo!!',
                 ];
 
@@ -152,35 +156,65 @@ class SuperadminSettingsController extends Controller
             $checkboxes = ['enable_business_based_username', 'superadmin_enable_register_tc', 'allow_email_settings_to_businesses', 'enable_new_business_registration_notification', 'enable_new_subscription_notification', 'enable_welcome_email', 'enable_offline_payment'];
             $input = $request->input();
             foreach ($checkboxes as $checkbox) {
-                $system_settings[$checkbox] = ! empty($input[$checkbox]) ? 1 : 0;
+                $system_settings[$checkbox] = !empty($input[$checkbox]) ? 1 : 0;
             }
 
             foreach ($system_settings as $key => $setting) {
                 System::updateOrCreate(
                     ['key' => $key],
                     ['value' => $setting]
-                            );
+                );
             }
 
-            $env_settings = $request->only(['APP_NAME', 'APP_TITLE',
-                'APP_LOCALE', 'MAIL_MAILER', 'MAIL_HOST', 'MAIL_PORT',
-                'MAIL_USERNAME', 'MAIL_PASSWORD', 'MAIL_ENCRYPTION',
-                'MAIL_FROM_ADDRESS', 'MAIL_FROM_NAME', 'STRIPE_PUB_KEY',
-                'STRIPE_SECRET_KEY', 'PAYPAL_MODE',
-                'PAYPAL_CLIENT_ID', 'PAYPAL_APP_SECRET',
-                'BACKUP_DISK', 'DROPBOX_ACCESS_TOKEN',
-                'RAZORPAY_KEY_ID', 'RAZORPAY_KEY_SECRET',
-                'PESAPAL_CONSUMER_KEY', 'PESAPAL_CONSUMER_SECRET', 'PESAPAL_LIVE',
-                'PUSHER_APP_ID', 'PUSHER_APP_KEY', 'PUSHER_APP_SECRET',
-                'PUSHER_APP_CLUSTER', 'GOOGLE_MAP_API_KEY', 'PAYSTACK_SECRET_KEY',
-                'PAYSTACK_PUBLIC_KEY', 'FLUTTERWAVE_PUBLIC_KEY',
-                'FLUTTERWAVE_SECRET_KEY', 'FLUTTERWAVE_ENCRYPTION_KEY', 'MAPBOX_ACCESS_TOKEN', 'MY_FATOORAH_API_KEY', 'MY_FATOORAH_IS_TEST', 'MY_FATOORAH_COUNTRY_ISO',
-                'ENABLE_RECAPTCHA', 'GOOGLE_RECAPTCHA_KEY', 'GOOGLE_RECAPTCHA_SECRET', 'DO_NOT_ALLOW_DISPOSABLE_EMAIL'
+            $env_settings = $request->only([
+                'APP_NAME',
+                'APP_TITLE',
+                'APP_LOCALE',
+                'MAIL_MAILER',
+                'MAIL_HOST',
+                'MAIL_PORT',
+                'MAIL_USERNAME',
+                'MAIL_PASSWORD',
+                'MAIL_ENCRYPTION',
+                'MAIL_FROM_ADDRESS',
+                'MAIL_FROM_NAME',
+                'STRIPE_PUB_KEY',
+                'STRIPE_SECRET_KEY',
+                'PAYPAL_MODE',
+                'PAYPAL_CLIENT_ID',
+                'PAYPAL_APP_SECRET',
+                'BACKUP_DISK',
+                'DROPBOX_ACCESS_TOKEN',
+                'RAZORPAY_KEY_ID',
+                'RAZORPAY_KEY_SECRET',
+                'PESAPAL_CONSUMER_KEY',
+                'PESAPAL_CONSUMER_SECRET',
+                'PESAPAL_LIVE',
+                'PUSHER_APP_ID',
+                'PUSHER_APP_KEY',
+                'PUSHER_APP_SECRET',
+                'PUSHER_APP_CLUSTER',
+                'GOOGLE_MAP_API_KEY',
+                'PAYSTACK_SECRET_KEY',
+                'PAYSTACK_PUBLIC_KEY',
+                'FLUTTERWAVE_PUBLIC_KEY',
+                'FLUTTERWAVE_SECRET_KEY',
+                'FLUTTERWAVE_ENCRYPTION_KEY',
+                'MAPBOX_ACCESS_TOKEN',
+                'MY_FATOORAH_API_KEY',
+                'MY_FATOORAH_IS_TEST',
+                'MY_FATOORAH_COUNTRY_ISO',
+                'ENABLE_RECAPTCHA',
+                'GOOGLE_RECAPTCHA_KEY',
+                'GOOGLE_RECAPTCHA_SECRET',
+                'DO_NOT_ALLOW_DISPOSABLE_EMAIL',
+                'TELEGRAM_BOT_TOKEN',
+                'TELEGRAM_BOT_USERNAME',
             ]);
 
-            $env_settings['ALLOW_REGISTRATION'] = ! empty($request->input('ALLOW_REGISTRATION')) ? 'true' : 'false';
-            $env_settings['ENABLE_RECAPTCHA'] = ! empty($request->input('ENABLE_RECAPTCHA')) ? 'true' : 'false';
-            $env_settings['DO_NOT_ALLOW_DISPOSABLE_EMAIL'] = ! empty($request->input('DO_NOT_ALLOW_DISPOSABLE_EMAIL')) ? 'true' : 'false';
+            $env_settings['ALLOW_REGISTRATION'] = !empty($request->input('ALLOW_REGISTRATION')) ? 'true' : 'false';
+            $env_settings['ENABLE_RECAPTCHA'] = !empty($request->input('ENABLE_RECAPTCHA')) ? 'true' : 'false';
+            $env_settings['DO_NOT_ALLOW_DISPOSABLE_EMAIL'] = !empty($request->input('DO_NOT_ALLOW_DISPOSABLE_EMAIL')) ? 'true' : 'false';
             $env_settings['BROADCAST_DRIVER'] = 'pusher';
 
             $found_envs = [];
@@ -190,7 +224,7 @@ class SuperadminSettingsController extends Controller
                 foreach ($env_lines as $key => $line) {
                     //Check if present then replace it.
                     if (strpos($line, $index) !== false) {
-                        $env_lines[$key] = $index.'="'.$value.'"'.PHP_EOL;
+                        $env_lines[$key] = $index . '="' . $value . '"' . PHP_EOL;
 
                         $found_envs[] = $index;
                     }
@@ -199,13 +233,13 @@ class SuperadminSettingsController extends Controller
 
             //Add the missing env settings
             $missing_envs = array_diff(array_keys($env_settings), $found_envs);
-            if (! empty($missing_envs)) {
+            if (!empty($missing_envs)) {
                 $missing_envs = array_values($missing_envs);
                 foreach ($missing_envs as $k => $key) {
                     if ($k == 0) {
-                        $env_lines[] = PHP_EOL.$key.'="'.$env_settings[$key].'"'.PHP_EOL;
+                        $env_lines[] = PHP_EOL . $key . '="' . $env_settings[$key] . '"' . PHP_EOL;
                     } else {
-                        $env_lines[] = $key.'="'.$env_settings[$key].'"'.PHP_EOL;
+                        $env_lines[] = $key . '="' . $env_settings[$key] . '"' . PHP_EOL;
                     }
                 }
             }
@@ -213,16 +247,18 @@ class SuperadminSettingsController extends Controller
             $env_content = implode('', $env_lines);
 
             if (is_writable($env_path) && file_put_contents($env_path, $env_content)) {
-                $output = ['success' => 1,
+                $output = [
+                    'success' => 1,
                     'msg' => __('lang_v1.success'),
                 ];
             } else {
                 $output = ['success' => 0, 'msg' => 'Some setting could not be saved, make sure .env file has 644 permission & owned by www-data user'];
             }
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => 0,
+            $output = [
+                'success' => 0,
                 'msg' => __('messages.something_went_wrong'),
             ];
         }
@@ -230,5 +266,51 @@ class SuperadminSettingsController extends Controller
         return redirect()
             ->action([\Modules\Superadmin\Http\Controllers\SuperadminSettingsController::class, 'edit'])
             ->with('status', $output);
+    }
+
+    /**
+     * Test a Telegram bot token by calling the getMe API server-side.
+     * Returns JSON: { ok, username, first_name } on success
+     *               { ok: false, msg } on failure
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function testTelegram(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (!auth()->user()->can('superadmin')) {
+            return response()->json(['ok' => false, 'msg' => 'Unauthorized.'], 403);
+        }
+
+        $token = trim($request->input('token', ''));
+
+        if (empty($token)) {
+            return response()->json(['ok' => false, 'msg' => 'No token provided.']);
+        }
+
+        try {
+            $response = \Illuminate\Support\Facades\Http::timeout(8)
+                ->get("https://api.telegram.org/bot{$token}/getMe");
+
+            $data = $response->json();
+
+            if (!empty($data['ok']) && !empty($data['result'])) {
+                return response()->json([
+                    'ok' => true,
+                    'username' => $data['result']['username'] ?? '',
+                    'first_name' => $data['result']['first_name'] ?? '',
+                ]);
+            }
+
+            return response()->json([
+                'ok' => false,
+                'msg' => $data['description'] ?? 'Invalid token or Telegram API error.',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'msg' => 'Could not reach Telegram API: ' . $e->getMessage(),
+            ]);
+        }
     }
 }

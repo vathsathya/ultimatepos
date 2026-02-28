@@ -34,8 +34,9 @@ class CmsPageController extends Controller
         $post_type = $request->get('type', 'page');
 
         $pages = CmsPage::where('type', $post_type)
-                    ->orderBy('priority', 'asc')
-                    ->get();
+            ->orderBy('priority', 'asc')
+            ->select(['id', 'title', 'priority', 'layout', 'is_enabled', 'created_at'])
+            ->get();
 
         return view('cms::page.index')
             ->with(compact('pages', 'post_type'));
@@ -64,30 +65,38 @@ class CmsPageController extends Controller
     {
         //check if app is in demo & disable action
         $notAllowedInDemo = $this->commonUtil->notAllowedInDemo();
-        if (! empty($notAllowedInDemo)) {
+        if (!empty($notAllowedInDemo)) {
             return $notAllowedInDemo;
         }
 
         try {
-            $input = $request->only(['title', 'content', 'meta_description',
-                'tags', 'priority', 'type', 'page_position',
+            $input = $request->only([
+                'title',
+                'content',
+                'meta_description',
+                'tags',
+                'priority',
+                'type',
+                'page_position',
             ]);
 
             $input['created_by'] = $request->session()->get('user.id');
 
             $input['feature_image'] = $this->commonUtil->uploadFile($request, 'feature_image', 'cms', 'image');
 
-            $input['is_enabled'] = ! empty($request->is_enabled);
+            $input['is_enabled'] = !empty($request->is_enabled);
 
             $page = CmsPage::create($input);
 
-            $output = ['success' => 1,
+            $output = [
+                'success' => 1,
                 'msg' => __('lang_v1.added_success'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File: ' . $e->getFile() . ' Line: ' . $e->getLine() . ' Message: ' . $e->getMessage());
 
-            $output = ['success' => 0,
+            $output = [
+                'success' => 0,
                 'msg' => __('lang_v1.something_went_wrong'),
             ];
         }
@@ -108,14 +117,14 @@ class CmsPageController extends Controller
         $title = str_replace('-', ' ', $page_title);
 
         $page = CmsPage::where('title', $title)
-                    ->first();
+            ->first();
 
         if (empty($page)) {
             abort(404);
         }
 
         return view('cms::frontend.pages.custom_view')
-        ->with(compact('page'));
+            ->with(compact('page'));
     }
 
     /**
@@ -129,11 +138,11 @@ class CmsPageController extends Controller
         $post_type = request()->get('type', 'page');
 
         $page = CmsPage::where('type', $post_type)
-                    ->findOrFail($id);
+            ->findOrFail($id);
 
         $page_meta = CmsPageMeta::where('cms_page_id', $id)
-                        ->get()
-                        ->keyBy('meta_key');
+            ->get()
+            ->keyBy('meta_key');
 
         return view('cms::page.edit')
             ->with(compact('page', 'post_type', 'page_meta'));
@@ -150,13 +159,19 @@ class CmsPageController extends Controller
     {
         //check if app is in demo & disable action
         $notAllowedInDemo = $this->commonUtil->notAllowedInDemo();
-        if (! empty($notAllowedInDemo)) {
+        if (!empty($notAllowedInDemo)) {
             return $notAllowedInDemo;
         }
 
         try {
-            $input = $request->only(['title', 'content', 'meta_description',
-                'tags', 'priority', 'type', 'page_position',
+            $input = $request->only([
+                'title',
+                'content',
+                'meta_description',
+                'tags',
+                'priority',
+                'type',
+                'page_position',
             ]);
 
             $page = CmsPage::findOrFail($id);
@@ -164,26 +179,28 @@ class CmsPageController extends Controller
             if ($request->hasFile('feature_image')) {
                 $input['feature_image'] = $this->commonUtil->uploadFile($request, 'feature_image', 'cms', 'image');
                 //delete previous feature image from storage
-                if (! empty($page->feature_image_path) && file_exists($page->feature_image_path)) {
+                if (!empty($page->feature_image_path) && file_exists($page->feature_image_path)) {
                     unlink($page->feature_image_path);
                 }
             }
 
-            $input['is_enabled'] = ! empty($request->is_enabled);
+            $input['is_enabled'] = !empty($request->is_enabled);
 
             $page->update($input);
 
-            if (! empty($request->input('meta'))) {
+            if (!empty($request->input('meta'))) {
                 CmsPageMeta::updateOrCreateMetaForPage($request->input('meta'), $id);
             }
 
-            $output = ['success' => 1,
+            $output = [
+                'success' => 1,
                 'msg' => __('lang_v1.updated_success'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File: ' . $e->getFile() . ' Line: ' . $e->getLine() . ' Message: ' . $e->getMessage());
 
-            $output = ['success' => 0,
+            $output = [
+                'success' => 0,
                 'msg' => __('lang_v1.something_went_wrong'),
             ];
         }
@@ -203,7 +220,7 @@ class CmsPageController extends Controller
     {
         //check if app is in demo & disable action
         $notAllowedInDemo = $this->commonUtil->notAllowedInDemo();
-        if (! empty($notAllowedInDemo)) {
+        if (!empty($notAllowedInDemo)) {
             return $notAllowedInDemo;
         }
 
@@ -212,22 +229,24 @@ class CmsPageController extends Controller
                 $post_type = request()->get('type');
 
                 $page = CmsPage::where('type', $post_type)
-                        ->findOrFail($id);
+                    ->findOrFail($id);
 
-                if (! empty($page->feature_image_path) && file_exists($page->feature_image_path)) {
+                if (!empty($page->feature_image_path) && file_exists($page->feature_image_path)) {
                     unlink($page->feature_image_path);
                 }
 
                 $page->delete();
 
-                $output = ['success' => true,
+                $output = [
+                    'success' => true,
                     'msg' => __('unit.deleted_success'),
                 ];
             } catch (\Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('File: ' . $e->getFile() . ' Line: ' . $e->getLine() . ' Message: ' . $e->getMessage());
 
-                $output = ['success' => false,
-                    'msg' => '__("messages.something_went_wrong")',
+                $output = [
+                    'success' => false,
+                    'msg' => __('messages.something_went_wrong'),
                 ];
             }
 

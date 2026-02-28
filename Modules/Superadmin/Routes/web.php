@@ -30,9 +30,10 @@ Route::middleware('web', 'auth', 'language', 'AdminSidebarMenu', 'superadmin')->
 
     Route::resource('/coupons', 'Modules\Superadmin\Http\Controllers\CouponController');
     Route::get('/coupons/{id}/destroy', [Modules\Superadmin\Http\Controllers\CouponController::class, 'destroy']);
-    
+
     Route::get('/settings', [Modules\Superadmin\Http\Controllers\SuperadminSettingsController::class, 'edit']);
     Route::put('/settings', [Modules\Superadmin\Http\Controllers\SuperadminSettingsController::class, 'update']);
+    Route::post('/settings/test-telegram', [Modules\Superadmin\Http\Controllers\SuperadminSettingsController::class, 'testTelegram'])->name('superadmin.telegram.test');
     Route::get('/edit-subscription/{id}', [Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController::class, 'editSubscription']);
     Route::post('/update-subscription', [Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController::class, 'updateSubscription']);
     Route::resource('/superadmin-subscription', 'Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController');
