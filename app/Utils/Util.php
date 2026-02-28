@@ -370,7 +370,7 @@ class Util
     /**
      * Checks if the given user is admin
      *
-     * @param  obj  $user
+     * @param  \App\User|\Illuminate\Foundation\Auth\User|object  $user
      * @param  int  $business_id
      * @return bool
      */

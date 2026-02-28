@@ -2,11 +2,20 @@
 set -e
 
 
-# 1. Starting UltimatePOS
-echo "🚀 Clean up and start building containers..."
-docker compose down --volumes
-docker compose up -d --build
+#1 Remove vendor folder & storage cache
+echo "🧹 Removing vendor folder & storage cache..."
+docker compose exec app rm -f bootstrap/cache/config.php 
+docker compose exec app rm -f bootstrap/cache/packages.php
+docker compose exec app rm -rf storage/framework/cache/*
+docker compose exec app rm -rf storage/framework/sessions/*
+docker compose exec app rm -rf storage/framework/views/*
+docker compose exec app rm -rf storage/framework/testing/*
+docker compose exec app rm -rf storage/framework/views/*
+docker compose exec app rm -rf vendor   
 
+# 2. Stop containers
+docker compose stop
+docker compose down --volumes
 
 # 3. Flush Redis (The Engine)
 # This ensures that queues and sessions stored in Redis are reset
@@ -18,8 +27,23 @@ else
 fi
 
 
+# 4. Starting UltimatePOS
+echo "🚀 Clean up and start building containers..."
+docker compose up -d --build
 
-# 4. Running database migrations and seeding...
+# 5. Install composer dependencies
+echo "🌱 Installing composer dependencies..."
+docker compose exec app composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-dev
+
+
+# 6. Link storage
+echo "🔗 Linking storage..."
+docker compose exec app php artisan storage:link
+
+
+
+
+# 7. Running database migrations and seeding...
 echo "⏳ Waiting for MySQL to be ready..."
 
 # Retry loop: Try to run a simple 'select 1' via artisan
@@ -40,14 +64,18 @@ done
 
 echo "✅ MySQL is ready!"
 
-echo "🌱 Running database migrations and seeding..."
-# 2. Clear Laravel Application Cache
+
+# 8. Clear Laravel Application Cache
 echo "🧹 Clearing Laravel components..."
 docker compose exec app php artisan view:clear
 docker compose exec app php artisan route:clear
 docker compose exec app php artisan config:clear
 docker compose exec app php artisan cache:clear
 docker compose exec app php artisan optimize:clear
+
+# 9. Migration and Seed data
+echo "🌱 Running database migrations and seeding..."
 docker compose exec app php artisan migrate:fresh --seed --force
 
+# 10. Done
 echo "🎉 Deployment complete!"

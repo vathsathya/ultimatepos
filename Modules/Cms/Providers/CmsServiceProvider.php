@@ -21,7 +21,7 @@ class CmsServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
         view::composer(['cms::frontend.layouts.navbar', 'cms::frontend.layouts.footer'], function ($view) {
             $__blog_count = CmsPage::getPagesCount('blog');
@@ -29,8 +29,8 @@ class CmsServiceProvider extends ServiceProvider
             $__seperate_menu_pages = CmsPage::getEnabledPages('page', 'seperate_menu');
 
             $logo = CmsSiteDetail::getValue('logo', false);
-            $__logo_url = 'https://ui-avatars.com/api/?size=60&rounded=true&bold=true&background=0A1F44&color=ffffff&name='.config('app.name');
-            if (! empty($logo) && $logo->logo_url) {
+            $__logo_url = 'https://ui-avatars.com/api/?size=60&rounded=true&bold=true&background=0A1F44&color=ffffff&name=' . config('app.name');
+            if (!empty($logo) && $logo->logo_url) {
                 $__logo_url = $logo->logo_url;
             }
 
@@ -61,10 +61,11 @@ class CmsServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('cms.php'),
+            __DIR__ . '/../Config/config.php' => config_path('cms.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'cms'
+            __DIR__ . '/../Config/config.php',
+            'cms'
         );
     }
 
@@ -77,14 +78,14 @@ class CmsServiceProvider extends ServiceProvider
     {
         $viewPath = resource_path('views/modules/cms');
 
-        $sourcePath = __DIR__.'/../Resources/views';
+        $sourcePath = __DIR__ . '/../Resources/views';
 
         $this->publishes([
             $sourcePath => $viewPath,
         ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path.'/modules/cms';
+            return $path . '/modules/cms';
         }, config('view.paths')), [$sourcePath]), 'cms');
     }
 
@@ -100,7 +101,7 @@ class CmsServiceProvider extends ServiceProvider
         if (is_dir($langPath)) {
             $this->loadTranslationsFrom($langPath, 'cms');
         } else {
-            $this->loadTranslationsFrom(__DIR__.'/../Resources/lang', 'cms');
+            $this->loadTranslationsFrom(__DIR__ . '/../Resources/lang', 'cms');
         }
     }
 
@@ -111,8 +112,10 @@ class CmsServiceProvider extends ServiceProvider
      */
     public function registerFactories()
     {
-        if (! app()->environment('production') && $this->app->runningInConsole()) {
-            app(Factory::class)->load(__DIR__.'/../Database/factories');
+        if (!app()->environment('production') && $this->app->runningInConsole()) {
+            if (class_exists(\Faker\Factory::class)) {
+                app(Factory::class)->load(__DIR__ . '/../Database/factories');
+            }
         }
     }
 
