@@ -58,7 +58,8 @@ RUN apk add --no-cache shadow \
 COPY . /var/www
 
 # Fix permissions for the mapped user correctly
-RUN chown -R www-data:www-data /var/www \
+RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
+    && chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage \
     && chmod -R 775 /var/www/bootstrap/cache
 

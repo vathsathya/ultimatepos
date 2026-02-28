@@ -30,10 +30,17 @@ docker compose down --volumes
 
 # 4. Starting UltimatePOS
 echo "🚀 Clean up and start building containers..."
-docker compose up -d --build
+export USER_ID=$(id -u)
+export GROUP_ID=$(id -g)
+docker compose build --build-arg USER_ID=${USER_ID} --build-arg GROUP_ID=${GROUP_ID}
+USER_ID=${USER_ID} GROUP_ID=${GROUP_ID} docker compose up -d
+
+# 5. Install composer dependencies (Do this before artisan commands)
+echo "🌱 Installing composer dependencies..."
+docker compose exec app composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-dev
 
 
-# 5. Running database migrations and seeding...
+# 6. Running database migrations and seeding...
 echo "⏳ Waiting for MySQL to be ready..."
 
 # Retry loop: Try to run a simple 'select 1' via artisan
@@ -53,11 +60,6 @@ until docker compose exec app php artisan db:monitor --databases=mysql > /dev/nu
 done
 
 echo "✅ MySQL is ready!"
-
-# 6. Install composer dependencies
-echo "🌱 Installing composer dependencies..."
-docker compose exec app composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-dev
-
 
 # 7. Link storage
 echo "🔗 Linking storage..."
