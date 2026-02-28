@@ -30,7 +30,7 @@ services:
     container_name: ultimate_pos_web
     restart: unless-stopped
     ports:
-      - "8000:80"
+      - "8080:80"
     volumes:
       - app_storage:/var/www/storage:ro
     networks:
