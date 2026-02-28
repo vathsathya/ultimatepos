@@ -1,0 +1,3 @@
+[submodule "packages/nwidart-laravel-menus"]
+	path = packages/nwidart-laravel-menus
+	url = https://github.com/nWidart/laravel-menus.git
