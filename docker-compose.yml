@@ -41,24 +41,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  web:
-    image: nginx:alpine
-    container_name: ultimate_pos_web
-    restart: unless-stopped
-    ports:
-      - "8001:80"
-    volumes:
-      - ./:/var/www:ro # Nginx only needs read access
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    networks:
-      - ultimate_pos_network
-    healthcheck:
-      # We check if port 80 is open/listening locally
-      test: [ "CMD-SHELL", "netstat -an | grep :80 || exit 1" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
 
+  # Application
   app:
     build:
       context: .
@@ -81,8 +65,33 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      web:
+    healthcheck:
+      test: [ "CMD", "php-fpm", "-t" ] # Simple check if FPM is alive
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
+  # Web Server (Nginx)
+  web:
+    image: nginx:alpine
+    container_name: ultimate_pos_web
+    restart: unless-stopped
+    ports:
+      - "8001:80"
+    volumes:
+      - ./:/var/www:ro # Nginx only needs read access
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - ultimate_pos_network
+    depends_on:
+      app:
         condition: service_healthy
+    healthcheck:
+      # We check if port 80 is open/listening locally
+      test: [ "CMD-SHELL", "netstat -an | grep :80 || exit 1" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
   # Queue Worker (Crucial for Telegram/WhatsApp alerts)
   worker:
