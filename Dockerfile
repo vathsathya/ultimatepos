@@ -1,7 +1,7 @@
 FROM php:8.3-fpm-alpine
 
-ARG USER_ID=1000
-ARG GROUP_ID=1000
+ARG USER_ID=1002
+ARG GROUP_ID=1002
 
 # Set working directory
 WORKDIR /var/www
@@ -51,23 +51,16 @@ COPY docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
 # Add shadow to modify the www-data UID/GID to match the host user, enabling seamless volume writes
 RUN apk add --no-cache shadow \
-    && usermod -o -u ${USER_ID:-1000} www-data \
-    && groupmod -o -g ${GROUP_ID:-1000} www-data
+    && usermod -u ${USER_ID} www-data \
+    && groupmod -g ${GROUP_ID} www-data
 
 # Copy existing application directory contents
 COPY . /var/www
 
 # Fix permissions for the mapped user correctly
-RUN mkdir -p /var/www/storage /var/www/bootstrap/cache \
-    && chown -R www-data:www-data /var/www \
+RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage \
     && chmod -R 775 /var/www/bootstrap/cache
-
-USER www-data
-
-RUN composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --no-dev --no-scripts \
-    && rm -rf public/storage \
-    && ln -s /var/www/storage/app/public /var/www/public/storage
 
 EXPOSE 9000
 
