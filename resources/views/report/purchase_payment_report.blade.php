@@ -43,7 +43,7 @@
                         {!! Form::text('date_range', null, ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'id' => 'ppr_date_filter', 'readonly']) !!}
                     </div>
                 </div>
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
             @endcomponent
         </div>
     </div>

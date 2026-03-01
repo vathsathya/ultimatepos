@@ -96,7 +96,7 @@
             <button class="tw-dw-btn tw-dw-btn-error tw-dw-btn-lg tw-text-white" type="submit">@lang('business.update_settings')</button>
         </div>
     </div>
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 </section>
 <!-- /.content -->
 @stop

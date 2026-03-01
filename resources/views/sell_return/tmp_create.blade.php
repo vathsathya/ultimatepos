@@ -226,7 +226,7 @@
 		</div>
 
 	</div><!--box end-->
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 </section>
 <!-- /.content -->
 @endsection

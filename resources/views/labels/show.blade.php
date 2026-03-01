@@ -255,7 +255,7 @@
 			</div>
 		</div>
 	@endcomponent
-	{!! Form::close() !!}
+	{{ html()->form()->close() }}
 
 	<div class="col-sm-8 hide display_label_div">
 		<h3 class="box-title">@lang( 'barcode.preview' )</h3>

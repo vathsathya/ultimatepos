@@ -143,7 +143,7 @@
 			<button type="button" id="submit_purchase_return_form" class="tw-dw-btn tw-dw-btn-primary tw-dw-btn-lg tw-text-white pull-right">@lang('messages.update')</button>
 		</div>
 	</div>
-	{!! Form::close() !!}
+	{{ html()->form()->close() }}
 </section>
 @stop
 @section('javascript')

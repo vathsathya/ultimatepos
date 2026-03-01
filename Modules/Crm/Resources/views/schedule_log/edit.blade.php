@@ -66,6 +66,6 @@
                     @lang('messages.update')
                 </button>
             </div>
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     </div>
 </div>

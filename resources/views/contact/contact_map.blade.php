@@ -26,7 +26,7 @@
             <div class="col-md-6">
                 <button type="submit" class="btn btn-primary">@lang('messages.submit')</button>
             </div>
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endcomponent
     @component('components.widget', ['class' => 'box-solid'])
         <script async defer src="https://maps.googleapis.com/maps/api/js?key={{$api_key}}"></script>

@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <button type="submit" class="tw-dw-btn tw-dw-btn-primary tw-text-white">@lang('messages.submit')</button>
                     </div>
-                    {!! Form::close() !!}
+                    {{ html()->form()->close() }}
                 </div>
                 <div class="col-sm-12">
                     <h4>@lang('lang_v1.instructions'):</h4>

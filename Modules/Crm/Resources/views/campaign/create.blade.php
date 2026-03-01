@@ -142,7 +142,7 @@
                     </span>
                 </button>
 
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         </div>
     </div>
 @stop

@@ -49,7 +49,7 @@
 							<div class="form-group row">
 								<button type="submit" class="btn btn-primary pull-right">@lang('messages.submit')</button>
 							</div>
-						{!! Form::close() !!}
+						{{ html()->form()->close() }}
 					</div>
 				</div>
 				<hr>

@@ -242,7 +242,7 @@
 		    </div>
 	     </div>
 
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
 	</section>
 @endsection
 @section('javascript')

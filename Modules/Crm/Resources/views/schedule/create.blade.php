@@ -123,6 +123,6 @@
                     @lang('messages.save')
                 </button>
             </div>
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     </div>
 </div>

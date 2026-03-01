@@ -143,7 +143,7 @@
 		</div>
 	</div>
 	
-	{!! Form::close() !!}
+	{{ html()->form()->close() }}
 </section>
 
 @include('sale_pos.partials.configure_search_modal')

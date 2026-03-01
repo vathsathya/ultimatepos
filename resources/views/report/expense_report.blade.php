@@ -36,7 +36,7 @@
                 <div class="col-sm-12">
                   <button type="submit" class="tw-dw-btn tw-dw-btn-primary tw-dw-btn-sm tw-text-white pull-right">@lang('report.apply_filters')</button>
                 </div> 
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
             @endcomponent
         </div>
     </div>

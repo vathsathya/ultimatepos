@@ -76,7 +76,7 @@
             </div>
         </div>
     </div>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </section>
 @stop
 @section('javascript')

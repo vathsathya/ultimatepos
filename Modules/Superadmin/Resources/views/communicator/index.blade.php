@@ -89,7 +89,7 @@
                                         <button type="submit" class="tw-dw-btn tw-dw-btn-error tw-text-white pull-right"
                                             id="send_message">@lang('superadmin::lang.send')</button>
                                     </div>
-                                    {!! Form::close() !!}
+                                    {{ html()->form()->close() }}
                                 </div>
                             </div>
                         </div>

@@ -63,7 +63,7 @@
         </div>
     </div>
 </div>
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 {!! Form::open(['url' => action([\App\Http\Controllers\UserController::class, 'updateProfile']), 'method' => 'post', 'id' => 'edit_user_profile_form', 'files' => true ]) !!}
 <div class="row">
     <div class="col-sm-8">
@@ -145,7 +145,7 @@
         <button type="submit" class="tw-dw-btn tw-dw-btn-primary tw-text-white tw-dw-btn-lg">@lang('messages.update')</button>
     </div>
 </div>
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 
 </section>
 <!-- /.content -->

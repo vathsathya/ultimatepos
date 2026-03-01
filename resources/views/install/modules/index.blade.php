@@ -52,7 +52,7 @@
                         </button>
                     </div>
                 </div>
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         @endcomponent()
     </div>
     <div class="col-md-12">

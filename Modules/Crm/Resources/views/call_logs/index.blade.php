@@ -60,7 +60,7 @@
                                 {!! Form::open(['url' => action([\Modules\Crm\Http\Controllers\CallLogController::class, 'massDestroy']), 'method' => 'post', 'id' => 'mass_delete_form']) !!}
                                 {!! Form::hidden('selected_rows', null, ['id' => 'selected_rows']) !!}
                                 {!! Form::submit(__('lang_v1.delete_selected'), array('class' => 'tw-dw-btn tw-dw-btn-outline tw-dw-btn-xs tw-dw-btn-error', 'id' => 'delete-selected')) !!}
-                                {!! Form::close() !!}
+                                {{ html()->form()->close() }}
                             </div>
                         </td>
                     </tr>

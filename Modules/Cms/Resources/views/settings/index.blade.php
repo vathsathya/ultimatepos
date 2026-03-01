@@ -76,7 +76,7 @@
                 <button type="submit" class="btn btn-primary submit-btn btn-lg">@lang('messages.submit')</button>
             </div>
         </div>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </section>
 
 @stop

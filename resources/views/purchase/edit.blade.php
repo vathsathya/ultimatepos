@@ -524,7 +524,7 @@
           <button type="button" id="submit_purchase_form" class="tw-dw-btn tw-dw-btn-primary tw-text-white tw-dw-btn-lg">@lang('messages.update')</button>
         </div>
     </div>
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 </section>
 <!-- /.content -->
 <!-- quick product modal -->

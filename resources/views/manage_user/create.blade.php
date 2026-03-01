@@ -201,7 +201,7 @@
       <button type="submit" class="tw-dw-btn tw-dw-btn-primary tw-dw-btn-lg tw-text-white" id="submit_user_button">@lang( 'messages.save' )</button>
     </div>
   </div>
-{!! Form::close() !!}
+{{ html()->form()->close() }}
   @stop
 @section('javascript')
 <script type="text/javascript">

@@ -172,7 +172,7 @@
       </div>
     </div>
   </div>
-  {!! Form::close() !!}
+  {{ html()->form()->close() }}
 </section>
 <!-- /.content -->
 @endsection

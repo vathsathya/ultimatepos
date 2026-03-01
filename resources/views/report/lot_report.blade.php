@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 @endif
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
             @endcomponent
         </div>
     </div>

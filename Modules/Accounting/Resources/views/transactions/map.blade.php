@@ -53,6 +53,6 @@
     <button type="button" class="tw-dw-btn tw-dw-btn-neutral tw-text-white" data-dismiss="modal">@lang('messages.cancel')</button>
 </div>
 
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 	</div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->

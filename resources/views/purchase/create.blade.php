@@ -575,7 +575,7 @@
 		</div>
 	@endcomponent
 
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 </section>
 <!-- quick product modal -->
 <div class="modal fade quick_add_product_modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle"></div>

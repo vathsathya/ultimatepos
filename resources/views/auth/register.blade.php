@@ -262,7 +262,7 @@
                         <button type="button" class="btn btn-success pull-right">Register</button>
                     </div>
 
-                    {!! Form::close() !!}
+                    {{ html()->form()->close() }}
 
                 </div>
                 <!-- /.box -->

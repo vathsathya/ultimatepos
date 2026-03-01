@@ -109,7 +109,7 @@
 								{!! Form::submit('Apply', ['class' => 'tw-dw-btn tw-dw-btn-success tw-text-white tw-dw-btn-sm']) !!}
 							</div>
 						</div>
-					{!! Form::close() !!}
+					{{ html()->form()->close() }}
 				</div>
 				<ul class="list-group">
 					@foreach($gateways as $k => $v)

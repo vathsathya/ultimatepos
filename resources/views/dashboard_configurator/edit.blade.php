@@ -49,7 +49,7 @@
 				@lang('messages.save')
 			</button>
 		</div>
-	{!! Form::close() !!}
+	{{ html()->form()->close() }}
 	
 </section>
 

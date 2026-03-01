@@ -17,7 +17,7 @@
 				<button type="submit" class="tw-dw-btn tw-dw-btn-primary tw-text-white ladda-button pull-right" data-style="expand-right">
                     <span class="ladda-label">@lang('messages.save')</span>
                 </button>
-			{!! Form::close() !!}
+			{{ html()->form()->close() }}
     	@endcomponent
 	</section>
 @endsection

@@ -62,7 +62,7 @@
                     {!! Form::select('ppr_brand_id', $brands, null, ['class' => 'form-control select2', 'style' => 'width:100%;', 'placeholder' => __('lang_v1.all')]) !!}
                 </div>
             </div>
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
             @endcomponent
         </div>
     </div>

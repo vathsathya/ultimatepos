@@ -1776,7 +1776,7 @@
         </div>
         </div>
 
-        {!! Form::close() !!}
+        {{ html()->form()->close() }}
     @endcomponent
 </section>
 <!-- /.content -->

@@ -32,7 +32,7 @@
                         {!! Form::text('register_report_date_range', null , ['placeholder' => __('lang_v1.select_a_date_range'), 'class' => 'form-control', 'id' => 'register_report_date_range', 'readonly']) !!}
                     </div>
                 </div>
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
             @endcomponent
         </div>
     </div>

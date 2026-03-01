@@ -889,7 +889,7 @@
 		@include('sale_pos.partials.recurring_invoice_modal')
 	@endif
 	
-	{!! Form::close() !!}
+	{{ html()->form()->close() }}
 </section>
 
 <div class="modal fade contact_modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">

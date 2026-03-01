@@ -13,6 +13,6 @@
 			<button type="button" class="tw-dw-btn tw-dw-btn-primary tw-text-white" id="add_opening_stock_btn">@lang('messages.save')</button>
 		    <button type="button" class="tw-dw-btn tw-dw-btn-neutral tw-text-white no-print" data-dismiss="modal">@lang( 'messages.close' )</button>
 		 </div>
-	 {!! Form::close() !!}
+	 {{ html()->form()->close() }}
 	</div>
 </div>

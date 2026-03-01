@@ -40,7 +40,7 @@
 				                  <button type="submit" class="btn btn-primary">@lang('messages.update')</button>
 				                </div>
 				             </div>
-						{!! Form::close() !!}
+						{{ html()->form()->close() }}
 					</div>
 					<div class="col-sm-3 text-center">
 						<button type="button" class="btn btn-danger" id="delete_booking" data-href="{{action([\App\Http\Controllers\Restaurant\BookingController::class, 'destroy'], [$booking->id])}}">@lang('restaurant.delete_booking')</button>

@@ -146,3 +146,17 @@ if (!function_exists('str_ordinal')) {
         return number_format($number) . $suffix;
     }
 }
+
+if (!function_exists('num_format')) {
+    function num_format($number)
+    {
+        return number_format((float) $number, session('business.currency_precision', 2), session('currency')['decimal_separator'], session('currency')['thousand_separator']);
+    }
+}
+
+if (!function_exists('format_quantity')) {
+    function format_quantity($number)
+    {
+        return number_format((float) $number, session('business.quantity_precision', 2), session('currency')['decimal_separator'], session('currency')['thousand_separator']);
+    }
+}

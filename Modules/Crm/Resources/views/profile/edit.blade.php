@@ -58,7 +58,7 @@
 		        </div>
 		    </div>
 		</div>
-	{!! Form::close() !!}
+	{{ html()->form()->close() }}
 	{!! Form::open(['url' => action([\Modules\Crm\Http\Controllers\ManageProfileController::class, 'updateProfile']), 'method' => 'post', 'id' => 'edit_contact_profile', 'files' => true ]) !!}
 		<div class="row">
 		    <div class="col-sm-8">
@@ -141,7 +141,7 @@
 		        <button type="submit" class="tw-dw-btn tw-dw-btn-primary tw-text-white pull-right">@lang('messages.update')</button>
 		    </div>
 		</div>
-	{!! Form::close() !!}
+	{{ html()->form()->close() }}
 </section>
 @endsection
 @section('javascript')

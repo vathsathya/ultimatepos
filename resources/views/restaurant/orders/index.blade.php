@@ -31,7 +31,7 @@
                         {!! Form::select('service_staff', $service_staff, request()->service_staff, ['class' => 'form-control select2', 'placeholder' => __('restaurant.select_service_staff'), 'id' => 'service_staff_id']) !!}
                     </div>
                 </div>
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
             </div>
         @endcomponent
     @endif

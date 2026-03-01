@@ -44,7 +44,7 @@
             <button type="submit" class="tw-dw-btn tw-dw-btn-error tw-dw-btn-lg tw-text-white">@lang('messages.save')</button>
         </div>
     </div>
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 
 </section>
 <!-- /.content -->

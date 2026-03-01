@@ -36,7 +36,7 @@
             ]) !!}
             @include('business.partials.register_form', ['is_register' => true])
             {!! Form::hidden('package_id', $package_id) !!}
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
             </div>
         </div>
     </div>

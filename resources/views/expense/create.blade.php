@@ -137,7 +137,7 @@
 	<div class="col-sm-12 text-center">
 		<button type="submit" class="tw-dw-btn tw-dw-btn-primary tw-dw-btn-lg tw-text-white">@lang('messages.save')</button>
 	</div>
-{!! Form::close() !!}
+{{ html()->form()->close() }}
 </section>
 @endsection
 @section('javascript')

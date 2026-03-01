@@ -64,7 +64,7 @@
                                                         'class' => 'tw-dw-btn tw-dw-btn-warning tw-text-white tw-dw-btn-xs',
                                                         'id' => 'deactivate-selected',
                                                     ]) !!}
-                                                    {!! Form::close() !!}
+                                                    {{ html()->form()->close() }}
                                                 </div>
                                             </td>
                                         </tr>

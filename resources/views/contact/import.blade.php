@@ -46,7 +46,7 @@
                         </div>
                     </div>
 
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
                 <br><br>
                 <div class="row">
                     <div class="col-sm-4">

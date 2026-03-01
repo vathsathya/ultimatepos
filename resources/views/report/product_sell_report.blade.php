@@ -83,7 +83,7 @@
                         {!! Form::text('end_time', @format_time($endDay), ['class' => 'form-control width-50 f-left', 'id' => 'product_sr_end_time']) !!}
                     </div>
                 </div>
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
             @endcomponent
         </div>
     </div>

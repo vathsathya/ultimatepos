@@ -90,7 +90,7 @@
                     {!! Form::submit(__('messages.submit'), ['class' => 'tw-dw-btn tw-dw-btn-success tw-text-white tw-dw-btn-lg']) !!}
                 </div>
 
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
             </div>
         </div>
 

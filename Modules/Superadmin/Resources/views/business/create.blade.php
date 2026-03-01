@@ -39,7 +39,7 @@
                     {!! Form::submit(__('messages.submit'), ['class' => 'btn btn-success btn-big']) !!}
                 </div>
                     
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
         </div> --}}
 
 
@@ -79,7 +79,7 @@
                     {!! Form::submit(__('messages.submit'), ['class' => 'tw-dw-btn tw-dw-btn-success tw-text-white tw-dw-btn-lg']) !!}
                 </div>
                     
-                {!! Form::close() !!}
+                {{ html()->form()->close() }}
 				</div>
 			</div>
 		</div>

@@ -193,7 +193,6 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ModuleAssetServiceProvider::class,
 
-        Collective\Html\HtmlServiceProvider::class,
         //Yajra\Datatables\DatatablesServiceProvider::class,
         // Spatie\Permission\PermissionServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
@@ -214,12 +213,11 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         'Carbon' => 'Carbon\Carbon',
-        'Charts' => ConsoleTVs\Charts\Facades\Charts::class,
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'Datatables' => Yajra\DataTables\Facades\DataTables::class,
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
+        'Form' => \App\Utils\Form::class,
+        'Html' => \App\Utils\Html::class,
         'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,
         'Menu' => App\Utils\Menu::class,

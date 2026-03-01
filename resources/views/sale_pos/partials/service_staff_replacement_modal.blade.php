@@ -97,6 +97,6 @@
                     <button type="button" class="tw-dw-btn tw-dw-btn-neutral tw-text-white" data-dismiss="modal">Close</button>
                 </div>
             </div>
-            {!! Form::close() !!}
+            {{ html()->form()->close() }}
         </div>
     </div>

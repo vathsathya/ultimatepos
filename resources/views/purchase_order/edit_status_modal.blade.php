@@ -32,5 +32,5 @@
             </button>
         </div>
     </div><!-- /.modal-content -->
-    {!! Form::close() !!}
+    {{ html()->form()->close() }}
 </div><!-- /.modal-dialog -->

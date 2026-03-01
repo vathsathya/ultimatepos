@@ -162,7 +162,7 @@
                                                                 <button type="button"
                                                                     class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline  tw-dw-btn-error delete_account_type">
                                                                     <i class="fa fa-trash"></i> @lang('messages.delete')</button>
-                                                                {!! Form::close() !!}
+                                                                {{ html()->form()->close() }}
                                                             </td>
                                                         </tr>
                                                         @foreach ($account_type->sub_types as $sub_type)
@@ -182,7 +182,7 @@
                                                                     <button type="button"
                                                                         class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline  tw-dw-btn-error delete_account_type">
                                                                         <i class="fa fa-trash"></i> @lang('messages.delete')</button>
-                                                                    {!! Form::close() !!}
+                                                                    {{ html()->form()->close() }}
                                                                 </td>
                                                             </tr>
                                                         @endforeach

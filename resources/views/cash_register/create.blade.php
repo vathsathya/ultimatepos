@@ -57,7 +57,7 @@
       <br><br><br>
     </div>
   </div>
-  {!! Form::close() !!}
+  {{ html()->form()->close() }}
 </section>
 <!-- /.content -->
 @endsection
