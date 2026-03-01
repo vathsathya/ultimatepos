@@ -5,16 +5,16 @@
 			title="{{$product->name}} @if($product->type == 'variable')- {{$product->variation}} @endif {{ '(' . $product->sub_sku . ')'}} @if(!empty($show_prices)) @lang('lang_v1.default') - @format_currency($product->selling_price) @foreach($product->group_prices as $group_price) @if(array_key_exists($group_price->price_group_id, $allowed_group_prices)) {{$allowed_group_prices[$group_price->price_group_id]}} - @format_currency($group_price->price_inc_tax) @endif @endforeach @endif">
 
 			<div class="image-container tw-h-24 tw-w-full tw-bg-gray-50 tw-border-b tw-border-gray-100" style="background-image: url(
-						@if(count($product->media) > 0)
-							{{$product->media->first()->display_url}}
-						@elseif(!empty($product->product_image))
-							{{asset('/uploads/img/' . rawurlencode($product->product_image))}}
-						@else
-							{{asset('/img/default.png')}}
-						@endif
-					);
-				background-repeat: no-repeat; background-position: center;
-				background-size: cover;">
+							@if(count($product->media) > 0)
+								{{$product->media->first()->display_url}}
+							@elseif(!empty($product->product_image))
+								{{asset('/uploads/img/' . rawurlencode($product->product_image))}}
+							@else
+								{{asset('/img/default.png')}}
+							@endif
+						);
+					background-repeat: no-repeat; background-position: center;
+					background-size: cover;">
 
 			</div>
 

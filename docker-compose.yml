@@ -53,6 +53,8 @@ services:
     working_dir: /var/www
     volumes:
       - ./:/var/www:delegated,Z # Faster I/O for PHP
+      - app_storage:/var/www/storage # Persists logs, sessions, and cache
+      - app_public_uploads:/var/www/public/uploads # Persists business logos/images
     networks:
       - ultimate_pos_network
     environment:
@@ -117,3 +119,5 @@ networks:
 volumes:
   db_data:
   redis_data:
+  app_storage:
+  app_public_uploads:
