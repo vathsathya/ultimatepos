@@ -1,5 +1,5 @@
 services:
-  # 1. The PHP-FPM Application
+  # 1. PHP-FPM Application (The Core)
   app:
     build:
       context: .
@@ -11,11 +11,17 @@ services:
     container_name: ultimate_pos_app
     user: ${USER_ID:-1000}:${GROUP_ID:-1000}
     restart: unless-stopped
-    working_dir: /var/www
+    shm_size: '256mb'
+    deploy:
+      resources:
+        limits:
+          memory: 1G # Prevent memory leaks from crashing host
     volumes:
-      - app_storage:/var/www/storage
-      - .:/var/www:delegated
-      - /var/www/vendor
+      - .:/var/www:delegated # Faster PHP execution
+      - app_storage:/var/www/storage:Z
+      - vendor_data:/var/www/vendor # Protects and speeds up dependencies
+      - type: tmpfs # RAM-based storage for framework cache
+        target: /var/www/bootstrap/cache
     networks:
       - ultimate_pos_network
     environment:
@@ -29,9 +35,8 @@ services:
       test: [ "CMD", "php", "artisan", "key:generate", "--show" ]
       interval: 10s
       timeout: 5s
-      retries: 3
 
-  # 2. The Nginx Web Server
+  # 2. Nginx Web Server (The Entrypoint)
   web:
     build:
       context: .
@@ -40,9 +45,13 @@ services:
     restart: unless-stopped
     ports:
       - "8001:80"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
     volumes:
-      - .:/var/www:ro
-      - app_storage:/var/www/storage:ro
+      - .:/var/www:ro,delegated
+      - app_storage:/var/www/storage:ro,Z
     networks:
       - ultimate_pos_network
     depends_on:
@@ -50,50 +59,59 @@ services:
         condition: service_healthy
     healthcheck:
       test: [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
-  # 3. MySQL Database
+  # 3. MySQL 8.0 (The Database)
   db:
     image: mysql:8.0
     container_name: ultimate_pos_db
     restart: unless-stopped
-    command: [ --innodb-buffer-pool-size=256M, --innodb-log-buffer-size=16M ]
+    command:
+      - --innodb-buffer-pool-size=512M
+      - --innodb-flush-log-at-trx-commit=2 # VITAL for POS speed
+      - --innodb-log-file-size=128M
+      - --skip-log-bin # Saves IOPS
+      - --performance-schema=OFF # Saves ~100MB RAM
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-homestead}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
       MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
       MYSQL_USER: ${DB_USERNAME:-homestead}
+    deploy:
+      resources:
+        limits:
+          memory: 1.5G
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql:Z
     networks:
       - ultimate_pos_network
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD" ]
       interval: 5s
-      timeout: 5s
-      retries: 5
 
-  # 4. Redis Cache
+  # 4. Redis (The Cache/Session layer)
   redis:
     image: redis:alpine
     container_name: ultimate_pos_redis
     restart: unless-stopped
+    command: [ "redis-server", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru", "--save", "" ]
     networks:
       - ultimate_pos_network
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
-      interval: 5s
 
   # 5. Background Worker
   worker:
     build: .
     container_name: ultimate_pos_worker
     restart: unless-stopped
-    command: php artisan queue:work --sleep=3 --tries=3
+    command: php artisan queue:work --sleep=3 --tries=3 --timeout=60
+    deploy:
+      resources:
+        limits:
+          memory: 512M
     volumes:
-      - app_storage:/var/www/storage
+      - app_storage:/var/www/storage:Z
+      - vendor_data:/var/www/vendor
     networks:
       - ultimate_pos_network
     depends_on:
@@ -118,5 +136,5 @@ networks:
 
 volumes:
   db_data:
-  redis_data:
   app_storage:
+  vendor_data:
