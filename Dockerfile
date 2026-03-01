@@ -17,8 +17,16 @@ RUN apk add --no-cache --virtual .build-deps \
 FROM composer:2 AS vendor
 WORKDIR /app
 COPY composer.json composer.lock ./
-# Note: No 'composer update'. We use 'install' to respect the lock file.
-RUN composer install --no-interaction --no-plugins --no-scripts --no-dev --prefer-dist --no-autoloader
+
+# ADD THIS FLAG: --ignore-platform-reqs
+RUN composer install \
+    --ignore-platform-reqs \
+    --no-interaction \
+    --no-plugins \
+    --no-scripts \
+    --no-dev \
+    --prefer-dist \
+    --no-autoloader
 
 # --- STAGE 3: Final Production Image ---
 FROM base
