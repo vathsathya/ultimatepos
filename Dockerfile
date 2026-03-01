@@ -43,6 +43,20 @@ RUN apk update && apk add --no-cache \
 # Copy Composer from the official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Set working directory
+WORKDIR /var/www
+
+# Copy composer files first for better caching
+COPY composer.json composer.lock ./
+
+# Install dependencies (ignoring scripts as they might depend on app code not yet copied)
+# Allow superuser to avoid permission issues during build
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN composer install --no-interaction --no-plugins --no-scripts --no-autoloader
+
+# Run update as requested by user (updates composer.lock and vendor)
+RUN composer update --no-interaction --no-plugins --no-scripts
+
 # Copy custom OPcache configuration
 COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
@@ -56,6 +70,9 @@ RUN apk add --no-cache shadow \
 
 # Copy existing application directory contents
 COPY . /var/www
+
+# Generate optimized autoloader after full code copy
+RUN composer dump-autoload --optimize
 
 # Fix permissions for the mapped user correctly
 RUN chown -R www-data:www-data /var/www \
