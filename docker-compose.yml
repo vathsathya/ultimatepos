@@ -33,7 +33,7 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
       MYSQL_USER: ${DB_USERNAME:-homestead}
     volumes:
-      - db_data:/var/lib/mysql
+      - ./docker/mysql/data:/var/lib/mysql
     networks:
       - ultimate_pos_network
     healthcheck:
@@ -53,9 +53,11 @@ services:
     restart: unless-stopped
     working_dir: /var/www
     volumes:
-      - ./:/var/www:delegated,Z # Faster I/O for PHP
-      - app_storage:/var/www/storage # Persists logs, sessions, and cache
-      - app_public_uploads:/var/www/public/uploads # Persists business logos/images
+      - ./:/var/www:delegated,Z
+      - app_storage:/var/www/storage
+      - app_public_uploads:/var/www/public/uploads
+      # IMPORTANT: Prevent host code from overwriting container-built vendors
+      - vendor_data:/var/www/vendor
     networks:
       - ultimate_pos_network
     environment:
@@ -125,7 +127,8 @@ networks:
     driver: bridge
 
 volumes:
-  db_data:
-  redis_data:
-  app_storage:
-  app_public_uploads:
+  db_data: # Database files
+  redis_data: # Redis persistence
+  app_storage: # Logs, session files
+  app_public_uploads: # Business logos/product images
+  vendor_data: # PHP libraries
