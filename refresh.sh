@@ -1,3 +1,7 @@
+#!/bin/bash
+
+echo "🚀 Update to latest files"
+
 # 1. Get the latest metadata from the remote repository
 git fetch --all
 
@@ -8,9 +12,6 @@ git reset --hard origin/main
 # 3. (Optional) Clean up untracked files or directories 
 # that were deleted in the repo but remain on the server
 git clean -fd
-
-
-#!/bin/bash
 
 echo "🚀 Starting UltimatePOS Deep Cache Clean..."
 
