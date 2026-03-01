@@ -11,9 +11,10 @@
                 <div class="tw-dw-drawer-content">
                     <!-- Page content here -->
                     <label for="my-drawer-4"
-                        class="tw-bg-indigo-50 hover:tw-bg-indigo-100 tw-transition-colors tw-duration-300 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 lg:tw-w-[98%] tw-w-full tw-flex tw-items-center tw-justify-center tw-gap-2 tw-text-base md:tw-text-sm tw-text-indigo-700 tw-font-semibold tw-rounded-xl tw-h-12 tw-cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="tw-w-5 icon icon-tabler icon-tabler-category-plus"
-                            width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                        class="tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 hover:tw-from-indigo-600 hover:tw-to-blue-600 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500 focus:tw-ring-offset-2 active:tw-from-indigo-700 active:tw-to-blue-700 lg:tw-w-[98%] tw-w-full tw-flex tw-items-center tw-justify-center tw-gap-1 tw-text-base md:tw-text-lg tw-text-white tw-font-semibold tw-rounded-xl tw-h-12 tw-cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="tw-w-5 icon icon-tabler icon-tabler-category-plus" width="44" height="44"
+                            viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none"
                             stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M4 4h6v6h-6zm10 0h6v6h-6zm-10 10h6v6h-6zm10 3h6m-3 -3v6" />
@@ -30,9 +31,9 @@
                                 class="tw-dw-btn tw-dw-btn-accent category-back tw-bg-transparent tw-border-2"
                                 style="display: none">
                                 <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="tw-w-5 icon icon-tabler icon-tabler-chevron-left" width="44" height="44"
-                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round">
+                                    class="tw-w-5 icon icon-tabler icon-tabler-chevron-left" width="44"
+                                    height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50"
+                                    fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M15 6l-6 6l6 6" />
                                 </svg>
@@ -47,23 +48,28 @@
 
                         </div>
                         <div class="row tw-mr-5">
-                            <div class="col-md-3 col-xs-12 tw-mb-7 tw-w-auto tw-h-auto tw-cursor-pointer main-category-div main-category no-print"
+                            <div class="col-md-3 col-xs-12 tw-mb-7 tw-w-auto  tw-h-auto tw-cursor-pointer  main-category-div main-category no-print"
                                 data-value="all" data-parent="0">
-                                <div class="tw-bg-white tw-border tw-border-gray-100 tw-rounded-2xl tw-shadow-sm hover:tw-shadow-md hover:tw--translate-y-1 tw-transition-all tw-duration-300 tw-cursor-pointer tw-text-sm md:tw-text-base tw-font-semibold tw-text-gray-700 tw-text-center tw-p-4 tw-flex tw-items-center tw-justify-center tw-h-full">
-                                    @lang('lang_v1.all_category')
+                                <div class="tw-dw-card tw-w-25 tw-bg-base-100 tw-shadow-sm tw-h-auto tw-shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] tw-bg-white hover:tw-bg-white/60 tw-cursor-pointer !tw-text-xs md:!tw-text-sm tw-font-semibold tw-text-center tw-border-2">
+                                    <div class="tw-dw-card-body">
+                                        <h4 class="tw-flex tw-items-center tw-justify-center" style="margin-bottom: 0px; margin-top:0px; font-size: inherit; font-weight: inherit;">@lang('lang_v1.all_category')</h4>
+                                    </div>
                                 </div>
                             </div>
                             @foreach ($categories as $category)
-                                    <div class="col-md-3 col-xs-12 tw-mb-7 tw-w-auto tw-h-auto tw-cursor-pointer main-category-div no-print"
+                                    <div class="col-md-3 col-xs-12 tw-mb-7 tw-w-auto  tw-h-28  tw-cursor-pointer main-category-div  no-print"
                                         data-value="{{ $category['id'] }}" data-name="{{ $category['name'] }}" data-parent="1">
-                                        <div class="tw-bg-white tw-border tw-border-gray-100 tw-rounded-2xl tw-shadow-sm hover:tw-shadow-md hover:tw--translate-y-1 tw-transition-all tw-duration-300 tw-flex tw-flex-col tw-h-full">
-                                            <div class="tw-p-4 tw-flex-grow tw-flex tw-items-center tw-justify-center tw-text-sm md:tw-text-base tw-font-semibold tw-text-gray-700 tw-text-center">
-                                                {{ $category['name'] }}
+                                        <div
+                                            class="tw-dw-card tw-w-25 tw-bg-base-100 tw-shadow-sm tw-h-auto tw-shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] tw-bg-white hover:tw-bg-white/60 tw-cursor-pointer tw-text-xs md:tw-text-sm tw-font-semibold !tw-text-center tw-border-2">
+                                            <div class="tw-dw-card-body" style="margin-bottom: -20px">
+                                                <h4 class="tw-flex tw-items-center tw-justify-center"
+                                                    style="margin-bottom: 0px; margin-top:0px; font-size: inherit; font-weight: inherit;">
+                                                    {{ $category['name'] }}</h4>
                                             </div>
-                                            <div class="tw-bg-gray-50 tw-rounded-b-2xl tw-p-2 tw-flex tw-justify-center tw-gap-2 tw-border-t tw-border-gray-100">
-                                                <button type="button" class="tw-text-xs tw-font-medium tw-text-indigo-600 hover:tw-text-indigo-800 tw-bg-indigo-50 hover:tw-bg-indigo-100 tw-px-3 tw-py-1.5 tw-rounded-lg tw-transition-colors main-category" data-value="{{ $category['id'] }}" data-parent="0">{{ __('lang_v1.all') }}</button>
+                                            <div class="tw-dw-card-actions tw-justify-center">
+                                                <button type="button" class="tw-dw-btn tw-dw-btn-accent tw-dw-btn-outline tw-dw-btn-sm main-category tw-mb-2" data-value="{{ $category['id'] }}" data-parent="0">{{ __('lang_v1.all') }}</button>
                                                 @if (!empty($category['sub_categories']))
-                                                <button type="button" class="tw-text-xs tw-font-medium tw-text-white tw-bg-indigo-600 hover:tw-bg-indigo-700 tw-px-3 tw-py-1.5 tw-rounded-lg tw-transition-colors main-category" data-parent="1" data-value="{{ $category['id'] }}" data-name="{{ $category['name'] }}">@lang('pagination.next')</button>
+                                                <button type="button" class="tw-dw-btn tw-dw-btn-primary tw-dw-btn-outline tw-dw-btn-sm main-category tw-mb-2" data-parent="1" data-value="{{ $category['id'] }}" data-name="{{ $category['name'] }}">@lang('pagination.next')</button>
                                                 @endif
                                             </div>
                                         </div>
@@ -76,8 +82,13 @@
                                             @if ($sc['parent_id'] != 0)
                                                 <div class="col-md-3 col-xs-12 tw-mb-5 tw-w-auto tw-h-auto tw-cursor-pointer product_category no-print"
                                                     data-value="{{ $sc['id'] }}">
-                                                    <div class="tw-bg-white tw-border tw-border-gray-100 tw-rounded-2xl tw-shadow-sm hover:tw-shadow-md hover:tw--translate-y-1 tw-transition-all tw-duration-300 tw-cursor-pointer tw-text-sm md:tw-text-base tw-font-semibold tw-text-gray-700 tw-text-center tw-p-4">
-                                                        {{ $sc['name'] }}
+                                                    <div
+                                                        class="tw-dw-card tw-w-25 tw-bg-base-100 tw-shadow-sm tw-h-auto tw-shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] tw-bg-white hover:tw-bg-white/60 tw-cursor-pointer tw-text-xs md:tw-text-sm tw-font-semibold tw-text-center tw-border-2">
+                                                        <div class="tw-dw-card-body">
+                                                            <h4 class="tw-flex tw-items-center tw-justify-center"
+                                                                style="margin-bottom: 0px; margin-top:0px; font-size: inherit; font-weight: inherit;">
+                                                                {{ $sc['name'] }}</h4>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             @endif
@@ -99,10 +110,10 @@
                 <div class="tw-dw-drawer-content">
                     <!-- Page content here -->
                     <label for="my-drawer-brand"
-                        class="tw-bg-indigo-50 hover:tw-bg-indigo-100 tw-transition-colors tw-duration-300 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-indigo-500 focus:tw-ring-offset-2 lg:tw-w-[98%] tw-w-full tw-flex tw-items-center tw-justify-center tw-gap-2 tw-text-base md:tw-text-sm tw-text-indigo-700 tw-font-semibold tw-rounded-xl tw-h-12 tw-cursor-pointer">
+                        class="tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 hover:tw-from-indigo-600 hover:tw-to-blue-600 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500 focus:tw-ring-offset-2 active:tw-from-indigo-700 active:tw-to-blue-700 lg:tw-w-[98%] tw-w-full tw-flex tw-items-center tw-justify-center tw-gap-1 tw-text-base md:tw-text-lg tw-text-white tw-font-semibold tw-rounded-xl tw-h-12 tw-cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" class="tw-w-5 icon icon-tabler icon-tabler-brand-beats"
-                            width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                            stroke-linecap="round" stroke-linejoin="round">
+                            width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                             <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                             <path d="M12.5 12.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0" />
@@ -130,8 +141,13 @@
                                 <div class="col-md-4 col-xs-12 tw-mb-5 tw-w-auto tw-h-auto tw-cursor-pointer product_brand no-print"
                                     data-value="{{ $key }}">
                                     <div
-                                        class="tw-bg-white tw-border tw-border-gray-100 tw-rounded-2xl tw-shadow-sm hover:tw-shadow-md hover:tw--translate-y-1 tw-transition-all tw-duration-300 tw-cursor-pointer tw-text-sm md:tw-text-base tw-font-semibold tw-text-gray-700 tw-text-center tw-p-4">
-                                        {{ $brand }}
+                                        class="tw-dw-card tw-w-25 tw-bg-base-100 tw-shadow-sm tw-h-auto tw-shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] tw-bg-white hover:tw-bg-white/60 tw-cursor-pointer tw-text-xs md:tw-text-sm tw-font-semibold tw-text-center tw-border-2">
+                                        <div class="tw-dw-card-body">
+                                            <h4 class="tw-flex tw-items-center tw-justify-center"
+                                                style="margin-bottom: 0px; margin-top:0px; font-size: inherit; font-weight: inherit;">
+                                                {{ $brand }}
+                                            </h4>
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -145,11 +161,11 @@
     <!-- used in repair : filter for service/product -->
     <div class="col-md-6 hide" id="product_service_div">
         {!! Form::select(
-    'is_enabled_stock',
-    ['' => __('messages.all'), 'product' => __('sale.product'), 'service' => __('lang_v1.service')],
-    null,
-    ['id' => 'is_enabled_stock', 'class' => 'select2', 'name' => null, 'style' => 'width:100% !important'],
-) !!}
+            'is_enabled_stock',
+            ['' => __('messages.all'), 'product' => __('sale.product'), 'service' => __('lang_v1.service')],
+            null,
+            ['id' => 'is_enabled_stock', 'class' => 'select2', 'name' => null, 'style' => 'width:100% !important'],
+        ) !!}
     </div>
 
     <div class="col-sm-4 @if (empty($featured_products)) hide @endif" id="feature_product_div">

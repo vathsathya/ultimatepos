@@ -241,7 +241,7 @@
                         <br>
                         <span>
                             @if(!empty($receipt_details->total_unformatted))
-							{{ app(\App\Utils\TransactionUtil::class)->numberToCurrencyWords($receipt_details->total_unformatted, 'ريالًا و', ' هللة فقط', 'ar') }}
+							{{ app(\App\Utils\TransactionUtil::class)->numberToCurrencyWords($receipt_details->total_unformatted, 'ريالًا و', ' هللة فقط', 'ar'); }}
                             @endif
                         </span>
                         </div>
