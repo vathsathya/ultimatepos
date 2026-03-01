@@ -7,15 +7,7 @@
     ],
     "license": "MIT",
     "type": "project",
-    "repositories": [
-        {
-            "type": "path",
-            "url": "packages/nwidart-laravel-menus",
-            "options": {
-                "symlink": true
-            }
-        }
-    ],
+    "repositories": [],
     "require": {
         "php": "^8.1",
         "aloha/twilio": "^4.0",
@@ -39,7 +31,6 @@
         "milon/barcode": "^10.0",
         "mpdf/mpdf": "^8.1",
         "myfatoorah/laravel-package": "^2.2",
-        "nwidart/laravel-menus": "@dev",
         "nwidart/laravel-modules": "^10.0",
         "openai-php/laravel": "^0.4.1",
         "propaganistas/laravel-disposable-email": "*",

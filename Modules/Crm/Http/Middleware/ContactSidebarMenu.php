@@ -6,7 +6,7 @@ use App\Business;
 use App\Contact;
 use Closure;
 use Illuminate\Http\Request;
-use Menu;
+use App\Utils\Menu;
 
 class ContactSidebarMenu
 {
@@ -23,14 +23,14 @@ class ContactSidebarMenu
             return $next($request);
         }
 
-        Menu::create('contact-sidebar-menu', function ($menu) {
+        \App\Utils\Menu::create('contact-sidebar-menu', function ($menu) {
             //retrieve contact type
             $contact = Contact::where('business_id', auth()->user()->business_id)
-                            ->findOrFail(auth()->user()->crm_contact_id);
+                ->findOrFail(auth()->user()->crm_contact_id);
 
             $crm_settings = Business::where('id', auth()->user()->business_id)
-                                ->value('crm_settings');
-            $crm_settings = ! empty($crm_settings) ? json_decode($crm_settings, true) : [];
+                ->value('crm_settings');
+            $crm_settings = !empty($crm_settings) ? json_decode($crm_settings, true) : [];
 
             $menu->url(action([\Modules\Crm\Http\Controllers\DashboardController::class, 'index']), __('home.home'), ['icon' => 'fa fas fa-tachometer-alt', 'active' => request()->segment(1) == 'contact' && request()->segment(2) == 'contact-dashboard'])->order(1);
 
@@ -41,14 +41,14 @@ class ContactSidebarMenu
             if (in_array($contact->type, ['customer', 'both'])) {
                 $menu->url(action([\Modules\Crm\Http\Controllers\SellController::class, 'getSellList']), __('lang_v1.all_sales'), ['icon' => 'fa fas fa-list', 'active' => request()->segment(1) == 'contact' && request()->segment(2) == 'contact-sells'])->order(3);
 
-                if (! empty($crm_settings['enable_order_request'])) {
+                if (!empty($crm_settings['enable_order_request'])) {
                     $menu->url(action([\Modules\Crm\Http\Controllers\OrderRequestController::class, 'index']), __('crm::lang.order_request'), ['icon' => 'fa fas fa-arrow-circle-up', 'active' => request()->segment(1) == 'contact' && request()->segment(2) == 'order-request'])->order(4);
                 }
             }
 
             $menu->url(action([\Modules\Crm\Http\Controllers\LedgerController::class, 'index']), __('lang_v1.ledger'), ['icon' => 'fas fa-scroll', 'active' => request()->segment(1) == 'contact' && request()->segment(2) == 'contact-ledger'])->order(3);
 
-            $enabled_modules = ! empty(session('business.enabled_modules')) ? session('business.enabled_modules') : [];
+            $enabled_modules = !empty(session('business.enabled_modules')) ? session('business.enabled_modules') : [];
 
             if (in_array('booking', $enabled_modules)) {
                 $menu->url(action([\Modules\Crm\Http\Controllers\ContactBookingController::class, 'index']), __('restaurant.bookings'), ['icon' => 'fas fa fa-calendar-check', 'active' => request()->segment(1) == 'bookings'])->order(3);

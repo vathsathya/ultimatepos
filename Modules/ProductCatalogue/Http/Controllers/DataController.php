@@ -4,7 +4,7 @@ namespace Modules\ProductCatalogue\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use App\Utils\ModuleUtil;
-use Menu;
+use App\Utils\Menu;
 
 class DataController extends Controller
 {
@@ -34,7 +34,7 @@ class DataController extends Controller
         $is_productcatalogue_enabled = (boolean)$module_util->hasThePermissionInSubscription($business_id, 'productcatalogue_module', 'superadmin_package');
 
         if ($is_productcatalogue_enabled) {
-            Menu::modify('admin-sidebar-menu', function ($menu) {
+            \App\Utils\Menu::modify('admin-sidebar-menu', function ($menu) {
                 $menu->url(
                         action('\Modules\ProductCatalogue\Http\Controllers\ProductCatalogueController@generateQr'),
                         __('productcatalogue::lang.catalogue_qr'),

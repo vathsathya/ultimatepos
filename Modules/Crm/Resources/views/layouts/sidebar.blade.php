@@ -9,7 +9,7 @@
 	</a>
 
     <!-- Sidebar Menu -->
-    {!! Menu::render('contact-sidebar-menu', 'adminltecustom') !!}
+    {!! \App\Utils\Menu::render('contact-sidebar-menu', 'adminltecustom') !!}
 
     <!-- /.sidebar-menu -->
   </section>

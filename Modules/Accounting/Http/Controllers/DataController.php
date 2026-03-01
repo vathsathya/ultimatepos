@@ -5,7 +5,7 @@ namespace Modules\Accounting\Http\Controllers;
 use App\Utils\ModuleUtil;
 use App\Utils\Util;
 use Illuminate\Routing\Controller;
-use Menu;
+use App\Utils\Menu;
 
 class DataController extends Controller
 {
@@ -41,7 +41,7 @@ class DataController extends Controller
         $is_admin = $commonUtil->is_admin(auth()->user(), $business_id);
 
         if (auth()->user()->can('accounting.access_accounting_module') && $is_accounting_enabled) {
-            Menu::modify(
+            \App\Utils\Menu::modify(
                 'admin-sidebar-menu',
                 function ($menu) {
                     $menu->url(action([\Modules\Accounting\Http\Controllers\AccountingController::class, 'dashboard']), __('accounting::lang.accounting'), ['icon' => '<svg aria-hidden="true" class="tw-size-5 tw-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">

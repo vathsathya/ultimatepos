@@ -2,10 +2,32 @@
 
 namespace App\Http;
 
-use Nwidart\Menus\Presenters\Presenter;
-
-class AdminlteCustomPresenter extends Presenter
+class AdminlteCustomPresenter
 {
+    protected $menu;
+
+    public function __construct($menu)
+    {
+        $this->menu = $menu;
+    }
+
+    public function render()
+    {
+        $html = $this->getOpenTagWrapper();
+
+        foreach ($this->menu->getItems() as $item) {
+            if (count($item->getChilds()) > 0) {
+                $html .= $this->getMenuWithDropDownWrapper($item);
+            } else {
+                $html .= $this->getMenuWithoutDropdownWrapper($item);
+            }
+        }
+
+        $html .= $this->getCloseTagWrapper();
+
+        return $html;
+    }
+
     /**
      * {@inheritdoc}.
      */
@@ -88,50 +110,26 @@ class AdminlteCustomPresenter extends Presenter
         // Compile child menu items
         $childItems = $this->getChildMenuItems($item);
 
-        // echo "here";
-        // print_r($dropdownToggle);exit;
-
         return '<div class="tw-mb-1">' . $dropdownToggle . $childItemsContainerStart . $childItems . $childItemsContainerEnd . '</div>' . PHP_EOL;
-    }
-
-    /**
-     * Get multi-level dropdown wrapper.
-     *
-     * Note: This example doesn't directly implement a multi-level dropdown, as it wasn't specified, but you could extend
-     * the functionality similarly to `getMenuWithDropDownWrapper`, adjusting for deeper nesting.
-     *
-     * @param  \Nwidart\Menus\MenuItem  $item
-     * @return string
-     */
-    public function getMultiLevelDropdownWrapper($item)
-    {
-        // Placeholder for multi-level dropdown functionality if needed
-        return '';
     }
 
     /**
      * Get child menu items.
      *
-     * @param  \Nwidart\Menus\MenuItem  $item
+     * @param  mixed  $item
      * @return string
      */
     public function getChildMenuItems($item)
     {
-
         $children = '';
         $displayStyle = $item->hasActiveOnChild() ? 'block' : 'none';
 
-
-
-
         if (count($item->getChilds()) > 0) {
-
             $children .= '<div class=" chiled tw-relative tw-mt-2 tw-mb-4 tw-pl-11" style="display:' . $displayStyle . '">
             <div class="tw-absolute tw-inset-y-0 tw-w-px tw-h-full tw-bg-gray-200 tw-left-5"></div>
             <div class="tw-space-y-3.5">';
 
             foreach ($item->getChilds() as $child) {
-
                 $isActive = $child->isActive() ? ' tw-text-primary-700' : '';
 
                 $children .= '<a href="' . $child->getUrl() . '" title="" class="tw-flex tw-text-sm tw-font-medium tw-tracking-tight tw-text-gray-600 tw-truncate tw-transition-all tw-duration-200 hover:tw-text-gray-900 tw-whitespace-nowrap' . $isActive . '" ' . $child->getAttributes() . '>' .
@@ -146,18 +144,16 @@ class AdminlteCustomPresenter extends Presenter
     }
 
     /**
-     * Returns the icon HTML. If the icon is SVG, it returns directly; otherwise, it assumes it's a FontAwesome class and wraps it in an <i> tag.
+     * Returns the icon HTML.
      *
      * @param string $icon
      * @return string
      */
     protected function formatIcon($icon)
     {
-        // Check if the icon string contains "<svg", indicating it's an SVG icon
         if (strpos($icon, '<svg') !== false) {
-            return $icon; // Return the SVG icon directly
+            return $icon;
         } else {
-            // Assume it's a FontAwesome icon and return it wrapped in an <i> tag
             return '<i class="' . $icon . '"></i>';
         }
     }
@@ -172,5 +168,3 @@ class AdminlteCustomPresenter extends Presenter
         }
     }
 }
-
-

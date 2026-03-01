@@ -5,7 +5,7 @@ namespace Modules\Superadmin\Http\Controllers;
 use App\System;
 use App\Utils\Util;
 use Illuminate\Routing\Controller;
-use Menu;
+use App\Utils\Menu;
 use Modules\Superadmin\Notifications\NewBusinessNotification;
 use Modules\Superadmin\Notifications\NewBusinessWelcomNotification;
 use Notification;
@@ -113,7 +113,7 @@ class DataController extends Controller
     public function modifyAdminMenu()
     {
         if (auth()->user()->can('superadmin')) {
-            Menu::modify(
+            \App\Utils\Menu::modify(
                 'admin-sidebar-menu',
                 function ($menu) {
                     $menu->url(action([\Modules\Superadmin\Http\Controllers\SuperadminController::class, 'index']), __('superadmin::lang.superadmin'), ['icon' => '<svg aria-hidden="true" class="tw-size-5 tw-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -133,7 +133,7 @@ class DataController extends Controller
         }
 
         if (auth()->user()->can('superadmin.access_package_subscriptions') && auth()->user()->can('business_settings.access')) {
-            $menu = Menu::instance('admin-sidebar-menu');
+            $menu = \App\Utils\Menu::instance('admin-sidebar-menu');
             $menu->whereTitle(__('business.settings'), function ($sub) {
                 $sub->url(
                     action([\Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'index']),

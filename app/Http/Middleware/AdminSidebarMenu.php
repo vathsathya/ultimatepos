@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Utils\ModuleUtil;
 use Closure;
-use Menu;
+use App\Utils\Menu;
 use Modules\CustomDashboard\Entities\CustomDashboard;
 
 class AdminSidebarMenu
@@ -32,7 +32,7 @@ class AdminSidebarMenu
         }
         self::$built = true;
 
-        Menu::create('admin-sidebar-menu', function ($menu) {
+        \App\Utils\Menu::create('admin-sidebar-menu', function ($menu) {
             $enabled_modules = !empty(session('business.enabled_modules')) ? session('business.enabled_modules') : [];
 
             $common_settings = !empty(session('business.common_settings')) ? session('business.common_settings') : [];

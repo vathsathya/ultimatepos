@@ -4,7 +4,7 @@ namespace Modules\Cms\Http\Controllers;
 
 use App\Utils\ModuleUtil;
 use Illuminate\Routing\Controller;
-use Menu;
+use App\Utils\Menu;
 
 class DataController extends Controller
 {
@@ -20,7 +20,7 @@ class DataController extends Controller
         $business_id = session()->get('user.business_id');
 
         if (auth()->user()->can('superadmin')) {
-            Menu::modify('admin-sidebar-menu', function ($menu) {
+            \App\Utils\Menu::modify('admin-sidebar-menu', function ($menu) {
                 $menu->url(
                     action([\Modules\Cms\Http\Controllers\CmsPageController::class, 'index'], ['type' => 'page']),
                     __('cms::lang.cms'),

@@ -9,7 +9,7 @@ use App\Utils\ModuleUtil;
 use App\Utils\Util;
 use DB;
 use Illuminate\Routing\Controller;
-use Menu;
+use App\Utils\Menu;
 use Modules\Crm\Entities\CrmContactPersonCommission;
 use Modules\Crm\Entities\Schedule;
 use Modules\Crm\Utils\CrmUtil;
@@ -143,7 +143,7 @@ class DataController extends Controller
         $is_admin = $commonUtil->is_admin(auth()->user(), $business_id);
 
         if ($is_crm_enabled) {
-            Menu::modify(
+            \App\Utils\Menu::modify(
                 'admin-sidebar-menu',
                 function ($menu) {
                     $menu->url(action([\Modules\Crm\Http\Controllers\CrmDashboardController::class, 'index']), __('crm::lang.crm'), ['icon' => '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-building-broadcast-tower"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M16.616 13.924a5 5 0 1 0 -9.23 0" /><path d="M20.307 15.469a9 9 0 1 0 -16.615 0" /><path d="M9 21l3 -9l3 9" /><path d="M10 19h4" /></svg>', 'style' => config('app.env') == 'demo' ? 'background-color: #8CAFD4; color:white' : '', 'active' => request()->segment(1) == 'crm' || request()->get('type') == 'life_stage' || request()->get('type') == 'source'])->order(86);
@@ -159,7 +159,7 @@ class DataController extends Controller
             $crm_settings = !empty($business->crm_settings) ? json_decode($business->crm_settings, true) : [];
 
             if (!empty($crm_settings['enable_order_request'])) {
-                $menu = Menu::instance('admin-sidebar-menu');
+                $menu = \App\Utils\Menu::instance('admin-sidebar-menu');
                 $menu->whereTitle(__('sale.sale'), function ($sub) {
                     if (empty($sub)) {
                         return false;
