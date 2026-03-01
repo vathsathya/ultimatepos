@@ -1,4 +1,5 @@
 services:
+  # 1. The PHP-FPM Application
   app:
     build:
       context: .
@@ -13,6 +14,8 @@ services:
     working_dir: /var/www
     volumes:
       - app_storage:/var/www/storage
+      - .:/var/www:delegated
+      - /var/www/vendor
     networks:
       - ultimate_pos_network
     environment:
@@ -22,7 +25,13 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "php", "artisan", "key:generate", "--show" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
+  # 2. The Nginx Web Server
   web:
     build:
       context: .
@@ -30,92 +39,78 @@ services:
     container_name: ultimate_pos_web
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8001:80"
     volumes:
+      - .:/var/www:ro
       - app_storage:/var/www/storage:ro
     networks:
       - ultimate_pos_network
     depends_on:
-      - app
+      app:
+        condition: service_healthy
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost/login" ]
-      interval: 30s
-      timeout: 10s
+      test: [ "CMD-SHELL", "curl -f http://localhost/ || exit 1" ]
+      interval: 10s
+      timeout: 5s
       retries: 3
 
+  # 3. MySQL Database
   db:
     image: mysql:8.0
     container_name: ultimate_pos_db
     restart: unless-stopped
-    command:
-      - --innodb-buffer-pool-size=256M
-      - --innodb-log-buffer-size=16M
-      - --max-connections=50
-      - --innodb-flush-log-at-trx-commit=2 # Slightly relax durability for speed
-      - --innodb-read-io-threads=4
-      - --innodb-write-io-threads=4
-      - --tmp-table-size=32M
-      - --max-heap-table-size=32M
+    command: [ --innodb-buffer-pool-size=256M, --innodb-log-buffer-size=16M ]
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:-homestead}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
       MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
       MYSQL_USER: ${DB_USERNAME:-homestead}
-    # ports:
-    #   - "3306:3306" # Maps Host 3306 to Container 3306
     volumes:
       - db_data:/var/lib/mysql
     networks:
       - ultimate_pos_network
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD" ]
-      interval: 10s
+      interval: 5s
       timeout: 5s
       retries: 5
 
+  # 4. Redis Cache
   redis:
     image: redis:alpine
     container_name: ultimate_pos_redis
     restart: unless-stopped
-    command: [ "redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "allkeys-lru", "--tcp-keepalive", "60", "--hz", "20", "--lazyfree-lazy-eviction", "yes", "--lazyfree-lazy-expire", "yes", "--activerehashing", "yes" ]
-    volumes:
-      - redis_data:/data
     networks:
       - ultimate_pos_network
     healthcheck:
       test: [ "CMD", "redis-cli", "ping" ]
       interval: 5s
-      timeout: 3s
 
-  # Queue Worker (Crucial for Telegram/WhatsApp alerts)
+  # 5. Background Worker
   worker:
-    build:
-      context: .
-      args:
-        USER_ID: ${USER_ID:-1000}
-        GROUP_ID: ${GROUP_ID:-1000}
+    build: .
     container_name: ultimate_pos_worker
     restart: unless-stopped
-    command: php artisan queue:work --sleep=3 --tries=3 --timeout=60 --max-jobs=500
+    command: php artisan queue:work --sleep=3 --tries=3
     volumes:
       - app_storage:/var/www/storage
     networks:
       - ultimate_pos_network
     depends_on:
-      - app
-      - redis
+      app:
+        condition: service_healthy
+
+  # 6. Cloudflare Tunnel
   tunnel:
     image: cloudflare/cloudflared:latest
     container_name: cloudflare_tunnel
     restart: unless-stopped
     command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
     networks:
       - ultimate_pos_network
     depends_on:
       web:
-        condition: service_healthy # Tunnel won't start until site is reachable
+        condition: service_healthy
 
 networks:
   ultimate_pos_network:
