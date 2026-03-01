@@ -1,84 +1,55 @@
-FROM php:8.3-fpm-alpine
+# --- STAGE 1: Build Base (PHP Extensions) ---
+FROM php:8.3-fpm-alpine AS base
 
+# Install core runtime dependencies (needed in final image)
+RUN apk add --no-cache \
+    libpng libjpeg-turbo freetype oniguruma libxml2 libzip icu-dev
+
+# Install build dependencies, compile extensions, then remove build-deps in ONE layer
+RUN apk add --no-cache --virtual .build-deps \
+    $PHPIZE_DEPS linux-headers libpng-dev libjpeg-turbo-dev freetype-dev oniguruma-dev libxml2-dev libzip-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) pdo_mysql mbstring exif pcntl bcmath gd intl zip opcache \
+    && pecl install redis && docker-php-ext-enable redis \
+    && apk del .build-deps
+
+# --- STAGE 2: Composer Build ---
+FROM composer:2 AS vendor
+WORKDIR /app
+COPY composer.json composer.lock ./
+# Note: No 'composer update'. We use 'install' to respect the lock file.
+RUN composer install --no-interaction --no-plugins --no-scripts --no-dev --prefer-dist --no-autoloader
+
+# --- STAGE 3: Final Production Image ---
+FROM base
 ARG USER_ID=1002
 ARG GROUP_ID=1002
 
-# Set working directory
 WORKDIR /var/www
 
-# Install system dependencies in a single layer to optimize image size
-RUN apk update && apk add --no-cache \
-    git \
-    curl \
-    libpng-dev \
-    libjpeg-turbo-dev \
-    freetype-dev \
-    oniguruma-dev \
-    libxml2-dev \
-    zip \
-    unzip \
-    libzip-dev \
-    icu-dev \
-    # Configure and install PHP extensions
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) \
-    pdo_mysql \
-    mbstring \
-    exif \
-    pcntl \
-    bcmath \
-    gd \
-    intl \
-    zip \
-    opcache \
-    # Install Redis extension via github tarball to bypass PECL network timeouts
-    && apk add --no-cache pcre-dev $PHPIZE_DEPS linux-headers \
-    && mkdir -p /usr/src/php/ext/redis \
-    && curl -fsSL https://github.com/phpredis/phpredis/archive/refs/tags/6.0.2.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip-components=1 \
-    && docker-php-ext-install redis \
-    && apk del pcre-dev $PHPIZE_DEPS linux-headers \
-    # Clean up apk cache to reduce image size
-    && rm -rf /var/cache/apk/*
+# 1. Handle user permissions without keeping 'shadow' in the image
+RUN apk add --no-cache shadow && \
+    usermod -u ${USER_ID} www-data && \
+    groupmod -g ${GROUP_ID} www-data && \
+    apk del shadow
 
-# Copy Composer from the official image
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Set working directory
-WORKDIR /var/www
-
-# Copy composer files first for better caching
-COPY composer.json composer.lock ./
-
-# Install dependencies (ignoring scripts as they might depend on app code not yet copied)
-# Allow superuser to avoid permission issues during build
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN composer install --no-interaction --no-plugins --no-scripts --no-autoloader
-
-# Run update as requested by user (updates composer.lock and vendor)
-RUN composer update --no-interaction --no-plugins --no-scripts
-
-# Copy custom OPcache configuration
+# 2. Copy optimized configurations
 COPY docker/php/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-
-# Copy tuned PHP-FPM pool configuration
 COPY docker/php/www.conf /usr/local/etc/php-fpm.d/www.conf
 
-# Add shadow to modify the www-data UID/GID to match the host user, enabling seamless volume writes
-RUN apk add --no-cache shadow \
-    && usermod -u ${USER_ID} www-data \
-    && groupmod -g ${GROUP_ID} www-data
+# 3. Copy vendor from the 'vendor' stage
+COPY --from=vendor /app/vendor /var/www/vendor
 
-# Copy existing application directory contents
-COPY . /var/www
+# 4. Copy application code
+COPY --chown=www-data:www-data . /var/www
 
-# Generate optimized autoloader after full code copy
-RUN composer dump-autoload --optimize
+# 5. Final Autoload Optimization (Uses the composer binary from the official image briefly)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+RUN composer dump-autoload --optimize --no-dev && rm /usr/bin/composer
 
-# Fix permissions for the mapped user correctly
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 775 /var/www/storage \
-    && chmod -R 775 /var/www/bootstrap/cache
+# 6. Set permissions
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
+USER www-data
 EXPOSE 9000
-
 CMD ["php-fpm"]

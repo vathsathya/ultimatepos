@@ -13,23 +13,4 @@ git reset --hard origin/main
 # that were deleted in the repo but remain on the server
 git clean -fd
 
-echo "🚀 Starting UltimatePOS Deep Cache Clean..."
-
-# 4. Clear Laravel Application Cache
-echo "🧹 Clearing Laravel components..."
-
-docker compose exec app composer install --no-interaction --no-plugins --no-scripts --no-autoloader
-
-# Run update as requested by user (updates composer.lock and vendor)
-docker compose exec app composer update --no-interaction --no-plugins --no-scripts
-
-
-# 5. Restart Docker (only stateless services — keep DB running to avoid health-check delays)
-echo "🔄 Restarting Docker containers..."
-docker compose restart web app redis worker
-# 6. Wait for app to be healthy before declaring success
-echo "⏳ Waiting for app to be ready..."
-sleep 5
-docker compose ps
-
 echo "✅ Restart complete!"
