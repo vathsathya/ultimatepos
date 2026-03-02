@@ -13,4 +13,17 @@ git reset --hard origin/main
 # that were deleted in the repo but remain on the server
 git clean -fd
 
+
+# 1. Clear Laravel Application Cache
+echo "🧹 Clearing Laravel components..."
+docker compose exec app php artisan view:clear
+docker compose exec app php artisan route:clear
+docker compose exec app php artisan config:clear
+docker compose exec app php artisan cache:clear
+docker compose exec app php artisan optimize:clear
+
+#2. Restart Services
+echo "🔄 Restarting services..."
+docker compose restart
+
 echo "✅ Restart complete!"
