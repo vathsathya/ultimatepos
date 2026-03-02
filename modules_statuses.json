@@ -2,6 +2,7 @@
     "Accounting": true,
     "Cms": true,
     "Crm": true,
+    "Manufacturing": true,
     "ProductCatalogue": true,
     "Superadmin": true,
     "Telegram": true

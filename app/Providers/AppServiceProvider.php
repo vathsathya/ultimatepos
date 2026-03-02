@@ -245,6 +245,9 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        if ($this->app->environment('local') && class_exists('Barryvdh\Debugbar\ServiceProvider')) {
+            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
+        }
     }
 
     /**
