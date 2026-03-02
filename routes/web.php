@@ -462,8 +462,16 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
         Route::get('/print-line-order', [Restaurant\OrderController::class, 'printLineOrder']);
     });
 
-    Route::get('bookings/get-todays-bookings', [Restaurant\BookingController::class, 'getTodaysBookings']);
-    Route::resource('bookings', Restaurant\BookingController::class);
+    // Route::resource('bookings', Restaurant\BookingController::class);
+    // Route::get('bookings/get-todays-bookings', [Restaurant\BookingController::class, 'getTodaysBookings']);
+    Route::name('restaurant.')->group(function () {
+        // 1. Static route goes FIRST
+        Route::get('bookings/get-todays-bookings', [Restaurant\BookingController::class, 'getTodaysBookings'])
+            ->name('bookings.today');
+
+        // 2. Resource goes SECOND
+        Route::resource('bookings', Restaurant\BookingController::class);
+    });
 
     Route::resource('types-of-service', TypesOfServiceController::class);
     Route::get('sells/edit-shipping/{id}', [SellController::class, 'editShipping']);
