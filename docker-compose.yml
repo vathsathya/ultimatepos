@@ -113,18 +113,6 @@ services:
     depends_on:
       - app
       - redis
-  # tunnel:
-  #   image: cloudflare/cloudflared:latest
-  #   container_name: cloudflare_tunnel
-  #   restart: unless-stopped
-  #   command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-  #   environment:
-  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-  #   networks:
-  #     - ultimate_pos_network
-  #   depends_on:
-  #     web:
-  #       condition: service_healthy # Tunnel won't start until site is reachable
 
 networks:
   ultimate_pos_network:

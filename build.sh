@@ -1,73 +1,46 @@
 #!/bin/bash
 set -e
 
+# Define production files
+COMPOSE_PROD="-f docker-compose.yml -f docker-compose.prod.yml"
 
-# 1 Initialize Git Submodules
-echo "📦 Initializing submodules..."
-git submodule update --init --recursive
+echo "🚀 Starting Production Deployment..."
 
-# 2 Remove vendor folder & storage cache
-echo "🧹 Removing vendor folder & storage cache..."
-rm -f bootstrap/cache/config.php 
-rm -f bootstrap/cache/packages.php
-rm -rf storage/framework/cache/*
-rm -rf storage/framework/sessions/*
-rm -rf storage/framework/views/*
-rm -rf storage/framework/testing/*
-rm -rf storage/framework/views/*
-rm -rf vendor
+# 1. Build and Start (No 'down' to avoid data loss and high downtime)
+docker compose $COMPOSE_PROD up -d --build
 
-# 3. Flush Redis (The Engine)
-# This ensures that queues and sessions stored in Redis are reset
-if docker compose ps | grep -q "pos_redis"; then
-    echo "⚡ Flushing Redis cache..."
-    docker compose exec redis redis-cli flushall
-else
-    echo "⚠️ Redis container not found, skipping flush."
-fi
+# 2. Wait for App Health
+echo "⏳ Waiting for 'app' to be healthy..."
 
 
-# 4. Stop containers
-docker compose stop
-docker compose down --volumes
-
-
-# 5. Starting UltimatePOS
-echo "🚀 Clean up and start building containers..."
-export USER_ID=$(id -u)
-export GROUP_ID=$(id -g)
-docker compose build --build-arg USER_ID=${USER_ID} --build-arg GROUP_ID=${GROUP_ID}
-USER_ID=${USER_ID} GROUP_ID=${GROUP_ID} docker compose up -d
-
-# 6. Running database migrations and seeding...
-echo "⏳ Waiting for MySQL to be ready..."
-
-# Retry loop: Try to run a simple 'select 1' via artisan
-# If it fails, wait 2 seconds and try again.
 MAX_RETRIES=30
 COUNT=0
-
-until docker compose exec app php artisan db:monitor --databases=mysql > /dev/null 2>&1; do
-    if [ $COUNT -eq $MAX_RETRIES ]; then
-        echo "❌ Error: MySQL took too long to start. Exiting."
-        exit 1
+while [ "$COUNT" -lt "$MAX_RETRIES" ]; do
+    STATUS=$(docker inspect --format='{{.State.Health.Status}}' $(docker compose ps -q app) 2>/dev/null || echo "starting")
+    
+    if [ "$STATUS" == "healthy" ]; then
+        echo "✅ App is healthy!"
+        break
     fi
-
-    echo "  ...MySQL is still initializing ($((COUNT+1))/$MAX_RETRIES)..."
+    
+    echo "Current status: $STATUS... (Attempt $((COUNT+1))/$MAX_RETRIES)"
     sleep 2
     COUNT=$((COUNT+1))
 done
 
-echo "✅ MySQL is ready!"
+if [ "$STATUS" != "healthy" ]; then
+    echo "❌ Error: App failed to start."
+    docker compose $COMPOSE_PROD logs app --tail=20
+    exit 1
+fi
 
-# 7. Discover packages and Clear Laravel Caches (requires Redis alive)
-echo "🧹 Discovering packages and clearing caches..."
-docker compose exec app php artisan package:discover --ansi
-docker compose exec app php artisan optimize:clear
+# 3. Laravel Tasks
+echo "🔄 Running migrations and optimization..."
+docker compose $COMPOSE_PROD exec app php artisan migrate --force
+docker compose $COMPOSE_PROD exec app php artisan module:publish
+docker compose $COMPOSE_PROD exec app php artisan optimize
 
-# 8. Migration and Seed data
-echo "🌱 Running database migrations and seeding..."
-docker compose exec app php artisan migrate:fresh --seed --force
+# 4. Clean up old images (Safe)
+docker image prune -f
 
-# 10. Done
-echo "🎉 Deployment complete!"
+echo "🎉 Deployment complete with Cloudflare Tunnel!"
