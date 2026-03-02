@@ -20,17 +20,11 @@ git clean -fd
 # 'optimize' clears AND re-caches everything in one command.
 echo "⚡ Optimizing Laravel performance..."
 docker compose $COMPOSE_PROD exec app php artisan optimize
-docker compose $COMPOSE_PROD exec app php artisan view:cache
-docker compose $COMPOSE_PROD exec app php artisan event:cache
 
 # 4. Graceful Reload (The "Pro" Alternative to Restart)
 # Instead of 'restart', we reload PHP-FPM and Nginx to pick up new files
 echo "🔄 Reloading services without downtime..."
-docker compose $COMPOSE_PROD kill -s SIGUSR2 app   # Tells PHP-FPM to reload gracefully
-docker compose $COMPOSE_PROD exec web nginx -s reload
+docker compose restart
 
-# 5. Run Migrations (Safe)
-# Always check for new migrations after a code refresh
-docker compose $COMPOSE_PROD exec app php artisan migrate --force
 
 echo "✅ Refresh complete and performance tuned!"
