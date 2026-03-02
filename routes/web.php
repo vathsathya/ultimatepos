@@ -85,6 +85,8 @@ Route::middleware(['setData'])->group(function () {
     Route::post('/business/register', [BusinessController::class, 'postRegister'])->name('business.postRegister');
     Route::post('/business/register/check-username', [BusinessController::class, 'postCheckUsername'])->name('business.postCheckUsername');
     Route::post('/business/register/check-email', [BusinessController::class, 'postCheckEmail'])->name('business.postCheckEmail');
+    Route::get('/business/get-states', [BusinessController::class, 'getStates'])->name('business.getStates');
+    Route::get('/business/get-cities', [BusinessController::class, 'getCities'])->name('business.getCities');
 
     Route::get('/invoice/{token}', [SellPosController::class, 'showInvoice'])
         ->name('show_invoice');

@@ -13,11 +13,15 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
 
+use App\Utils\LocationUtil;
+
 class BusinessLocationController extends Controller
 {
     protected $moduleUtil;
 
     protected $commonUtil;
+
+    protected $locationUtil;
 
     /**
      * Constructor
@@ -25,10 +29,11 @@ class BusinessLocationController extends Controller
      * @param  ModuleUtil  $moduleUtil
      * @return void
      */
-    public function __construct(ModuleUtil $moduleUtil, Util $commonUtil)
+    public function __construct(ModuleUtil $moduleUtil, Util $commonUtil, LocationUtil $locationUtil)
     {
         $this->moduleUtil = $moduleUtil;
         $this->commonUtil = $commonUtil;
+        $this->locationUtil = $locationUtil;
     }
 
     /**
@@ -38,7 +43,7 @@ class BusinessLocationController extends Controller
      */
     public function index()
     {
-        if (! auth()->user()->can('business_settings.access')) {
+        if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -70,8 +75,21 @@ class BusinessLocationController extends Controller
                     '=',
                     'spg.id'
                 )
-                ->select(['business_locations.name', 'location_id', 'landmark', 'city', 'zip_code', 'state',
-                    'country', 'business_locations.id', 'spg.name as price_group', 'ic.name as invoice_scheme', 'il.name as invoice_layout', 'sil.name as sale_invoice_layout', 'business_locations.is_active', ]);
+                ->select([
+                    'business_locations.name',
+                    'location_id',
+                    'landmark',
+                    'city',
+                    'zip_code',
+                    'state',
+                    'country',
+                    'business_locations.id',
+                    'spg.name as price_group',
+                    'ic.name as invoice_scheme',
+                    'il.name as invoice_layout',
+                    'sil.name as sale_invoice_layout',
+                    'business_locations.is_active',
+                ]);
 
             $permitted_locations = auth()->user()->permitted_locations();
             if ($permitted_locations != 'all') {
@@ -103,25 +121,25 @@ class BusinessLocationController extends Controller
      */
     public function create()
     {
-        if (! auth()->user()->can('business_settings.access')) {
+        if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
         $business_id = request()->session()->get('user.business_id');
 
         //Check if subscribed or not, then check for location quota
-        if (! $this->moduleUtil->isSubscribed($business_id)) {
+        if (!$this->moduleUtil->isSubscribed($business_id)) {
             return $this->moduleUtil->expiredResponse();
-        } elseif (! $this->moduleUtil->isQuotaAvailable('locations', $business_id)) {
+        } elseif (!$this->moduleUtil->isQuotaAvailable('locations', $business_id)) {
             return $this->moduleUtil->quotaExpiredResponse('locations', $business_id);
         }
 
         $invoice_layouts = InvoiceLayout::where('business_id', $business_id)
-                            ->get()
-                            ->pluck('name', 'id');
+            ->get()
+            ->pluck('name', 'id');
 
         $invoice_schemes = InvoiceScheme::where('business_id', $business_id)
-                            ->get()
-                            ->pluck('name', 'id');
+            ->get()
+            ->pluck('name', 'id');
 
         $price_groups = SellingPriceGroup::forDropdown($business_id);
 
@@ -133,14 +151,17 @@ class BusinessLocationController extends Controller
             $accounts = Account::forDropdown($business_id, true, false);
         }
 
+        $countries = $this->locationUtil->allCountries();
+
         return view('business_location.create')
-                    ->with(compact(
-                        'invoice_layouts',
-                        'invoice_schemes',
-                        'price_groups',
-                        'payment_types',
-                        'accounts'
-                    ));
+            ->with(compact(
+                'invoice_layouts',
+                'invoice_schemes',
+                'price_groups',
+                'payment_types',
+                'accounts',
+                'countries'
+            ));
     }
 
     /**
@@ -151,7 +172,7 @@ class BusinessLocationController extends Controller
      */
     public function store(Request $request)
     {
-        if (! auth()->user()->can('business_settings.access')) {
+        if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -159,18 +180,40 @@ class BusinessLocationController extends Controller
             $business_id = $request->session()->get('user.business_id');
 
             //Check if subscribed or not, then check for location quota
-            if (! $this->moduleUtil->isSubscribed($business_id)) {
+            if (!$this->moduleUtil->isSubscribed($business_id)) {
                 return $this->moduleUtil->expiredResponse();
-            } elseif (! $this->moduleUtil->isQuotaAvailable('locations', $business_id)) {
+            } elseif (!$this->moduleUtil->isQuotaAvailable('locations', $business_id)) {
                 return $this->moduleUtil->quotaExpiredResponse('locations', $business_id);
             }
 
-            $input = $request->only(['name', 'landmark', 'city', 'state', 'country', 'zip_code', 'invoice_scheme_id',
-                'invoice_layout_id', 'mobile', 'alternate_number', 'email', 'website', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'location_id', 'selling_price_group_id', 'default_payment_accounts', 'featured_products', 'sale_invoice_layout_id', 'sale_invoice_scheme_id']);
+            $input = $request->only([
+                'name',
+                'landmark',
+                'city',
+                'state',
+                'country',
+                'zip_code',
+                'invoice_scheme_id',
+                'invoice_layout_id',
+                'mobile',
+                'alternate_number',
+                'email',
+                'website',
+                'custom_field1',
+                'custom_field2',
+                'custom_field3',
+                'custom_field4',
+                'location_id',
+                'selling_price_group_id',
+                'default_payment_accounts',
+                'featured_products',
+                'sale_invoice_layout_id',
+                'sale_invoice_scheme_id'
+            ]);
 
             $input['business_id'] = $business_id;
 
-            $input['default_payment_accounts'] = ! empty($input['default_payment_accounts']) ? json_encode($input['default_payment_accounts']) : null;
+            $input['default_payment_accounts'] = !empty($input['default_payment_accounts']) ? json_encode($input['default_payment_accounts']) : null;
 
             //Update reference count
             $ref_count = $this->moduleUtil->setAndGetReferenceCount('business_location');
@@ -182,15 +225,17 @@ class BusinessLocationController extends Controller
             $location = BusinessLocation::create($input);
 
             //Create a new permission related to the created location
-            Permission::create(['name' => 'location.'.$location->id]);
+            Permission::create(['name' => 'location.' . $location->id]);
 
-            $output = ['success' => true,
+            $output = [
+                'success' => true,
                 'msg' => __('business.business_location_added_success'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => false,
+            $output = [
+                'success' => false,
                 'msg' => __('messages.something_went_wrong'),
             ];
         }
@@ -217,19 +262,19 @@ class BusinessLocationController extends Controller
      */
     public function edit($id)
     {
-        if (! auth()->user()->can('business_settings.access')) {
+        if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
 
         $business_id = request()->session()->get('user.business_id');
         $location = BusinessLocation::where('business_id', $business_id)
-                                    ->find($id);
+            ->find($id);
         $invoice_layouts = InvoiceLayout::where('business_id', $business_id)
-                            ->get()
-                            ->pluck('name', 'id');
+            ->get()
+            ->pluck('name', 'id');
         $invoice_schemes = InvoiceScheme::where('business_id', $business_id)
-                            ->get()
-                            ->pluck('name', 'id');
+            ->get()
+            ->pluck('name', 'id');
 
         $price_groups = SellingPriceGroup::forDropdown($business_id);
 
@@ -242,16 +287,23 @@ class BusinessLocationController extends Controller
         }
         $featured_products = $location->getFeaturedProducts(true, false);
 
+        $countries = $this->locationUtil->allCountries();
+        $states = !empty($location->country) ? $this->locationUtil->getStates($location->country) : [];
+        $cities = !empty($location->state) ? $this->locationUtil->getCities($location->state) : [];
+
         return view('business_location.edit')
-                ->with(compact(
-                    'location',
-                    'invoice_layouts',
-                    'invoice_schemes',
-                    'price_groups',
-                    'payment_types',
-                    'accounts',
-                    'featured_products'
-                ));
+            ->with(compact(
+                'location',
+                'invoice_layouts',
+                'invoice_schemes',
+                'price_groups',
+                'payment_types',
+                'accounts',
+                'featured_products',
+                'countries',
+                'states',
+                'cities'
+            ));
     }
 
     /**
@@ -263,32 +315,55 @@ class BusinessLocationController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (! auth()->user()->can('business_settings.access')) {
+        if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
 
         try {
-            $input = $request->only(['name', 'landmark', 'city', 'state', 'country',
-                'zip_code', 'invoice_scheme_id',
-                'invoice_layout_id', 'mobile', 'alternate_number', 'email', 'website', 'custom_field1', 'custom_field2', 'custom_field3', 'custom_field4', 'location_id', 'selling_price_group_id', 'default_payment_accounts', 'featured_products', 'sale_invoice_layout_id', 'sale_invoice_scheme_id' ]);
+            $input = $request->only([
+                'name',
+                'landmark',
+                'city',
+                'state',
+                'country',
+                'zip_code',
+                'invoice_scheme_id',
+                'invoice_layout_id',
+                'mobile',
+                'alternate_number',
+                'email',
+                'website',
+                'custom_field1',
+                'custom_field2',
+                'custom_field3',
+                'custom_field4',
+                'location_id',
+                'selling_price_group_id',
+                'default_payment_accounts',
+                'featured_products',
+                'sale_invoice_layout_id',
+                'sale_invoice_scheme_id'
+            ]);
 
             $business_id = $request->session()->get('user.business_id');
 
-            $input['default_payment_accounts'] = ! empty($input['default_payment_accounts']) ? json_encode($input['default_payment_accounts']) : null;
+            $input['default_payment_accounts'] = !empty($input['default_payment_accounts']) ? json_encode($input['default_payment_accounts']) : null;
 
-            $input['featured_products'] = ! empty($input['featured_products']) ? json_encode($input['featured_products']) : null;
+            $input['featured_products'] = !empty($input['featured_products']) ? json_encode($input['featured_products']) : null;
 
             BusinessLocation::where('business_id', $business_id)
-                            ->where('id', $id)
-                            ->update($input);
+                ->where('id', $id)
+                ->update($input);
 
-            $output = ['success' => true,
+            $output = [
+                'success' => true,
                 'msg' => __('business.business_location_updated_success'),
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => false,
+            $output = [
+                'success' => false,
                 'msg' => __('messages.something_went_wrong'),
             ];
         }
@@ -318,13 +393,13 @@ class BusinessLocationController extends Controller
         $location_id = $request->input('location_id');
 
         $valid = 'true';
-        if (! empty($location_id)) {
+        if (!empty($location_id)) {
             $business_id = $request->session()->get('user.business_id');
             $hidden_id = $request->input('hidden_id');
 
             $query = BusinessLocation::where('business_id', $business_id)
-                            ->where('location_id', $location_id);
-            if (! empty($hidden_id)) {
+                ->where('location_id', $location_id);
+            if (!empty($hidden_id)) {
                 $query->where('id', '!=', $hidden_id);
             }
             $count = $query->count();
@@ -344,7 +419,7 @@ class BusinessLocationController extends Controller
      */
     public function activateDeactivateLocation($location_id)
     {
-        if (! auth()->user()->can('business_settings.access')) {
+        if (!auth()->user()->can('business_settings.access')) {
             abort(403, 'Unauthorized action.');
         }
 
@@ -352,20 +427,22 @@ class BusinessLocationController extends Controller
             $business_id = request()->session()->get('user.business_id');
 
             $business_location = BusinessLocation::where('business_id', $business_id)
-                            ->findOrFail($location_id);
+                ->findOrFail($location_id);
 
-            $business_location->is_active = ! $business_location->is_active;
+            $business_location->is_active = !$business_location->is_active;
             $business_location->save();
 
             $msg = $business_location->is_active ? __('lang_v1.business_location_activated_successfully') : __('lang_v1.business_location_deactivated_successfully');
 
-            $output = ['success' => true,
+            $output = [
+                'success' => true,
                 'msg' => $msg,
             ];
         } catch (\Exception $e) {
-            \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 
-            $output = ['success' => false,
+            $output = [
+                'success' => false,
                 'msg' => __('messages.something_went_wrong'),
             ];
         }

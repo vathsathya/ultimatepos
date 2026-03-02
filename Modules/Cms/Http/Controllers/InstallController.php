@@ -26,41 +26,39 @@ class InstallController extends Controller
     /**
      * Install
      *
-     * @return Response|\Illuminate\Contracts\View\View
+     * @return Response|RedirectResponse
      */
     public function index()
     {
-        if (!auth()->user()->can('superadmin')) {
+        if (!auth()->user()->can('manage_modules')) {
             abort(403, 'Unauthorized action.');
         }
 
-        ini_set('max_execution_time', 0);
-        ini_set('memory_limit', '512M');
+        try {
 
-        $this->installSettings();
+            // Run module migrations and publish assets
+            Artisan::call('module:migrate', ['module' => 'Cms', '--force' => true]);
+            Artisan::call('module:publish', ['module' => 'Cms']);
 
-        //Check if Cms installed or not.
-        $is_installed = System::getProperty($this->module_name . '_version');
-        if (!empty($is_installed)) {
-            abort(404);
+            // Register module version so isModuleInstalled() returns true
+            System::addProperty($this->module_name . '_version', $this->appVersion);
+
+            $output = [
+                'success' => 1,
+                'msg' => 'CMS module installed successfully',
+            ];
+        } catch (\Exception $e) {
+            \Log::emergency('File: ' . $e->getFile() . ' Line: ' . $e->getLine() . ' Message: ' . $e->getMessage());
+
+            $output = [
+                'success' => false,
+                'msg' => $e->getMessage(),
+            ];
         }
 
-        $action_url = action([\Modules\Cms\Http\Controllers\InstallController::class, 'install']);
-        $intruction_type = 'uf';
-        $action_type = 'install';
-        $module_display_name = $this->module_display_name;
-        return view('install.install-module')
-            ->with(compact('action_url', 'intruction_type', 'action_type', 'module_display_name'));
+        return redirect()->action([\App\Http\Controllers\Install\ModulesController::class, 'index'])->with('status', $output);
     }
 
-    /**
-     * Initialize all install functions
-     */
-    private function installSettings()
-    {
-        config(['app.debug' => true]);
-        Artisan::call('config:clear');
-    }
 
     /**
      * Installing Cms Module

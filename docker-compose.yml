@@ -36,6 +36,8 @@ services:
       - db_data:/var/lib/mysql # PERSISTENT: Data stays here after 'down'
     networks:
       - ultimate_pos_network
+    ports:
+      - "3306:3306"
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-u$$MYSQL_USER", "-p$$MYSQL_PASSWORD" ]
       interval: 10s
@@ -58,6 +60,7 @@ services:
       - app_public_uploads:/var/www/public/uploads
     networks:
       - ultimate_pos_network
+
     environment:
       - COMPOSER_HOME=/var/www/.composer
     depends_on:
@@ -110,19 +113,18 @@ services:
     depends_on:
       - app
       - redis
-
-  tunnel:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflare_tunnel
-    restart: unless-stopped
-    command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
-    environment:
-      - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
-    networks:
-      - ultimate_pos_network
-    depends_on:
-      web:
-        condition: service_healthy # Tunnel won't start until site is reachable
+  # tunnel:
+  #   image: cloudflare/cloudflared:latest
+  #   container_name: cloudflare_tunnel
+  #   restart: unless-stopped
+  #   command: tunnel run --token ${CLOUDFLARE_TUNNEL_TOKEN}
+  #   environment:
+  #     - TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+  #   networks:
+  #     - ultimate_pos_network
+  #   depends_on:
+  #     web:
+  #       condition: service_healthy # Tunnel won't start until site is reachable
 
 networks:
   ultimate_pos_network:

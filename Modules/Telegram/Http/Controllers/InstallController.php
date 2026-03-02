@@ -26,8 +26,9 @@ class InstallController extends Controller
         }
 
         try {
-            // Run module migrations
+            // Run module migrations and publish assets
             Artisan::call('module:migrate', ['module' => 'Telegram', '--force' => true]);
+            Artisan::call('module:publish', ['module' => 'Telegram']);
 
             // Register module version so isModuleInstalled() returns true
             System::addProperty('telegram_version', $this->module_version);
