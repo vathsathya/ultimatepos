@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class InstallController extends Controller
 {
+    public $module_name;
+    public $appVersion;
+    public $module_display_name;
+
     public function __construct()
     {
         $this->module_name = 'manufacturing';
@@ -21,7 +25,7 @@ class InstallController extends Controller
     /**
      * Install
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function index()
     {
@@ -33,8 +37,8 @@ class InstallController extends Controller
         ini_set('memory_limit', '512M');
 
         $this->installSettings();
-        $this->install();
 
+        return $this->install();
     }
 
     public function install()
@@ -107,7 +111,7 @@ class InstallController extends Controller
             ];
 
             return redirect()->back()->with(['status' => $output]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             //DB::rollBack();
             exit($e->getMessage());
         }
@@ -116,7 +120,7 @@ class InstallController extends Controller
     /**
      * Uninstall
      *
-     * @return Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function uninstall()
     {

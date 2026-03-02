@@ -17,7 +17,7 @@
 			<div class="col-sm-3">
 				<div class="form-group">
 					{!! Form::label('ref_no', __('purchase.ref_no').':') !!} @show_tooltip(__('manufacturing::lang.ref_no_tooltip'))
-					{!! Form::text('ref_no', null, ['class' => 'form-control']); !!}
+					{!! Form::text('ref_no', null, ['class' => 'form-control']) !!}
 				</div>
 			</div>
 			<div class="col-sm-3">
@@ -27,7 +27,7 @@
 						<span class="input-group-addon">
 							<i class="fa fa-calendar"></i>
 						</span>
-						{!! Form::text('transaction_date', @format_datetime('now'), ['class' => 'form-control', 'readonly', 'required']); !!}
+						{!! Form::text('transaction_date', @format_datetime('now'), ['class' => 'form-control', 'readonly', 'required']) !!}
 					</div>
 				</div>
 			</div>
@@ -43,14 +43,14 @@
 				<div class="form-group">
 					{!! Form::label('location_id', __('purchase.business_location').':*') !!}
 					@show_tooltip(__('tooltip.purchase_location'))
-					{!! Form::select('location_id', $business_locations, $default_location, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required']); !!}
+					{!! Form::select('location_id', $business_locations, $default_location, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required']) !!}
 				</div>
 			</div>
 
 			<div class="col-sm-3">
 				<div class="form-group">
 					{!! Form::label('variation_id', __('sale.product').':*') !!}
-					{!! Form::select('variation_id', $recipe_dropdown, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required']); !!}
+					{!! Form::select('variation_id', $recipe_dropdown, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required']) !!}
 				</div>
 			</div>
 			
@@ -58,7 +58,7 @@
 				<div class="form-group">
 					{!! Form::label('recipe_quantity', __('lang_v1.quantity').':*') !!}
 					<div class="input-group" id="recipe_quantity_input">
-						{!! Form::text('quantity', 1, ['class' => 'form-control input_number', 'id' => 'recipe_quantity', 'required', 'data-rule-notEmpty' => 'true', 'data-rule-notEqualToWastedQuantity' => 'true']); !!}
+						{!! Form::text('quantity', 1, ['class' => 'form-control input_number', 'id' => 'recipe_quantity', 'required', 'data-rule-notEmpty' => 'true', 'data-rule-notEqualToWastedQuantity' => 'true']) !!}
 						<span class="input-group-addon" id="unit_html"></span>
 					</div>
 				</div>
@@ -66,7 +66,7 @@
 			<div class="col-sm-3">
                 <div class="form-group">
                     {!! Form::label('upload_document', __('purchase.attach_document') . ':') !!}
-                    {!! Form::file('documents[]', ['id' => 'upload_document', 'multiple', 'accept' => implode(',', array_keys(config('constants.document_upload_mimes_types')))]); !!}
+                    {!! Form::file('documents[]', ['id' => 'upload_document', 'multiple', 'accept' => implode(',', array_keys(config('constants.document_upload_mimes_types')))]) !!}
                     <p class="help-block">
                     	@lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)])
                     	@includeIf('components.document_help_text')
@@ -90,7 +90,7 @@
 				<div class="col-sm-3">
 					<div class="form-group">
 						{!! Form::label('lot_number', __('lang_v1.lot_number').':') !!}
-						{!! Form::text('lot_number', null, ['class' => 'form-control']); !!}
+						{!! Form::text('lot_number', null, ['class' => 'form-control']) !!}
 					</div>
 				</div>
 			@endif
@@ -102,7 +102,7 @@
 							<span class="input-group-addon">
 								<i class="fa fa-calendar"></i>
 							</span>
-							{!! Form::text('exp_date', null, ['class' => 'form-control', 'readonly']); !!}
+							{!! Form::text('exp_date', null, ['class' => 'form-control', 'readonly']) !!}
 						</div>
 					</div>
 				</div>
@@ -111,7 +111,7 @@
 				<div class="form-group">
 					{!! Form::label('mfg_wasted_units', __('manufacturing::lang.waste_units').':') !!} @show_tooltip(__('manufacturing::lang.wastage_tooltip'))
 					<div class="input-group">
-						{!! Form::text('mfg_wasted_units', 0, ['class' => 'form-control input_number']); !!}
+						{!! Form::text('mfg_wasted_units', 0, ['class' => 'form-control input_number']) !!}
 						<span class="input-group-addon" id="wasted_units_text"></span>
 					</div>
 				</div>
@@ -120,9 +120,9 @@
 				<div class="form-group">
 					{!! Form::label('production_cost', __('manufacturing::lang.production_cost').':') !!} @show_tooltip(__('manufacturing::lang.production_cost_tooltip'))
 					<div class="input_inline">
-						{!! Form::text('production_cost', 0, ['class' => 'form-control input_number']); !!}
+						{!! Form::text('production_cost', 0, ['class' => 'form-control input_number']) !!}
 						<span>
-							{!! Form::select('mfg_production_cost_type',['fixed' => __('lang_v1.fixed'), 'percentage' => __('lang_v1.percentage'), 'per_unit' => __('manufacturing::lang.per_unit')], 'fixed', ['class' => 'form-control', 'id' => 'mfg_production_cost_type']); !!}	
+							{!! Form::select('mfg_production_cost_type',['fixed' => __('lang_v1.fixed'), 'percentage' => __('lang_v1.percentage'), 'per_unit' => __('manufacturing::lang.per_unit')], 'fixed', ['class' => 'form-control', 'id' => 'mfg_production_cost_type']) !!}	
 						</span>
 					</div>
 					<p><strong>
@@ -134,7 +134,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-3 col-md-offset-9">
-				{!! Form::hidden('final_total', 0, ['id' => 'final_total']); !!}
+				{!! Form::hidden('final_total', 0, ['id' => 'final_total']) !!}
 				<strong>
 					{{__('manufacturing::lang.total_cost')}}:
 				</strong>
@@ -147,7 +147,7 @@
 					<br>
 					<div class="checkbox">
 						<label>
-						{!! Form::checkbox('finalize', 1, false, ['class' => 'input-icheck', 'id' => 'finalize']); !!} @lang('manufacturing::lang.finalize')
+						{!! Form::checkbox('finalize', 1, false, ['class' => 'input-icheck', 'id' => 'finalize']) !!} @lang('manufacturing::lang.finalize')
 						</label> @show_tooltip(__('manufacturing::lang.finalize_tooltip'))
 					</div>
 		        </div>

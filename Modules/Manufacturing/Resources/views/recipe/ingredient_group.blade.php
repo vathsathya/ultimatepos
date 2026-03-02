@@ -2,29 +2,31 @@
 	<div class="box-body">
 		<div class="row">
 			<div class="col-md-12">
-				<button class="tw-dw-btn tw-dw-btn-error tw-dw-btn-outline tw-dw-btn-xs pull-right remove_ingredient_group"><i class="fas fa-times"></i></button>
+				<button
+					class="tw-dw-btn tw-dw-btn-error tw-dw-btn-outline tw-dw-btn-xs pull-right remove_ingredient_group"><i
+						class="fas fa-times"></i></button>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-4">
 				<div class="form-group">
-					{!! Form::label('ingredient_group' . $ig_index, __('manufacturing::lang.ingredient_group').':') !!}
+					{!! Form::label('ingredient_group' . $ig_index, __('manufacturing::lang.ingredient_group') . ':') !!}
 
-					{!! Form::text('ingredient_groups[' . $ig_index . ']', !empty($ig_name) ? $ig_name : null, ['class' => 'form-control ingredient_group', 'id' => 'ingredient_group' . $ig_index, 'placeholder' => __('manufacturing::lang.ingredient_group'), 'data-ig_index' => $ig_index , 'required']); !!}
+					{!! Form::text('ingredient_groups[' . $ig_index . ']', !empty($ig_name) ? $ig_name : null, ['class' => 'form-control ingredient_group', 'id' => 'ingredient_group' . $ig_index, 'placeholder' => __('manufacturing::lang.ingredient_group'), 'data-ig_index' => $ig_index, 'required']) !!}
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">
-					{!! Form::label('ingredient_group_description' . $ig_index, __('lang_v1.description').':') !!}
+					{!! Form::label('ingredient_group_description' . $ig_index, __('lang_v1.description') . ':') !!}
 
-					{!! Form::textarea('ingredient_group_description[' . $ig_index . ']', !empty($ig_description) ? $ig_description : null, ['class' => 'form-control', 'id' => 'ingredient_group_description' . $ig_index, 'placeholder' => __('lang_v1.description'), 'rows' => 2]); !!}
+					{!! Form::textarea('ingredient_group_description[' . $ig_index . ']', !empty($ig_description) ? $ig_description : null, ['class' => 'form-control', 'id' => 'ingredient_group_description' . $ig_index, 'placeholder' => __('lang_v1.description'), 'rows' => 2]) !!}
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="form-group">
-					{!! Form::label('search_product_' . $ig_index, __('manufacturing::lang.select_ingredient').':') !!}
+					{!! Form::label('search_product_' . $ig_index, __('manufacturing::lang.select_ingredient') . ':') !!}
 
-					{!! Form::text('search_product', null, ['class' => 'form-control search_product', 'placeholder' => __('manufacturing::lang.select_ingredient'), 'id' => 'search_product_' . $ig_index]); !!}
+					{!! Form::text('search_product', null, ['class' => 'form-control search_product', 'placeholder' => __('manufacturing::lang.select_ingredient'), 'id' => 'search_product_' . $ig_index]) !!}
 				</div>
 			</div>
 		</div>
@@ -44,7 +46,7 @@
 						@if(!empty($ingredients))
 							@foreach($ingredients as $ingredient)
 								@include('manufacturing::recipe.ingredient_row', ['ingredient' => (object) $ingredient, 'ig_index' => $ig_index])
-								
+
 								@php
 									$row_index++;
 								@endphp

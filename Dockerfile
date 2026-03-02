@@ -14,10 +14,9 @@ RUN apk update && apk add --no-cache \
     libxml2-dev zip unzip libzip-dev icu-dev shadow linux-headers zlib-dev tzdata $PHPIZE_DEPS \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) pdo_mysql mbstring exif pcntl bcmath gd intl zip opcache \
-    && mkdir -p /usr/src/php/ext/redis \
-    && curl -L https://github.com/phpredis/phpredis/archive/6.0.2.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip-1 \
-    && docker-php-ext-install redis \
-    && groupmod -g ${GROUP_ID} www-data || true \
+    && pecl install redis-6.0.2 \
+    && docker-php-ext-enable redis \
+    && groupmod -u ${GROUP_ID} www-data || true \
     && usermod -u ${USER_ID} www-data || true \
     && apk del $PHPIZE_DEPS linux-headers && rm -rf /var/cache/apk/*
 
