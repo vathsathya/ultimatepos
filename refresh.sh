@@ -24,7 +24,7 @@ docker compose $COMPOSE_PROD exec app php artisan optimize
 # 4. Graceful Reload (The "Pro" Alternative to Restart)
 # Instead of 'restart', we reload PHP-FPM and Nginx to pick up new files
 echo "🔄 Reloading services without downtime..."
-docker compose restart
+docker compose restart app web
 
 
 echo "✅ Refresh complete and performance tuned!"
