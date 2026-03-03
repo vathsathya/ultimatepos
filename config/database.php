@@ -62,7 +62,10 @@ return [
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
             'dump' => [
-                'add_extra_option' => '--ssl=0 --no-tablespaces'
+                'add_extra_option' => '--ssl=0 --no-tablespaces',
+                'dump_binary_path' => '/usr/bin', // This matches your 'which' result
+                'use_single_transaction' => true,
+                'timeout' => 60 * 5,
             ]
             //'dump' => [ 'dump_binary_path' => 'D:\laragon\bin\mysql\mysql-8.0.30-winx64\bin'] 
             // Uncomment above line for windows & provide path to mysql dump binary for backup to work
