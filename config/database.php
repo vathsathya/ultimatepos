@@ -61,6 +61,9 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
             ]) : [],
+            'dump' => [
+                'add_extra_parameter' => '--skip-ssl'
+            ]
             //'dump' => [ 'dump_binary_path' => 'D:\laragon\bin\mysql\mysql-8.0.30-winx64\bin'] 
             // Uncomment above line for windows & provide path to mysql dump binary for backup to work
         ],
@@ -127,7 +130,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
