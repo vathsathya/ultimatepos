@@ -82,8 +82,8 @@
 						<div class="alert alert-{{ $coupon_status['status'] }}">
 						  @if($coupon_status['status'] == 'success')
 							@lang('superadmin::lang.package_price_after_discount') = 
-							<span class="display_currency" data-currency_symbol="true">{{ number_format($package_price_after_discount , 2, '.', '') }}</span>
-							(@lang('superadmin::lang.you_save') <span class="display_currency" data-currency_symbol="true">{{ number_format($discount_amount , 2, '.', '') }}</span>)
+							<span class="display_currency" data-currency_symbol="true">{{ number_format($package_price_after_discount , 2, '.', ''); }}</span>
+							(@lang('superadmin::lang.you_save') <span class="display_currency" data-currency_symbol="true">{{ number_format($discount_amount , 2, '.', ''); }}</span>)
 						  @else
 						 {{  $coupon_status['msg'] }}
 						  @endif
@@ -109,7 +109,7 @@
 								{!! Form::submit('Apply', ['class' => 'tw-dw-btn tw-dw-btn-success tw-text-white tw-dw-btn-sm']) !!}
 							</div>
 						</div>
-					{{ html()->form()->close() }}
+					{!! Form::close() !!}
 				</div>
 				<ul class="list-group">
 					@foreach($gateways as $k => $v)

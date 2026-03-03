@@ -86,7 +86,7 @@
                     <div class="checkbox">
                       <label>
                         {!! Form::checkbox('is_active',1 ,$coupon->is_active ,
-                        [ 'class' => 'input-icheck']) !!} {{ __('superadmin::lang.is_active') }}
+                        [ 'class' => 'input-icheck']); !!} {{ __('superadmin::lang.is_active') }}
                       </label>
                     </div>
                 </div>
@@ -94,7 +94,7 @@
                     {!! Form::submit(__('messages.update'), ['class' => 'tw-dw-btn tw-dw-btn-success tw-text-white tw-dw-btn-lg']) !!}
                 </div>
 
-                {{ html()->form()->close() }}
+                {!! Form::close() !!}
             </div>
         </div>
 

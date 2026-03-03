@@ -254,7 +254,7 @@
             </div>
         </div>
 
-        {{ html()->form()->close() }}
+        {!! Form::close() !!}
     </section>
 
 @endsection

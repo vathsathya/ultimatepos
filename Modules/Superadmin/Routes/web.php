@@ -30,10 +30,9 @@ Route::middleware('web', 'auth', 'language', 'AdminSidebarMenu', 'superadmin')->
 
     Route::resource('/coupons', 'Modules\Superadmin\Http\Controllers\CouponController');
     Route::get('/coupons/{id}/destroy', [Modules\Superadmin\Http\Controllers\CouponController::class, 'destroy']);
-
+    
     Route::get('/settings', [Modules\Superadmin\Http\Controllers\SuperadminSettingsController::class, 'edit']);
     Route::put('/settings', [Modules\Superadmin\Http\Controllers\SuperadminSettingsController::class, 'update']);
-    Route::post('/settings/test-telegram', [Modules\Superadmin\Http\Controllers\SuperadminSettingsController::class, 'testTelegram'])->name('superadmin.telegram.test');
     Route::get('/edit-subscription/{id}', [Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController::class, 'editSubscription']);
     Route::post('/update-subscription', [Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController::class, 'updateSubscription']);
     Route::resource('/superadmin-subscription', 'Modules\Superadmin\Http\Controllers\SuperadminSubscriptionsController');
@@ -58,7 +57,6 @@ Route::middleware('web', 'SetSessionData', 'auth', 'language', 'timezone', 'Admi
     Route::get('/subscription/post-payment-pay-stack-callback', [Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'postPaymentPaystackCallback']);
 
     //Routes related to pesapal checkout
-    Route::post('/subscription/bakong-check', [\Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'bakongCheck'])->name('bakong.check');
     Route::get('/subscription/{package_id}/pesapal-callback', [Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'pesapalCallback'])->name('pesapalCallback');
 
     Route::get('/subscription/{package_id}/pay', [Modules\Superadmin\Http\Controllers\SubscriptionController::class, 'pay']);

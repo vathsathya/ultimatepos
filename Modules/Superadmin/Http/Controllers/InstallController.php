@@ -33,21 +33,22 @@ class InstallController extends Controller
         ini_set('memory_limit', '512M');
 
         $this->installSettings();
+        $this->install();
 
-        //Check if installed or not.
-        $is_installed = System::getProperty($this->module_name . '_version');
-        if (!empty($is_installed)) {
-            abort(404);
-        }
+        // //Check if installed or not.
+        // $is_installed = System::getProperty($this->module_name . '_version');
+        // if (!empty($is_installed)) {
+        //     abort(404);
+        // }
 
-        $action_url = action([\Modules\Superadmin\Http\Controllers\InstallController::class, 'install']);
+        // $action_url = action([\Modules\Superadmin\Http\Controllers\InstallController::class, 'install']);
 
-        $intruction_type = 'cc';
-        $action_type = 'install';
-        $module_display_name = $this->module_display_name;
+        // $intruction_type = 'cc';
+        // $action_type = 'install';
+        // $module_display_name = $this->module_display_name;
 
-        return view('install.install-module')
-            ->with(compact('action_url', 'intruction_type', 'action_type', 'module_display_name'));
+        // return view('install.install-module')
+        //     ->with(compact('action_url', 'intruction_type', 'action_type', 'module_display_name'));
     }
 
     /**
@@ -66,29 +67,6 @@ class InstallController extends Controller
     {
         try {
             DB::beginTransaction();
-
-            request()->validate(
-                [
-                    'license_code' => 'required',
-                    'login_username' => 'required',
-                ],
-                [
-                    'license_code.required' => 'License code is required',
-                    'login_username.required' => 'Username is required',
-                ]
-            );
-
-            $license_code = request()->license_code;
-            $email = request()->email;
-            $login_username = request()->login_username;
-            $pid = config('superadmin.pid');
-
-            //Validate
-            // $response = pos_boot(url('/'), __DIR__, $license_code, $email, $login_username, $type = 1, $pid);
-
-            // if (! empty($response)) {
-            //     return $response;
-            // }
 
             $is_installed = System::getProperty($this->module_name . '_version');
             if (!empty($is_installed)) {
@@ -201,11 +179,11 @@ class InstallController extends Controller
             $pid = config('superadmin.pid');
 
             //Validate
-            // $response = pos_boot(url('/'), __DIR__, $license_code, $email, $login_username, $type = 1, $pid);
+            $response = pos_boot(url('/'), __DIR__, $license_code, $email, $login_username, $type = 1, $pid);
 
-            // if (!empty($response)) {
-            //     return $response;
-            // }
+            if (!empty($response)) {
+                return $response;
+            }
 
             DB::beginTransaction();
             ini_set('max_execution_time', 0);
