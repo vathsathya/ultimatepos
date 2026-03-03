@@ -10,7 +10,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # 3. Install System Deps & PHP Extensions
 RUN apk update && apk add --no-cache \
-    git curl libpng-dev libjpeg-turbo-dev freetype-dev oniguruma-dev mysql-client \
+    git curl libpng-dev libjpeg-turbo-dev freetype-dev oniguruma-dev mariadb-client \
     libxml2-dev zip unzip libzip-dev icu-dev shadow linux-headers zlib-dev tzdata $PHPIZE_DEPS \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) pdo_mysql mbstring exif pcntl bcmath gd intl zip opcache \
